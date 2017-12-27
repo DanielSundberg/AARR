@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { inject, observer } from 'mobx-react';
 import RootStore from '../Model/RootStore';
-import { gridStyle } from '../Model/gridStyle';
+import { gridStyleWithTopPadding as gridStyle } from '../Model/gridStyle';
 import { BlogInfo } from '../Model/BlogInfo';
 import { Link } from 'react-router-dom';
 
@@ -37,31 +37,30 @@ class BlogListView extends React.Component<RootStore, {}> {
               </div>);
         });
 
-        const loader = this.props.appState.isUpdatingList && (
-          <div className="row">
-            <div className="sixteen wide column">
-              <div className="ui mini text active centered inline loader">Refreshing list</div>
+        const loaderOrRefreshButton = this.props.appState.isUpdatingList ? (
+            <div className="item">
+                <div className="ui tiny active inline loader"/>
             </div>
-          </div>);
-              
+        ) : (
+            <a className="item" onClick={() => this.props.appState.getListOfBlogs()}>
+                <i className="icon refresh" />
+            </a>);
+
         return (
           <div className="App-header">
-            <div className="ui attached inverted icon menu">
+            <header className="ui inverted icon fixed top menu">
               {/* <a className="item">
                 <i className="icon sidebar" />
               </a> */}
-              <a className="item" onClick={() => this.props.appState.getListOfBlogs()}>
-                <i className="icon refresh" />
-              </a>
+              {loaderOrRefreshButton}
               
               <div className="right menu">
                 <a className="item" onClick={() => this.props.appState.logout()}>
                   <i className="icon sign out" />
                 </a>
               </div>
-            </div>
+            </header>
             <div className="ui grid" style={gridStyle}>
-              {loader}
               <div className="row">
                 <div className="sixteen wide column">
                   <div className="ui relaxed big divided list">

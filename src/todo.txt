@@ -11,6 +11,9 @@ To do:
 -Words/spelling in all viewer => ok
 -Remove unused code => ok
 -Prod build with full The old reader URL => ok (?)
+-Blog list menu sticky => ok
+-Show spinner instead of refresh button when reloading blog list => ok
+-Load 100 items by default
 
 
 -Sorting on newest/oldest

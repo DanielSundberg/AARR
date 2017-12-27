@@ -56,6 +56,7 @@ class OldReaderResource {
             output: 'json',
             s: uid,
             xt: 'user/-/state/com.google/read',
+            n: 100,
         };
 
         let response = fetch(
