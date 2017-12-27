@@ -94,6 +94,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
                         <a className="item" onClick={() => this.props.routing.goBack()}>
                             <i className="icon angle left" />
                         </a>
+                        <div className="header borderless item">The Old Reader</div>
                     </div>
                 </Headroom>
                 <div className="ui grid" style={gridStyle}>

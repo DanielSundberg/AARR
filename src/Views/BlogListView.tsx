@@ -22,12 +22,14 @@ class BlogListView extends React.Component<RootStore, {}> {
         const unreadList = _.filter(this.props.appState.bloglist, (b: BlogInfo) => {
             return b.unread > 0;
         });
+        const imgStyle = { paddingRight: '0.75em' };
         const blogPosts = _.map(unreadList, (b, i) => {
             return (
               <div className="item" key={i}>
                 <div className="content left floated">
                   <Link to={`/blogs/${b.uid}`}>
-                    <i className="large bookmark middle aligned icon" />
+                    {/* <i className="large bookmark middle aligned icon" /> */}
+                    <img src={b.iconUrl} style={imgStyle} />
                     <b>{b.title}</b>
                   </Link>
                 </div>
@@ -47,13 +49,13 @@ class BlogListView extends React.Component<RootStore, {}> {
             </a>);
 
         return (
-          <div className="container">
+          <div className="ui container">
             <header className="ui inverted icon fixed top menu">
               {/* <a className="item">
                 <i className="icon sidebar" />
               </a> */}
               {loaderOrRefreshButton}
-              
+              <div className="header borderless item">The Old Reader - My subscriptions</div>
               <div className="right menu">
                 <a className="item" onClick={() => this.props.appState.logout()}>
                   <i className="icon sign out" />
@@ -61,11 +63,9 @@ class BlogListView extends React.Component<RootStore, {}> {
               </div>
             </header>
             <div className="ui grid" style={gridStyle}>
-              <div className="row">
-                <div className="sixteen wide column">
-                  <div className="ui relaxed big divided list">
-                    {blogPosts}
-                  </div>
+              <div className="sixteen wide column">
+                <div className="ui relaxed big divided list">
+                  {blogPosts}
                 </div>
               </div>
             </div>

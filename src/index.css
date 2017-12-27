@@ -7,11 +7,13 @@ img {
   max-width: 100%;
   height: auto;
 }
-@media only screen and (min-width: 350) and (max-width: 980px) {
-  .ui.container {
-    width: 720px;
-  }
 
+/* @media only screen and (min-width: 350) and (max-width: 1100px) {
+  .ui.container {
+    width: 723px;
+  }
+} */
+/*
   .ui.grid.container {
     width: calc( 723px  +  2rem ) !important;
   }
@@ -23,4 +25,4 @@ img {
   .ui.very.relaxed.grid.container {
     width: calc( 723px  +  5rem ) !important;
   }
-}
+} */

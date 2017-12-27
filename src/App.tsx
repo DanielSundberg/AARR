@@ -22,19 +22,17 @@ class App extends React.Component {
         // tslint:disable-next-line
         console.log('Starting YeOldReader');
         return (
-            <div className="App">
-              <Provider {...rootStore}>
-                <Router history={history}>
-                  <Switch>
-                    <Route exact={true} path="/" component={CheckAuthView} />
-                    <Route path="/login" component={LoginForm} />
-                    <Route exact={true} path="/blogs" component={BlogListView} />
-                    <Route path="/blogs/:blogId" component={BlogPostView} />
-                    <Route component={CheckAuthView} />
-                  </Switch>
-                </Router>
-              </Provider>,
-            </div>
+            <Provider {...rootStore}>
+              <Router history={history}>
+                <Switch>
+                  <Route exact={true} path="/" component={CheckAuthView} />
+                  <Route path="/login" component={LoginForm} />
+                  <Route exact={true} path="/blogs" component={BlogListView} />
+                  <Route path="/blogs/:blogId" component={BlogPostView} />
+                  <Route component={CheckAuthView} />
+                </Switch>
+              </Router>
+            </Provider>
         );
     }
 }
