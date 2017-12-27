@@ -7,8 +7,7 @@ To do:
 -Github project => ok
 -Smaller edge padding on mobile => ok
 -Scroll position when going from blog list to blog post view => ok
-
--Spinner for mark-as-read button
+-Spinner for mark-as-read button => ok
 
 
 -Words/spelling in all viewer

@@ -76,7 +76,7 @@ class OldReaderResource {
         let path = `${this.baseUrl}/reader/api/0/stream/items/contents`;
 
         for (var i = 0; i < ids.length; i++) {   
-            console.log(ids[i]);      
+            // console.log(ids[i]);      
             contentParams += '&' + this.serialize({ i: 'tag:google.com,2005:reader/item/' + ids[i] });
         }
 
@@ -131,6 +131,6 @@ class OldReaderResource {
 const env = process.env.NODE_ENV || 'dev';
 const oldReaderResource = (env === 'production') ? 
     new OldReaderResource('https://theoldreader.com') : 
-    new OldReaderResource('')
+    new OldReaderResource('');
 
 export default oldReaderResource as OldReaderResource;

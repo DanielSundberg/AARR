@@ -4,15 +4,7 @@ import { BlogInfo } from './BlogInfo';
 import { BlogPost } from './BlogPost';
 import OldReaderResource from './OldReaderResource';
 import { RouterStore } from 'mobx-react-router';
-
-export enum Route {
-    BlogList = 1,
-    BlogPost = 2,
-    Loader = 3,
-    NoPosts = 4,
-    CheckAuth = 5,
-    Login = 6,
-}
+import StringUtils from './StringUtils';
 
 export enum LoggedInState {
     Unknown = 0, 
@@ -30,7 +22,6 @@ class AppState {
     @observable postsBeingEdited: string[] = [];
     @observable blogUid: string;
     @observable loggedIn: LoggedInState;
-    @observable route: Route = Route.CheckAuth;
     auth: string;
     @observable isLoadingPosts: boolean;
     @observable isUpdatingList: boolean;
@@ -47,11 +38,10 @@ class AppState {
     }
 
     async checkAuth() {
-        const authToken = localStorage.getItem("authToken");
+        const authToken = localStorage.getItem('authToken');
         if (authToken) {
             this.auth = authToken;
             this.loggedIn = LoggedInState.LoggedIn;
-            // this.getListOfBlogs();
         } else {
             this.loggedIn = LoggedInState.NotLoggedIn;
         }
@@ -73,7 +63,7 @@ class AppState {
         // console.log(data);
 
         // Now create list of blog posts
-        this.blogPostlist = _.map((data as any).itemRefs, (r: any) => { return new BlogPost(r.id); });
+        this.blogPostlist = _.map((data as any).itemRefs, (r: any) => { return new BlogPost(r.id); }); // tslint:disable-line
         // console.log(itemRefs)
 
         // Fetch first 5 unread posts
@@ -82,9 +72,10 @@ class AppState {
 
     async fetchFiveUnreadPosts() {
         this.isLoadingPosts = true;
+        
+        // Get posts not previously fetched
         const notFetchedPosts = _.filter(this.blogPostlist, { fetched: false });
         if (!notFetchedPosts) {
-            this.route = Route.NoPosts;
             return;
         }        
         // console.log('Not fetched posts: ', notFetchedPosts);
@@ -93,15 +84,19 @@ class AppState {
             return i < nofPostsToFetch;
         });
         const idsToFetch = _.map(postsToFetch, (p) => { return p.uid; });
-        console.log('Fetching: ', idsToFetch);
+        // console.log('Fetching: ', idsToFetch);
+
+        // Fetch actual post content
         let response = await OldReaderResource.getPosts(this.auth, idsToFetch);
-        let data: any = await response.json();
+        let data: any = await response.json(); // tslint:disable-line
         // console.log(data);
+
+        // Go through each post and add content and info to our post collection
         for (var post of data.items) {
             // console.log('Fetched post id: ', post.id);
             // console.log(post.title);
             // console.log(post.summary.content)
-            const altnernate = _.head(post.alternate) as any;
+            const altnernate = _.head(post.alternate) as any; // tslint:disable-line
             let url = '';
             if (altnernate) {
                 url = altnernate.href;
@@ -111,23 +106,25 @@ class AppState {
             var uidToMatch = post.id.substring(n + 1);
             const blogPost = _.find(this.blogPostlist, { uid: uidToMatch });
             if (blogPost) {
-                console.log('Setting post content: ', blogPost.uid);
+                // console.log('Setting post content: ', blogPost.uid);
                 blogPost.title = post.title;
                 blogPost.content = post.summary.content;
                 blogPost.fetched = true;
                 blogPost.date = new Date(post.timestampUsec / 1000);
                 blogPost.author = post.author;
                 blogPost.url = url;
-                console.log(blogPost.date);
+                // console.log(blogPost.date);
             }
         }
 
-        this.route = Route.BlogPost;
         this.isLoadingPosts = false;
     }
 
     async markPostAsRead(uid: string, read: boolean) {
+        // Tell UI we're waiting for API
         this.postsBeingEdited.push(uid);
+
+        // Mark post as read
         let blogPost = _.find(this.blogPostlist, { uid: uid });
         if (blogPost) {
             let response = await OldReaderResource.markAsRead(this.auth, uid, read);
@@ -135,7 +132,8 @@ class AppState {
                 blogPost.read = read;
             }
         }
-        
+
+        // Tell view we're not waiting for API any more
         const index = this.postsBeingEdited.indexOf(uid, 0);
         if (index > -1) {
            this.postsBeingEdited.splice(index, 1);
@@ -143,47 +141,49 @@ class AppState {
     }
 
     async login(username: string, password: string) {
-        this.route = Route.BlogList;
         // console.log(`Logged in with ${username}`);        
         let response = await OldReaderResource.login(username, password);
         if (response.status !== 200) {
             this.loginError = 'Could not log in, bad username or password?';
         } else {
             this.loginError = '';
-            let data: any = await response.json();
+            let data: any = await response.json(); // tslint:disable-line
             
-            // TODO: Check for login error
-
             // Now we're logged in
             if (data.Auth) {
                 this.auth = data.Auth;
 
-                // Save token to local storage
-                localStorage.setItem("authToken", this.auth);
-                this.routing.push('/blogs')
+                // Save auth token to local storage
+                localStorage.setItem('authToken', this.auth);
+                this.routing.push('/blogs');
             }
         }
     }
 
     logout() {
+        // Clear auth token from storage
         localStorage.removeItem("authToken");
+
+        // Cleanup data
         this.bloglist = observable([]);
         this.blogPostlist = observable([]);
         this.routing.push('/login');
     }
 
     async getListOfBlogs() {
-        this.route = Route.BlogList;
+        // First show loader in UI
         this.isUpdatingList = true;
 
         this.checkAuth();
 
+        // List subscriptions
         let response = await OldReaderResource.listFeeds(this.auth);
-        let data : any = await response.json();
+        let data : any = await response.json(); // tslint:disable-line
 
-        // Store subscriptions
+        // Store subscriptions in state
+        // tslint:disable-next-line
         for (let subscription of (data as any).subscriptions) {
-            const uid = this.afterSlash(subscription.id);
+            const uid = StringUtils.afterSlash(subscription.id);
             const blogInfo = _.find(this.bloglist, { uid: uid });
             if (!blogInfo) {
                 this.bloglist.push(new BlogInfo(uid, subscription.title, '', 0));            
@@ -195,22 +195,16 @@ class AppState {
         data = await response.json();
 
         // Store unread count in blog list
+        // tslint:disable-next-line
         for (let unread of (data as any).unreadcounts) {
-            const blogInfo = _.find(this.bloglist, { uid: this.afterSlash(unread.id) });
+            const blogInfo = _.find(this.bloglist, { uid: StringUtils.afterSlash(unread.id) });
             if (blogInfo) {
                 blogInfo.unread = unread.count;
             }
         }
 
+        // Now turn off loader
         this.isUpdatingList = false;
-    }
-
-    private afterSlash(s: string) : string {
-        const lastslashindex = s.lastIndexOf('/');
-        if (s.length > lastslashindex) 
-            return s.substring(lastslashindex + 1);
-        else 
-            return '';
     }
 }
 

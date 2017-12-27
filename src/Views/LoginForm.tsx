@@ -9,7 +9,7 @@ class LoginForm extends React.Component<RootStore, {}> {
       super(props);
     }
 
-    loginClicked(self: any) {
+    loginClicked(self: any) { // tslint:disable-line
       self.props.appState.login(self.state.username, self.state.password);
       this.state = {
         username: '',
@@ -37,7 +37,8 @@ class LoginForm extends React.Component<RootStore, {}> {
                         type="text" 
                         name="email" 
                         placeholder="E-mail address" 
-                        onChange={(ev: any) => this.setState({ username: ev.target.value })} 
+                        // tslint:disable-next-line
+                        onChange={(ev: any) => this.setState({ username: ev.target.value }) } 
                       />
                     </div>
                   </div>
@@ -48,19 +49,23 @@ class LoginForm extends React.Component<RootStore, {}> {
                         type="password" 
                         name="password" 
                         placeholder="Password" 
+                        // tslint:disable-next-line
                         onChange={(ev: any) => this.setState({ password: ev.target.value })}
                       />
                     </div>
                   </div>
                   <div 
                     className="ui fluid large primary submit button" 
+                    // tslint:disable-next-line
                     onClick={(ev: any) => this.loginClicked(this)}
                   >
                     Login
                   </div>
                 </div>
               </form>
-              { this.props.appState.loginError !== '' ? <div className="ui negative message">{this.props.appState.loginError}</div> : null}
+              {this.props.appState.loginError !== '' ? 
+                <div className="ui negative message">{this.props.appState.loginError}</div> : 
+                null}
               <div className="ui message">
                 New to us? <a href="#">Sign Up</a>, <a href="#">forgot password?</a>
               </div>

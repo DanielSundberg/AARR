@@ -6,9 +6,10 @@ import renderHTML from 'react-render-html';
 import Headroom from 'react-headroom';
 import { gridStyle } from '../Model/gridStyle';
 import ScrollToTopOnMount from './ScrollToTop';
+import StringUtils from '../Model/StringUtils';
 
-@inject("appState")
-@inject("routing")
+@inject('appState')
+@inject('routing')
 @observer
 class BlogPostView extends React.Component<RootStore, {}> {
     constructor(props: RootStore) {
@@ -19,25 +20,17 @@ class BlogPostView extends React.Component<RootStore, {}> {
         const { location } = this.props.routing;
 
         if (location) {
-            const uid = this.afterSlash(location.pathname);
+            const uid = StringUtils.afterSlash(location.pathname);
             this.props.appState.showBlog(uid);
         }
     }
   
-    private afterSlash(s: string) : string {
-        const lastslashindex = s.lastIndexOf('/');
-        if (s.length > lastslashindex) 
-            return s.substring(lastslashindex + 1);
-        else 
-            return '';
-    }
-
     render() {
         const blogPosts = _.map(this.props.appState.blogPostlist, (b, i) => {
             if (!b.title) { return null; }
             let buttonClasses = b.read ? 'ui bottom attached button' : 'ui bottom attached primary button';
             if (this.props.appState.postsBeingEdited.indexOf(b.uid, 0) > -1) {
-               buttonClasses += " inline loading";
+               buttonClasses += ' inline loading';
             }
             const buttonText = b.read ? 'Mark as unread' : 'Mark as read';          
             const headerCardStyle = b.read ? {} : {color: '#FFFFFF'};

@@ -6,8 +6,8 @@ import { gridStyle } from '../Model/gridStyle';
 import { BlogInfo } from '../Model/BlogInfo';
 import { Link } from 'react-router-dom';
 
-@inject("appState")
-@inject("routing")
+@inject('appState')
+@inject('routing')
 @observer
 class BlogListView extends React.Component<RootStore, {}> {
     constructor(props: RootStore) {
@@ -22,7 +22,6 @@ class BlogListView extends React.Component<RootStore, {}> {
         const unreadList = _.filter(this.props.appState.bloglist, (b: BlogInfo) => {
             return b.unread > 0;
         });
-        // onClick={() => this.props.appState.showBlog(b.uid)}
         const blogPosts = _.map(unreadList, (b, i) => {
             return (
               <div className="item" key={i}>

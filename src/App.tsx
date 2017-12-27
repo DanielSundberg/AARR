@@ -1,6 +1,5 @@
 import './assets/semantic-ui/semantic.min.css';
 import * as React from 'react';
-// import AppState from './Model/AppState';
 import createBrowserHistory from 'history/createBrowserHistory';
 import { Provider } from 'mobx-react';
 import { RouterStore, syncHistoryWithStore } from 'mobx-react-router';
@@ -15,7 +14,6 @@ const browserHistory = createBrowserHistory();
 const routingStore = new RouterStore();
 
 const rootStore = new RootStore(routingStore);
-// const appState = new AppState();
 
 const history = syncHistoryWithStore(browserHistory, routingStore);
 
@@ -26,14 +24,13 @@ class App extends React.Component {
               <Provider {...rootStore}>
                 <Router history={history}>
                   <Switch>
-                    <Route exact path="/" component={CheckAuthView} />
+                    <Route exact={true} path="/" component={CheckAuthView} />
                     <Route path="/login" component={LoginForm} />
-                    <Route exact path="/blogs" component={BlogListView} />
+                    <Route exact={true} path="/blogs" component={BlogListView} />
                     <Route path="/blogs/:blogId" component={BlogPostView} />
                   </Switch>
                 </Router>
               </Provider>,
-                
             </div>
         );
     }

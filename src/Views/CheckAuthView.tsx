@@ -1,22 +1,13 @@
 import * as React from 'react';
-// import AppState from '../Model/AppState';
 import { LoggedInState } from '../Model/AppState';
 import { inject, observer } from 'mobx-react';
 import RootStore from '../Model/RootStore';
 import { Redirect } from 'react-router';
-// interface CheckAuthProps {
-//     appState: AppState;
-// }
 
-
-// class CheckAuthView extends React.Component<CheckAuthProps, {}> {
-@inject("appState")
-@inject("routing")
+@inject('appState')
+@inject('routing')
 @observer
 class CheckAuthView extends React.Component<RootStore, {}> {
-    // constructor(props) {
-    //     super(props);
-    // }
     
     componentWillMount() {
         this.props.appState.checkAuth();
