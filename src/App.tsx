@@ -19,6 +19,7 @@ const history = syncHistoryWithStore(browserHistory, routingStore);
 
 class App extends React.Component {
     render() {
+        console.log('Starting YeOldReader');
         return (
             <div className="App">
               <Provider {...rootStore}>
@@ -28,6 +29,7 @@ class App extends React.Component {
                     <Route path="/login" component={LoginForm} />
                     <Route exact={true} path="/blogs" component={BlogListView} />
                     <Route path="/blogs/:blogId" component={BlogPostView} />
+                    <Route component={CheckAuthView} />
                   </Switch>
                 </Router>
               </Provider>,

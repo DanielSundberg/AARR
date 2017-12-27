@@ -8,18 +8,17 @@ To do:
 -Smaller edge padding on mobile => ok
 -Scroll position when going from blog list to blog post view => ok
 -Spinner for mark-as-read button => ok
+-Words/spelling in all viewer => ok
+-Remove unused code => ok
+-Prod build with full The old reader URL => ok (?)
 
-
--Words/spelling in all viewer
--Remove unused code
 
 -Sorting on newest/oldest
 -Build Android container app https://github.com/slymax/webview
 -Disable CORS in android (https://stackoverflow.com/questions/17272612/android-webview-disable-cors)
--Prod build with full The old reader URL
 
 Other
--Focus on nice online user experienve
+-Focus on nice online user experience
 -Handle content width, yourtube movies for example
 -Error messages in console from renderHTML?
 -Start to implement offline support

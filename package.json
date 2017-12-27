@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "https://theoldreader.com",
+  "homepage": ".",
   "dependencies": {
     "@types/history": "^4.6.2",
     "@types/lodash": "^4.14.88",
