@@ -1,6 +1,6 @@
 # Ye Old Reader
 
-RSS reader for The Old Reader. Wanted to try out some technologies and at the same time create something useful. Have used the following libraries/technologies.
+RSS reader for <a href="http://theoldreader.com/">The Old Reader</a>. Wanted to try out some "new" technologies and  create something useful. Among others I'm using the following libraries/technologies:
 
 * Typescript
 * React
