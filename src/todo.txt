@@ -1,25 +1,27 @@
-Att göra:
--Spara inloggning => ok
--Visa datum för poster => ok
--Riktig routing, mobx-react-router => ok
--Hantera ladda 5 till på ett bättre sätt => ok
--Hantera inloggning i alla vyer => ok
+To do:
+-Save login => ok
+-Show date for posts => ok
+-Routing, mobx-react-router => ok
+-Better handling of load more items => ok
+-Handle login in all views => ok
+-Github project => ok
+-Smaller edge padding on mobile => ok
 
--Lägga upp som github-projekt (töm först lokalt git-repo)
+-Scroll position when going from blog list to blog post view
+
+-Spinner for mark-as-read button
 
 
--Spinner på mark-as-read knapp
--Scroll-position till toppen när man går till blogpost-listan
+-Words/spelling in all viewer
+-Remove unused code
 
--Kolla igenom formuleringar på alla vyer
--Gå igenom ej använd kod mm
+-Sorting on newest/oldest
+-Build Android container app https://github.com/slymax/webview
+-Disable CORS in android (https://stackoverflow.com/questions/17272612/android-webview-disable-cors)
+-Prod build with full The old reader URL
 
--Sortering på nyaste/äldsta
--Bygg android app med https://github.com/slymax/webview
--Disable CORS i android (https://stackoverflow.com/questions/17272612/android-webview-disable-cors)
--Prodbygge med full url på API-anrop
-
--Hur görs default-sortering?
--Fokusera på att göra en bra upplevelse för läsning online först
--Hantering av bredd på bilder? Filmer mm?   
--Får felmeddelanden i consollen från renderHTML?
+Other
+-Focus on nice online user experienve
+-Handle content width, yourtube movies for example
+-Error messages in console from renderHTML?
+-Start to implement offline support

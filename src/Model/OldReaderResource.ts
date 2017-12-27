@@ -1,7 +1,3 @@
-// interface OldReaderResponse {
-//     data: string;
-// }
-
 class OldReaderResource {
     baseUrl: string;
     
@@ -11,7 +7,7 @@ class OldReaderResource {
 
     async login(username: string, password: string)  {
         let response = fetch(
-            '/reader/api/0/accounts/ClientLogin', 
+            `${this.baseUrl}/reader/api/0/accounts/ClientLogin`, 
             {
                 method: 'POST',
                 headers: new Headers({
@@ -32,7 +28,7 @@ class OldReaderResource {
     }
 
     async listFeeds(auth: string) {
-        let response = fetch('/reader/api/0/subscription/list?output=json', {
+        let response = fetch(`${this.baseUrl}/reader/api/0/subscription/list?output=json`, {
             method: 'GET',
             headers: new Headers({
                 'Accept': 'application/json',
@@ -44,7 +40,7 @@ class OldReaderResource {
     }
 
     async unreadCount(auth: string) {
-        let response = fetch('/reader/api/0/unread-count?output=json', {
+        let response = fetch(`${this.baseUrl}/reader/api/0/unread-count?output=json`, {
             method: 'GET',
             headers: new Headers({
                 'Accept': 'application/json',
@@ -63,7 +59,7 @@ class OldReaderResource {
         };
 
         let response = fetch(
-            '/reader/api/0/stream/items/ids?' + this.serialize(params), 
+            `${this.baseUrl}/reader/api/0/stream/items/ids?` + this.serialize(params), 
             {
                 method: 'GET',
                 headers: new Headers({
@@ -77,7 +73,7 @@ class OldReaderResource {
 
     async getPosts(auth: string, ids: string[]) {
         let contentParams = this.serialize({ output: 'json' });
-        let path = '/reader/api/0/stream/items/contents';
+        let path = `${this.baseUrl}/reader/api/0/stream/items/contents`;
 
         for (var i = 0; i < ids.length; i++) {   
             console.log(ids[i]);      
@@ -109,7 +105,7 @@ class OldReaderResource {
             r: 'user/-/state/com.google/read',
             i: 'tag:google.com,2005:reader/item/' + id,
         };
-        let path = '/reader/api/0/edit-tag';
+        let path = `${this.baseUrl}/reader/api/0/edit-tag`;
         let response = fetch(path, {
             method: 'POST',
             headers: new Headers({
@@ -132,4 +128,9 @@ class OldReaderResource {
     }
 }
 
-export default new OldReaderResource('') as OldReaderResource;
+const env = process.env.NODE_ENV || 'dev';
+const oldReaderResource = (env === 'production') ? 
+    new OldReaderResource('https://theoldreader.com') : 
+    new OldReaderResource('')
+
+export default oldReaderResource as OldReaderResource;

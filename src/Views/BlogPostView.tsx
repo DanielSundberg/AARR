@@ -5,6 +5,7 @@ import RootStore from '../Model/RootStore';
 import renderHTML from 'react-render-html';
 import Headroom from 'react-headroom';
 import { gridStyle } from '../Model/gridStyle';
+import ScrollToTopOnMount from './ScrollToTop';
 
 @inject("appState")
 @inject("routing")
@@ -32,16 +33,12 @@ class BlogPostView extends React.Component<RootStore, {}> {
     }
 
     render() {
-        console.log('Render blog post view');
-
         const blogPosts = _.map(this.props.appState.blogPostlist, (b, i) => {
             if (!b.title) { return null; }
             const buttonClasses = b.read ? 'ui bottom attached button' : 'ui bottom attached primary button';
             const buttonText = b.read ? 'Mark as unread' : 'Mark as read';          
             const headerCardStyle = b.read ? {} : {color: '#FFFFFF'};
             const headerContentStyle = b.read ? { background: '#DFE0E1' } : { background: '#3B83C0' } ;
-
-            
 
             return (
                 <div key={i}>
@@ -89,12 +86,13 @@ class BlogPostView extends React.Component<RootStore, {}> {
         const moreToFetchloader = this.props.appState.isLoadingPosts && (
             <div className="row">
               <div className="sixteen wide column">
-                <div className="ui mini text active centered inline loader">Refreshing list</div>
+                <div className="ui mini text active centered inline loader">Loading posts...</div>
               </div>
             </div>);
 
         return (
             <div className="App-header">
+                <ScrollToTopOnMount />
                 <Headroom>
                     <div className="ui attached inverted icon menu">
                         <a className="item" onClick={() => this.props.routing.goBack()}>
