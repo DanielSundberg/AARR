@@ -87,7 +87,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
             </div>);
 
         return (
-            <div className="App-header">
+            <div className="container">
                 <ScrollToTopOnMount />
                 <Headroom>
                     <div className="ui attached inverted icon menu">

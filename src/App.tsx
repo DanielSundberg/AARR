@@ -19,6 +19,7 @@ const history = syncHistoryWithStore(browserHistory, routingStore);
 
 class App extends React.Component {
     render() {
+        // tslint:disable-next-line
         console.log('Starting YeOldReader');
         return (
             <div className="App">

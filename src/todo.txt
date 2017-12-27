@@ -13,7 +13,9 @@ To do:
 -Prod build with full The old reader URL => ok (?)
 -Blog list menu sticky => ok
 -Show spinner instead of refresh button when reloading blog list => ok
--Load 100 items by default
+-Load 100 items by default => ok
+
+-starts a bit zoomed in on phone?
 
 
 -Sorting on newest/oldest

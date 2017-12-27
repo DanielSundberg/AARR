@@ -1,9 +1,26 @@
-body {
+/* body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-}
+} */
 img {
   max-width: 100%;
   height: auto;
+}
+@media only screen and (min-width: 350) and (max-width: 980px) {
+  .ui.container {
+    width: 720px;
+  }
+
+  .ui.grid.container {
+    width: calc( 723px  +  2rem ) !important;
+  }
+
+  .ui.relaxed.grid.container {
+    width: calc( 723px  +  3rem ) !important;
+  }
+
+  .ui.very.relaxed.grid.container {
+    width: calc( 723px  +  5rem ) !important;
+  }
 }

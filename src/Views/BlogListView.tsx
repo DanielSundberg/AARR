@@ -47,7 +47,7 @@ class BlogListView extends React.Component<RootStore, {}> {
             </a>);
 
         return (
-          <div className="App-header">
+          <div className="container">
             <header className="ui inverted icon fixed top menu">
               {/* <a className="item">
                 <i className="icon sidebar" />
