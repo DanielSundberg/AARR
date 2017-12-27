@@ -35,7 +35,10 @@ class BlogPostView extends React.Component<RootStore, {}> {
     render() {
         const blogPosts = _.map(this.props.appState.blogPostlist, (b, i) => {
             if (!b.title) { return null; }
-            const buttonClasses = b.read ? 'ui bottom attached button' : 'ui bottom attached primary button';
+            let buttonClasses = b.read ? 'ui bottom attached button' : 'ui bottom attached primary button';
+            if (this.props.appState.postsBeingEdited.indexOf(b.uid, 0) > -1) {
+               buttonClasses += " inline loading";
+            }
             const buttonText = b.read ? 'Mark as unread' : 'Mark as read';          
             const headerCardStyle = b.read ? {} : {color: '#FFFFFF'};
             const headerContentStyle = b.read ? { background: '#DFE0E1' } : { background: '#3B83C0' } ;

@@ -27,6 +27,7 @@ interface MyApiData {
 class AppState {
     @observable bloglist: BlogInfo[] = [];
     @observable blogPostlist: BlogPost[] = [];
+    @observable postsBeingEdited: string[] = [];
     @observable blogUid: string;
     @observable loggedIn: LoggedInState;
     @observable route: Route = Route.CheckAuth;
@@ -126,12 +127,18 @@ class AppState {
     }
 
     async markPostAsRead(uid: string, read: boolean) {
+        this.postsBeingEdited.push(uid);
         let blogPost = _.find(this.blogPostlist, { uid: uid });
         if (blogPost) {
             let response = await OldReaderResource.markAsRead(this.auth, uid, read);
             if (response.status === 200) {
                 blogPost.read = read;
             }
+        }
+        
+        const index = this.postsBeingEdited.indexOf(uid, 0);
+        if (index > -1) {
+           this.postsBeingEdited.splice(index, 1);
         }
     }
 
