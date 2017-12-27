@@ -1,0 +1,25 @@
+Att göra:
+-Spara inloggning => ok
+-Visa datum för poster => ok
+-Riktig routing, mobx-react-router => ok
+-Hantera ladda 5 till på ett bättre sätt => ok
+-Hantera inloggning i alla vyer => ok
+
+-Lägga upp som github-projekt (töm först lokalt git-repo)
+
+
+-Spinner på mark-as-read knapp
+-Scroll-position till toppen när man går till blogpost-listan
+
+-Kolla igenom formuleringar på alla vyer
+-Gå igenom ej använd kod mm
+
+-Sortering på nyaste/äldsta
+-Bygg android app med https://github.com/slymax/webview
+-Disable CORS i android (https://stackoverflow.com/questions/17272612/android-webview-disable-cors)
+-Prodbygge med full url på API-anrop
+
+-Hur görs default-sortering?
+-Fokusera på att göra en bra upplevelse för läsning online först
+-Hantering av bredd på bilder? Filmer mm?   
+-Får felmeddelanden i consollen från renderHTML?
