@@ -26,6 +26,7 @@ class AppState {
     @observable isLoadingPosts: boolean;
     @observable isUpdatingList: boolean;
     @observable loginError: string;
+    @observable currentBlogTitle: string = '';
     routing: RouterStore;
   
     constructor(routing: RouterStore) {
@@ -48,6 +49,7 @@ class AppState {
     }
 
     async showBlog(uid: string) {
+        this.currentBlogTitle = '';
         this.isLoadingPosts = true;
         // console.log('Blog uid: ', uid);
         this.blogUid = uid;
@@ -56,6 +58,10 @@ class AppState {
         this.checkAuth();
 
         // Fetch posts for currently selected blog
+        const selectedBlog = _.find(this.bloglist, { uid: uid });
+        if (selectedBlog) {
+            this.currentBlogTitle = selectedBlog.title;
+        }
 
         // First fetch post ids
         let response = await OldReaderResource.getPostIds(this.auth, `feed/${uid}`);
