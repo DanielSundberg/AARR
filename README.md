@@ -1,4 +1,4 @@
-# Ye Old Reader
+# YARR - Yet Another RSS Reader
 
 RSS reader for <a href="http://theoldreader.com/">The Old Reader</a>. Wanted to try out some "new" technologies and  create something useful. Among others I'm using the following libraries/technologies:
 

@@ -22,7 +22,7 @@ const history = syncHistoryWithStore(hashHistory, routingStore);
 class App extends React.Component {
     render() {
         // tslint:disable-next-line
-        console.log('Starting YeOldReader');
+        console.log('Starting YARR!');
         return (
             <Provider {...rootStore}>
               <Router history={history}>

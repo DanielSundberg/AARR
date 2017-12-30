@@ -55,7 +55,7 @@ class BlogListView extends React.Component<RootStore, {}> {
                 <i className="icon sidebar" />
               </a> */}
               {loaderOrRefreshButton}
-              <div className="header borderless item">The Old Reader - Subscriptions</div>
+              <div className="header borderless item">YARR - Subscriptions</div>
               <div className="right menu">
                 <a className="item" onClick={() => this.props.appState.logout()}>
                   <i className="icon sign out" />
