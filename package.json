@@ -1,6 +1,6 @@
 {
-  "name": "ye-old-reader",
-  "version": "0.1.0",
+  "name": "YARR",
+  "version": "1.0.0",
   "private": true,
   "proxy": "https://theoldreader.com",
   "homepage": ".",

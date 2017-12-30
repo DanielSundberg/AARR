@@ -16,8 +16,9 @@ To do:
 -Load 100 items by default => ok
 -Build Android container app => ok
 -Remove header on android app => ok
--Rename to YARR - Yet Another RSS Reader
+-Rename to YARR - Yet Another RSS Reader => ok
 
+-Black title bar in android app
 -Handle network error
 -Commit web app to github
 -Add Android container app to github
@@ -29,6 +30,7 @@ To do:
 -Help button with old reader info and open source/license info
 -Donate-knapp?
 -Blog name and line breaks when title is too long
+-How to handle url loading?
 
 
 -Mark as read on blog post title, scrolls to next post
