@@ -14,12 +14,26 @@ To do:
 -Blog list menu sticky => ok
 -Show spinner instead of refresh button when reloading blog list => ok
 -Load 100 items by default => ok
+-Build Android container app => ok
+-Remove header on android app => ok
 
--starts a bit zoomed in on phone?
+-Rename to YARR - Yet Another RSS Reader
+-Commit web app to github
+-Add Android container app to github
+-Change name of android app
+-Fix back button handling on android
+-Open links correctly on android
+-Graphics and more in both react and android app
+-Hamburger menu with logout and more features
+-Help button with old reader info and open source/license info
+-Donate-knapp?
+-Blog name and line breaks when title is too long
 
-
+-Mark as read on blog post title, scrolls to next post
+-'m' mark as read, 'n' and 'p' for navigation in blog post view om desktop
+-App width on desktop
+-Show all subscriptions, not only read
 -Sorting on newest/oldest
--Build Android container app https://github.com/slymax/webview
 -Disable CORS in android (https://stackoverflow.com/questions/17272612/android-webview-disable-cors)
 
 Other
