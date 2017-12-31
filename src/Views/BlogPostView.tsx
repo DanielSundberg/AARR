@@ -7,6 +7,7 @@ import Headroom from 'react-headroom';
 import { gridStyle } from '../Model/gridStyle';
 import ScrollToTopOnMount from './ScrollToTop';
 import StringUtils from '../Model/StringUtils';
+import {scroller as scroll} from 'react-scroll';
 
 @inject('appState')
 @inject('routing')
@@ -25,6 +26,15 @@ class BlogPostView extends React.Component<RootStore, {}> {
         }
     }
   
+    markAsReadAndScroll(self: BlogPostView, uid: string, read: boolean, nextPostIndex: number) {
+        self.props.appState.markPostAsRead(uid, read);
+        self.goToNextPost(nextPostIndex);
+    }
+
+    goToNextPost(nextPostIndex: number) {
+        scroll.scrollTo(`bottomOfPost${nextPostIndex}`, null);
+    }
+
     render() {
         const blogPosts = _.map(this.props.appState.blogPostlist, (b, i) => {
             if (!b.title) { return null; }
@@ -46,7 +56,16 @@ class BlogPostView extends React.Component<RootStore, {}> {
                                 </h1>
                                 <span style={headerCardStyle}>Posted {b.date.toLocaleString()} by {b.author}</span>
                             </div>
-                            <div className="content">                    
+                            <div className="content" style={headerContentStyle}>
+                                <span className="right floated" style={headerCardStyle} onClick={() => this.markAsReadAndScroll(this, b.uid, !b.read, i)}>
+                                    <i className="check like icon"></i> 
+                                </span>
+                                <span style={headerCardStyle} onClick={() => this.goToNextPost(i)}>
+                                    <i className="arrow down like icon"></i>
+                                </span>
+                            </div>
+                            
+                            <div className="content">     
                                 <div className="description">
                                     {renderHTML(b.content)}
                                 </div>
@@ -61,7 +80,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
                             </div>
                         </div>
                     </div>
-                    <div className="row"><br/></div>
+                    <div id={`bottomOfPost${i}`} className="row"><br/></div>
                 </div>);
         });
 

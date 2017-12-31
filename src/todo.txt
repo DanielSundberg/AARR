@@ -17,28 +17,32 @@ To do:
 -Build Android container app => ok
 -Remove header on android app => ok
 -Rename to YARR - Yet Another RSS Reader => ok
+-Black title bar in android app => ok
+-How to handle url loading? => ok
+-Commit web app to github => ok
+-Add Android container app to github => 
+-Change name of android app => ok
+-Fix back button handling on android => ok
+-Open links correctly on android => ok
+-Disable CORS in android (https://stackoverflow.com/questions/17272612/android-webview-disable-cors) => ok
 
--Black title bar in android app
+
+-Mark as read on blog post title, scrolls to next post
+
+
 -Handle network error
--Commit web app to github
--Add Android container app to github
--Change name of android app
--Fix back button handling on android
--Open links correctly on android
 -Graphics and more in both react and android app
 -Hamburger menu with logout and more features
 -Help button with old reader info and open source/license info
 -Donate-knapp?
 -Blog name and line breaks when title is too long
--How to handle url loading?
+-Rework card layout, use menu and segments instead for blog posts
 
-
--Mark as read on blog post title, scrolls to next post
 -'m' mark as read, 'n' and 'p' for navigation in blog post view om desktop
 -App width on desktop
 -Show all subscriptions, not only read
 -Sorting on newest/oldest
--Disable CORS in android (https://stackoverflow.com/questions/17272612/android-webview-disable-cors)
+
 
 Other
 -Focus on nice online user experience
