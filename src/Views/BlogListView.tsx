@@ -68,6 +68,16 @@ class BlogListView extends React.Component<RootStore, {}> {
                   {blogPosts}
                 </div>
               </div>
+              {/* {this.props.appState.errorMessage != '' && (
+                <div className="row">
+                  <div className="sixteen wide column">
+                    <div className="ui negative message">
+                      <i className="close icon" onClick={() => this.props.appState.clearErrorMessage()}></i>
+                      <i className="warning icon" />{this.props.appState.errorMessage}
+                    </div>
+                  </div>
+                </div>
+              )} */}
             </div>
           </div>
         );
