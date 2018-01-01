@@ -192,7 +192,9 @@ class AppState {
             const uid = StringUtils.afterSlash(subscription.id);
             const blogInfo = _.find(this.bloglist, { uid: uid });
             if (!blogInfo) {
-                this.bloglist.push(new BlogInfo(uid, subscription.title, '', 0, 'https:' + subscription.iconUrl));            
+                this.bloglist.push(
+                    new BlogInfo(uid, subscription.title, '', 0, 'https:' + subscription.iconUrl)
+                );            
             }
         }
         

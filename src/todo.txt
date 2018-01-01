@@ -25,18 +25,17 @@ To do:
 -Fix back button handling on android => ok
 -Open links correctly on android => ok
 -Disable CORS in android (https://stackoverflow.com/questions/17272612/android-webview-disable-cors) => ok
-
-
--Mark as read on blog post title, scrolls to next post
-
+-Mark as read on blog post title, scrolls to next post => ok
+-Graphics and more in both react and android app => ok
+-Rework card layout, use menu and segments instead for blog posts => ok
 
 -Handle network error
--Graphics and more in both react and android app
+
+-Blog name and line breaks when title is too long
+
 -Hamburger menu with logout and more features
 -Help button with old reader info and open source/license info
 -Donate-knapp?
--Blog name and line breaks when title is too long
--Rework card layout, use menu and segments instead for blog posts
 
 -'m' mark as read, 'n' and 'p' for navigation in blog post view om desktop
 -App width on desktop

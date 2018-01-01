@@ -7,7 +7,15 @@ import Headroom from 'react-headroom';
 import { gridStyle } from '../Model/gridStyle';
 import ScrollToTopOnMount from './ScrollToTop';
 import StringUtils from '../Model/StringUtils';
-import {scroller as scroll} from 'react-scroll';
+import { scroller as scroll } from 'react-scroll';
+
+const Loader: React.SFC = () => {
+    return (
+        <div className="item right">
+            <div className="ui tiny active inline loader"/>
+        </div>
+    );
+};
 
 @inject('appState')
 @inject('routing')
@@ -35,21 +43,85 @@ class BlogPostView extends React.Component<RootStore, {}> {
         scroll.scrollTo(`bottomOfPost${nextPostIndex}`, null);
     }
 
+    goToPrevPost(nextPostIndex: number) {
+        scroll.scrollTo(`topOfPost${nextPostIndex}`, null);
+    }
+
     render() {
+        const activeStyle = { color: '#FFFFFF', background: '#3B83C0' };
+        const inactiveStyle = { color: '#FFFFFF', background: '#DFE0E1' };
+
         const blogPosts = _.map(this.props.appState.blogPostlist, (b, i) => {
             if (!b.title) { return null; }
-            let buttonClasses = b.read ? 'ui bottom attached button' : 'ui bottom attached primary button';
-            if (this.props.appState.postsBeingEdited.indexOf(b.uid, 0) > -1) {
-               buttonClasses += ' inline loading';
-            }
-            const buttonText = b.read ? 'Mark as unread' : 'Mark as read';          
-            const headerCardStyle = b.read ? {} : {color: '#FFFFFF'};
-            const headerContentStyle = b.read ? { background: '#DFE0E1' } : { background: '#3B83C0' } ;
 
+            const markAsReadButtonText = b.read ? 'Mark as unread' : 'Mark as read';          
+            const headerTextStyle = b.read ? {} : {color: '#FFFFFF'};
+            const whiteTextStyle = { color: '#FFFFFF'};
+            const headerContentStyle = b.read ? inactiveStyle : activeStyle ;
+            const menuSegmentStyle = b.read ? 
+                { background: '#DFE0E1', padding: '2px' } : 
+                { background: '#3B83C0', padding: '2px' };
+
+            const upperLoaderOrCheckItem = this.props.appState.postsBeingEdited.indexOf(b.uid, 0) > -1 ? (
+                <Loader />
+            ) : (
+                <div className="item link right" onClick={() => this.markAsReadAndScroll(this, b.uid, !b.read, i)}>
+                    <i className="icon check" />
+                    {markAsReadButtonText}
+                </div>
+            );
+            const lowerLoaderOrCheckItem = this.props.appState.postsBeingEdited.indexOf(b.uid, 0) > -1 ? (
+                <Loader />
+            ) : (
+                <div className="item link right" onClick={() => this.props.appState.markPostAsRead(b.uid, !b.read)}>
+                    <i className="icon check" />
+                    {markAsReadButtonText}
+                </div>
+            );
+    
             return (
-                <div key={i}>
+                <div key={i}>              
+                    <div id={`topOfPost${i}`} />
                     <div className="row">
-                        <div className="ui fluid card">
+                        <div className="ui segments">
+                            <div className="ui segment" style={headerContentStyle}>
+                                <h1>
+                                    <a style={whiteTextStyle} href={b.url} target="_new">{b.title}</a>
+                                </h1>
+                                <span style={headerTextStyle}>Posted {b.date.toLocaleString()} by {b.author}</span>
+                            </div>
+                            <div className="ui segment" style={menuSegmentStyle} >
+                                <div className="ui top attached inverted menu borderless" style={menuSegmentStyle}>
+                                    <div className="item link icon" onClick={() => this.goToPrevPost(i - 1)}>
+                                        <i className="arrow up icon"></i>
+                                    </div>
+                                    <div className="item link icon" onClick={() => this.goToNextPost(i)}>
+                                        <i className="arrow down icon"></i>
+                                    </div>
+                                    {upperLoaderOrCheckItem}
+                                </div>
+                            </div>
+                            <div className="ui segment" >
+                                <div className="content">     
+                                    <div className="description">
+                                        {renderHTML(b.content)}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="ui segment" style={menuSegmentStyle} >
+                                <div className="ui bottom attached inverted menu borderless" style={menuSegmentStyle}>
+                                    <div className="item link icon" onClick={() => this.goToPrevPost(i)}>
+                                        <i className="arrow up icon"></i>
+                                    </div>
+                                    <a className="item icon" href={b.url} target="_new">
+                                        <i className="external icon"></i>
+                                    </a>
+                                    {lowerLoaderOrCheckItem}                                
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* <div className="ui fluid card">
                             <div className="content" style={headerContentStyle}>
                                 <h1>
                                     <a style={headerCardStyle} href={b.url} target="_new">{b.title}</a>
@@ -57,7 +129,11 @@ class BlogPostView extends React.Component<RootStore, {}> {
                                 <span style={headerCardStyle}>Posted {b.date.toLocaleString()} by {b.author}</span>
                             </div>
                             <div className="content" style={headerContentStyle}>
-                                <span className="right floated" style={headerCardStyle} onClick={() => this.markAsReadAndScroll(this, b.uid, !b.read, i)}>
+                                <span 
+                                    className="right floated" 
+                                    style={headerCardStyle} 
+                                    onClick={() => this.markAsReadAndScroll(this, b.uid, !b.read, i)}
+                                >
                                     <i className="check like icon"></i> 
                                 </span>
                                 <span style={headerCardStyle} onClick={() => this.goToNextPost(i)}>
@@ -78,7 +154,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
                                 <i className="checkmark icon" />
                                 {buttonText}
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div id={`bottomOfPost${i}`} className="row"><br/></div>
                 </div>);
@@ -90,7 +166,8 @@ class BlogPostView extends React.Component<RootStore, {}> {
         const moreToFetchButton = moreToFetch && (
             <div className="row">
                 <div 
-                    className="ui primary fluid button"
+                    className="ui fluid button"
+                    style={activeStyle}
                     onClick={() => this.props.appState.fetchFiveUnreadPosts()}
                 >
                     Fetch more posts...
@@ -109,7 +186,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
             <div className="container">
                 <ScrollToTopOnMount />
                 <Headroom>
-                    <div className="ui attached inverted icon menu">
+                    <div className="ui attached inverted icon menu" >
                         <a className="item" onClick={() => this.props.routing.goBack()}>
                             <i className="icon angle left" />
                         </a>
