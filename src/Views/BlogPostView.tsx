@@ -78,6 +78,8 @@ class BlogPostView extends React.Component<RootStore, {}> {
                     {markAsReadButtonText}
                 </div>
             );
+
+            const contentSegmentClasses = b.read ? "ui segment disabled" : "ui segment";
     
             return (
                 <div key={i}>              
@@ -101,7 +103,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
                                     {upperLoaderOrCheckItem}
                                 </div>
                             </div>
-                            <div className="ui segment" >
+                            <div className={contentSegmentClasses} >
                                 <div className="content">     
                                     <div className="description">
                                         {renderHTML(b.content)}
