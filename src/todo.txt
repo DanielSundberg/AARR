@@ -1,4 +1,35 @@
-To do:
+Todo:
+-Update to latest version of create-react-app
+  -Perhaps easier to remove everything and then add back?
+-Handle network errors (and other errors, some kind of error message?)
+-Blog name and line breaks when title is too long
+-Add RSS feed
+-Don't store passwd in clear text
+-Investigate API key storage
+-Logout 
+-Show feeds with all read items
+-Sorting on newest/oldest
+-Share post (android share feature?)
+-Hamburger menu with logout and more features
+-Help button with old reader info and open source/license info
+-Send feedback button
+-Investigate post formatting problems
+-Autoload more posts (instead of fetch button)
+
+Other
+-Focus on nice online user experience
+-Handle content width, yourtube movies for example
+-Error messages in console from renderHTML?
+-Offline support
+
+
+Desktop
+-'m' mark as read, 'n' and 'p' for navigation in blog post view om desktop
+-App width on desktop
+-Show all subscriptions, not only read
+
+
+Done:
 -Save login => ok
 -Show date for posts => ok
 -Routing, mobx-react-router => ok
@@ -29,22 +60,4 @@ To do:
 -Graphics and more in both react and android app => ok
 -Rework card layout, use menu and segments instead for blog posts => ok
 
--Handle network error
 
--Blog name and line breaks when title is too long
-
--Hamburger menu with logout and more features
--Help button with old reader info and open source/license info
--Donate-knapp?
-
--'m' mark as read, 'n' and 'p' for navigation in blog post view om desktop
--App width on desktop
--Show all subscriptions, not only read
--Sorting on newest/oldest
-
-
-Other
--Focus on nice online user experience
--Handle content width, yourtube movies for example
--Error messages in console from renderHTML?
--Start to implement offline support

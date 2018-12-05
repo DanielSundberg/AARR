@@ -6,11 +6,11 @@
   "homepage": ".",
   "dependencies": {
     "@types/history": "^4.6.2",
-    "@types/lodash": "^4.14.88",
+    "@types/lodash": "^4.14.119",
     "@types/react-router": "^4.0.20",
     "@types/react-router-dom": "^4.2.3",
     "@types/react-scroll": "^1.5.2",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.11",
     "mobx": "^3.4.1",
     "mobx-react": "^4.3.5",
     "mobx-react-router": "^4.0.1",
