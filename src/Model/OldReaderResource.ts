@@ -57,27 +57,6 @@ class OldReaderResource {
         return response;
     }
 
-    async getFeedInfo(auth: string, uid: string) {
-        const params = {
-            output: 'json',
-            s: uid,
-        };
-
-        let response = fetch(
-            `${this.baseUrl}/reader/api/0/stream/items/ids?` + this.serialize(params), 
-            {
-                method: 'GET',
-                headers: new Headers({
-                    'Accept': 'application/json',
-                    'Content-type': 'application/json',
-                    'Authorization': 'GoogleLogin auth=' + auth,
-                }),
-            });
-        return response;
-    }
-
-
-
     async unreadCount(auth: string) {
         let response = fetch(`${this.baseUrl}/reader/api/0/unread-count?output=json`, {
             method: 'GET',
