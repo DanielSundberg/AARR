@@ -3,7 +3,7 @@ import RootStore from '../Model/RootStore';
 import { inject, observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 
-interface IAddFormState {
+interface AddFormState {
   feedUrl: string;
 }
 
@@ -17,7 +17,7 @@ const Loader: React.SFC = () => {
 
 @inject("appState")
 @observer
-class AddForm extends React.Component<RootStore, IAddFormState> {
+class AddForm extends React.Component<RootStore, AddFormState> {
 
     constructor(props: RootStore) {
       super(props);
@@ -33,23 +33,25 @@ class AddForm extends React.Component<RootStore, IAddFormState> {
     componentWillMount() {
       this.props.appState.addFeedSuccess = false;
       this.props.appState.addFeedMessage = '';
+      this.props.appState.addedFeedId = '';
     }
 
     render() {
       let buttonClasses = this.state.feedUrl.length > 0 ? 
         "ui large primary floated fluid submit button" :
         "ui large primary floated fluid submit disabled button";
-        let buttonContentOrLoader = this.props.appState.isAddingFeed ? 
-          <Loader /> : (
-          <div>Add</div>
-        );
+      let buttonContentOrLoader = this.props.appState.isAddingFeed ? 
+        <Loader /> : (
+        <div>Add</div>
+      );
 
-        let button = this.props.appState.addFeedSuccess ? (
+      let button = this.props.appState.addFeedSuccess ? (
         <Link to="/blogs">
           <button className={buttonClasses}>Close</button>
         </Link>
       ) : (
-        <button className={buttonClasses} 
+        <button 
+          className={buttonClasses} 
           // tslint:disable-next-line
           onClick={(ev: any) => this.addFeedClicked(this)}
         >

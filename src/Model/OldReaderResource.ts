@@ -28,11 +28,9 @@ class OldReaderResource {
     }
 
     async add(auth: string, feedUrl: string) {
-        //https://theoldreader.com/reader/api/0/subscription/quickadd?quickadd=blog.theoldreader.com
-        
         let encodedFeedUrl = encodeURIComponent(feedUrl);
         let urlToFetch = `${this.baseUrl}/reader/api/0/subscription/quickadd?quickadd=${encodedFeedUrl}`;
-        console.log("Url to fetch: ", urlToFetch);
+        // console.log("Url to fetch: ", urlToFetch);
         let response = fetch(urlToFetch, {
             method: 'POST',
             headers: new Headers({
@@ -41,7 +39,6 @@ class OldReaderResource {
                 'Authorization': 'GoogleLogin auth=' + auth,
             }),
         });
-        console.log(response);
         return response;
     }
 
