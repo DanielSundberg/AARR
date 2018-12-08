@@ -27,6 +27,24 @@ class OldReaderResource {
         return response;
     }
 
+    async add(auth: string, feedUrl: string) {
+        //https://theoldreader.com/reader/api/0/subscription/quickadd?quickadd=blog.theoldreader.com
+        
+        let encodedFeedUrl = encodeURIComponent(feedUrl);
+        let urlToFetch = `${this.baseUrl}/reader/api/0/subscription/quickadd?quickadd=${encodedFeedUrl}`;
+        console.log("Url to fetch: ", urlToFetch);
+        let response = fetch(urlToFetch, {
+            method: 'POST',
+            headers: new Headers({
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'GoogleLogin auth=' + auth,
+            }),
+        });
+        console.log(response);
+        return response;
+    }
+
     async listFeeds(auth: string) {
         let response = fetch(`${this.baseUrl}/reader/api/0/subscription/list?output=json`, {
             method: 'GET',
@@ -38,6 +56,27 @@ class OldReaderResource {
         });
         return response;
     }
+
+    async getFeedInfo(auth: string, uid: string) {
+        const params = {
+            output: 'json',
+            s: uid,
+        };
+
+        let response = fetch(
+            `${this.baseUrl}/reader/api/0/stream/items/ids?` + this.serialize(params), 
+            {
+                method: 'GET',
+                headers: new Headers({
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
+                    'Authorization': 'GoogleLogin auth=' + auth,
+                }),
+            });
+        return response;
+    }
+
+
 
     async unreadCount(auth: string) {
         let response = fetch(`${this.baseUrl}/reader/api/0/unread-count?output=json`, {

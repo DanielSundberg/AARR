@@ -23,7 +23,9 @@ class BlogListView extends React.Component<RootStore, {}> {
             return b.unread > 0;
         });
         const imgStyle = { paddingRight: '0.75em' };
+        let self = this;
         const blogPosts = _.map(unreadList, (b, i) => {
+            const newBlog = (('feed/' + b.uid) === self.props.appState.addedFeedId) && (<i className="icon star"></i>);
             return (
               <div className="item" key={i}>
                 <div className="content left floated">
@@ -31,6 +33,7 @@ class BlogListView extends React.Component<RootStore, {}> {
                     {/* <i className="large bookmark middle aligned icon" /> */}
                     <img src={b.iconUrl} style={imgStyle} />
                     <b>{b.title}</b>
+                    {newBlog}
                   </Link>
                 </div>
                 <div className="right floated content">
@@ -51,12 +54,12 @@ class BlogListView extends React.Component<RootStore, {}> {
         return (
           <div className="ui container">
             <header className="ui inverted icon fixed top menu">
-              {/* <a className="item">
-                <i className="icon sidebar" />
-              </a> */}
               {loaderOrRefreshButton}
               <div className="header borderless item">Yarr RSS - Subscriptions</div>
               <div className="right menu">
+                <Link to="/add" className="item" >
+                  <i className="icon plus" />
+                </Link>
                 <a className="item" onClick={() => this.props.appState.logout()}>
                   <i className="icon sign out" />
                 </a>

@@ -27,6 +27,10 @@ class AppState {
     @observable isUpdatingList: boolean;
     @observable loginError: string;
     @observable currentBlogTitle: string = '';
+    @observable addFeedMessage: string = 'No feed addad';
+    @observable addFeedSuccess: boolean = false;
+    @observable addedFeedId: string = '';
+    @observable isAddingFeed: boolean = false;
     routing: RouterStore;
   
     constructor(routing: RouterStore) {
@@ -54,6 +58,7 @@ class AppState {
         // console.log('Blog uid: ', uid);
         this.blogUid = uid;
         this.blogPostlist = observable([]);
+        this.addedFeedId = '';
 
         this.checkAuth();
 
@@ -164,6 +169,32 @@ class AppState {
                 this.routing.push('/blogs');
             }
         }
+    }
+
+    async add(feedUrl: string) {
+        // console.log(`Adding feed ${feedUrl}`); 
+        this.isAddingFeed = true;       
+        let response = await OldReaderResource.add(this.auth, feedUrl);
+        if (response.status !== 200) {
+            this.addFeedMessage = 'Could not add feed!';
+            this.addFeedSuccess = false;
+        } else {
+            let data : any = await response.json(); // tslint:disable-line
+            // "numResults":1,"streamId":"feed/00157a17b192950b65be3791"
+            let numResults = data.numResults;
+            if (numResults > 0) {
+                this.addFeedMessage = `Successfully added ${numResults} feed!`;
+                this.addFeedSuccess = true;
+                this.addedFeedId = data.streamId;
+                // TODO: would have been nice to display feed title here 
+                //       but then we would have to fetch complete blog 
+                //       list here. We'll do that when we go back instead... 
+        } else {
+                this.addFeedMessage = 'Could not add feed!';
+                this.addFeedSuccess = false;
+            }
+        }
+        this.isAddingFeed = false;
     }
 
     logout() {

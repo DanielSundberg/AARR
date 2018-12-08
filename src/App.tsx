@@ -10,6 +10,7 @@ import LoginForm from './Views/LoginForm';
 import BlogPostView from './Views/BlogPostView';
 import BlogListView from './Views/BlogListView';
 import RootStore from './Model/RootStore';
+import AddForm from './Views/AddForm';
 
 // const browserHistory = createBrowserHistory();
 const hashHistory = createHashHistory();
@@ -31,6 +32,7 @@ class App extends React.Component {
                   <Route path="/login" component={LoginForm} />
                   <Route exact={true} path="/blogs" component={BlogListView} />
                   <Route path="/blogs/:blogId" component={BlogPostView} />
+                  <Route path="/add" component={AddForm} />
                   <Route component={CheckAuthView} />
                 </Switch>
               </Router>

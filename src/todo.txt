@@ -1,6 +1,8 @@
 Todo:
 -Update to latest version of create-react-app
-  -Perhaps easier to remove everything and then add back?
+  -Perhaps easier to add completely new create-react-app
+  -Quite difficult to fix this, too many dependency problems to sort out
+    -Might be easier to update in smaller steps..
 -Handle network errors (and other errors, some kind of error message?)
 -Blog name and line breaks when title is too long
 -Add RSS feed
