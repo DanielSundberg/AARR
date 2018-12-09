@@ -31,6 +31,7 @@ class AppState {
     @observable addFeedSuccess: boolean = false;
     @observable addedFeedId: string = '';
     @observable isAddingFeed: boolean = false;
+    @observable showAllFeeds: boolean = false;
     routing: RouterStore;
   
     constructor(routing: RouterStore) {
@@ -64,21 +65,28 @@ class AppState {
 
         // Fetch posts for currently selected blog
         const selectedBlog = _.find(this.bloglist, { uid: uid });
+        let onlyUnread =  true;
         if (selectedBlog) {
             this.currentBlogTitle = selectedBlog.title;
+            onlyUnread = selectedBlog.unread > 0;
         }
 
         // First fetch post ids
-        let response = await OldReaderResource.getPostIds(this.auth, `feed/${uid}`);
+        let response = await OldReaderResource.getPostIds(this.auth, `feed/${uid}`, onlyUnread);
+        console.log(response);
         let data: MyApiData = await response.json();
-        // console.log(data);
+        console.log(data);
 
         // Now create list of blog posts
-        this.blogPostlist = _.map((data as any).itemRefs, (r: any) => { return new BlogPost(r.id); }); // tslint:disable-line
+        this.blogPostlist = _.map((data as any).itemRefs, (r: any) => { return new BlogPost(r.id, !onlyUnread); }); // tslint:disable-line
         // console.log(itemRefs)
 
         // Fetch first 5 unread posts
-        this.fetchFiveUnreadPosts();
+        if (this.blogPostlist.length > 0) {
+            this.fetchFiveUnreadPosts();
+        } else {
+            this.isLoadingPosts = false;
+        }
     }
 
     async fetchFiveUnreadPosts() {
@@ -195,6 +203,11 @@ class AppState {
             }
         }
         this.isAddingFeed = false;
+    }
+
+    toggleShowAll() {
+        this.showAllFeeds = !this.showAllFeeds;
+        console.log("Show all: ", this.showAllFeeds);
     }
 
     logout() {

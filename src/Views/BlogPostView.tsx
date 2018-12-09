@@ -49,118 +49,88 @@ class BlogPostView extends React.Component<RootStore, {}> {
 
     render() {
         const activeStyle = { color: '#FFFFFF', background: '#3B83C0' };
-        const inactiveStyle = { color: '#FFFFFF', background: '#DFE0E1' };
+        const inactiveStyle = { color: '#FFFFFF', background: '#808080' };
 
-        const blogPosts = _.map(this.props.appState.blogPostlist, (b, i) => {
-            if (!b.title) { return null; }
+        const blogPosts = this.props.appState.blogPostlist.length === 0 && !this.props.appState.isLoadingPosts ? 
+            (<div className="item right">
+                No posts... <i className="icon meh"></i>  
+            </div>) : 
+            _.map(this.props.appState.blogPostlist, (b, i) => {
+                if (!b.title) { return null; }
 
-            const markAsReadButtonText = b.read ? 'Mark as unread' : 'Mark as read';          
-            const headerTextStyle = b.read ? {} : {color: '#FFFFFF'};
-            const whiteTextStyle = { color: '#FFFFFF'};
-            const headerContentStyle = b.read ? inactiveStyle : activeStyle ;
-            const menuSegmentStyle = b.read ? 
-                { background: '#DFE0E1', padding: '2px' } : 
-                { background: '#3B83C0', padding: '2px' };
+                const markAsReadButtonText = b.read ? 'Mark as unread' : 'Mark as read';          
+                const headerTextStyle = b.read ? {} : {color: '#FFFFFF'};
+                const whiteTextStyle = { color: '#FFFFFF'};
+                const headerContentStyle = b.read ? inactiveStyle : activeStyle ;
+                const menuSegmentStyle = b.read ? 
+                    { background: '#808080', padding: '2px' } : 
+                    { background: '#3B83C0', padding: '2px' };
 
-            const upperLoaderOrCheckItem = this.props.appState.postsBeingEdited.indexOf(b.uid, 0) > -1 ? (
-                <Loader />
-            ) : (
-                <div className="item link right" onClick={() => this.markAsReadAndScroll(this, b.uid, !b.read, i)}>
-                    <i className="icon check" />
-                    {markAsReadButtonText}
-                </div>
-            );
-            const lowerLoaderOrCheckItem = this.props.appState.postsBeingEdited.indexOf(b.uid, 0) > -1 ? (
-                <Loader />
-            ) : (
-                <div className="item link right" onClick={() => this.props.appState.markPostAsRead(b.uid, !b.read)}>
-                    <i className="icon check" />
-                    {markAsReadButtonText}
-                </div>
-            );
+                const upperLoaderOrCheckItem = this.props.appState.postsBeingEdited.indexOf(b.uid, 0) > -1 ? (
+                    <Loader />
+                ) : (
+                    <div className="item link right" onClick={() => this.markAsReadAndScroll(this, b.uid, !b.read, i)}>
+                        <i className="icon check" />
+                        {markAsReadButtonText}
+                    </div>
+                );
+                const lowerLoaderOrCheckItem = this.props.appState.postsBeingEdited.indexOf(b.uid, 0) > -1 ? (
+                    <Loader />
+                ) : (
+                    <div className="item link right" onClick={() => this.props.appState.markPostAsRead(b.uid, !b.read)}>
+                        <i className="icon check" />
+                        {markAsReadButtonText}
+                    </div>
+                );
 
-            const contentSegmentClasses = b.read ? "ui segment disabled" : "ui segment";
-    
-            return (
-                <div key={i}>              
-                    <div id={`topOfPost${i}`} />
-                    <div className="row">
-                        <div className="ui segments">
-                            <div className="ui segment" style={headerContentStyle}>
-                                <h1>
-                                    <a style={whiteTextStyle} href={b.url} target="_new">{b.title}</a>
-                                </h1>
-                                <span style={headerTextStyle}>Posted {b.date.toLocaleString()} by {b.author}</span>
-                            </div>
-                            <div className="ui segment" style={menuSegmentStyle} >
-                                <div className="ui top attached inverted menu borderless" style={menuSegmentStyle}>
-                                    <div className="item link icon" onClick={() => this.goToPrevPost(i - 1)}>
-                                        <i className="arrow up icon"></i>
-                                    </div>
-                                    <div className="item link icon" onClick={() => this.goToNextPost(i)}>
-                                        <i className="arrow down icon"></i>
-                                    </div>
-                                    {upperLoaderOrCheckItem}
+                const contentSegmentClasses = b.read ? "ui segment" : "ui segment";
+                const contentStyle = b.read ? { color: '#808080'} : {};
+        
+                return (
+                    <div key={i}>              
+                        <div id={`topOfPost${i}`} />
+                        <div className="row">
+                            <div className="ui segments">
+                                <div className="ui segment" style={headerContentStyle}>
+                                    <h1>
+                                        <a style={whiteTextStyle} href={b.url} target="_new">{b.title}</a>
+                                    </h1>
+                                    <span style={headerTextStyle}>Posted {b.date.toLocaleString()} by {b.author}</span>
                                 </div>
-                            </div>
-                            <div className={contentSegmentClasses} >
-                                <div className="content">     
-                                    <div className="description">
-                                        {renderHTML(b.content)}
+                                <div className="ui segment" style={menuSegmentStyle} >
+                                    <div className="ui top attached inverted menu borderless" style={menuSegmentStyle}>
+                                        <div className="item link icon" onClick={() => this.goToPrevPost(i - 1)}>
+                                            <i className="arrow up icon"></i>
+                                        </div>
+                                        <div className="item link icon" onClick={() => this.goToNextPost(i)}>
+                                            <i className="arrow down icon"></i>
+                                        </div>
+                                        {upperLoaderOrCheckItem}
                                     </div>
                                 </div>
-                            </div>
-                            <div className="ui segment" style={menuSegmentStyle} >
-                                <div className="ui bottom attached inverted menu borderless" style={menuSegmentStyle}>
-                                    <div className="item link icon" onClick={() => this.goToPrevPost(i)}>
-                                        <i className="arrow up icon"></i>
+                                <div className={contentSegmentClasses} style={contentStyle} >
+                                    <div className="content">     
+                                        <div className="description">
+                                            {renderHTML(b.content)}
+                                        </div>
                                     </div>
-                                    <a className="item icon" href={b.url} target="_new">
-                                        <i className="external icon"></i>
-                                    </a>
-                                    {lowerLoaderOrCheckItem}                                
+                                </div>
+                                <div className="ui segment" style={menuSegmentStyle} >
+                                    <div className="ui bottom attached inverted menu borderless" style={menuSegmentStyle}>
+                                        <div className="item link icon" onClick={() => this.goToPrevPost(i)}>
+                                            <i className="arrow up icon"></i>
+                                        </div>
+                                        <a className="item icon" href={b.url} target="_new">
+                                            <i className="external icon"></i>
+                                        </a>
+                                        {lowerLoaderOrCheckItem}                                
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        {/* <div className="ui fluid card">
-                            <div className="content" style={headerContentStyle}>
-                                <h1>
-                                    <a style={headerCardStyle} href={b.url} target="_new">{b.title}</a>
-                                </h1>
-                                <span style={headerCardStyle}>Posted {b.date.toLocaleString()} by {b.author}</span>
-                            </div>
-                            <div className="content" style={headerContentStyle}>
-                                <span 
-                                    className="right floated" 
-                                    style={headerCardStyle} 
-                                    onClick={() => this.markAsReadAndScroll(this, b.uid, !b.read, i)}
-                                >
-                                    <i className="check like icon"></i> 
-                                </span>
-                                <span style={headerCardStyle} onClick={() => this.goToNextPost(i)}>
-                                    <i className="arrow down like icon"></i>
-                                </span>
-                            </div>
-                            
-                            <div className="content">     
-                                <div className="description">
-                                    {renderHTML(b.content)}
-                                </div>
-                            </div>
-                            
-                            <div 
-                                className={buttonClasses} 
-                                onClick={() => this.props.appState.markPostAsRead(b.uid, !b.read)}
-                            >
-                                <i className="checkmark icon" />
-                                {buttonText}
-                            </div>
-                        </div> */}
-                    </div>
-                    <div id={`bottomOfPost${i}`} className="row"><br/></div>
-                </div>);
-        });
+                        <div id={`bottomOfPost${i}`} className="row"><br/></div>
+                    </div>);
+            });
 
         const moreToFetch = _.some(this.props.appState.blogPostlist, (b) => {
             return !b.fetched;

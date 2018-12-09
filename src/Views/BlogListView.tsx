@@ -19,12 +19,15 @@ class BlogListView extends React.Component<RootStore, {}> {
     }
 
     render() {
-        const unreadList = _.filter(this.props.appState.bloglist, (b: BlogInfo) => {
-            return b.unread > 0;
-        });
+        // const unreadList = _.filter(this.props.appState.bloglist, (b: BlogInfo) => {
+        //     return b.unread > 0;
+        // });
         const imgStyle = { paddingRight: '0.75em' };
         let self = this;
-        const blogPosts = _.map(unreadList, (b, i) => {
+        const blogPosts = _.map(this.props.appState.bloglist, (b: BlogInfo, i) => {
+            if (!this.props.appState.showAllFeeds && b.unread === 0) {
+              return null;
+            }
             const newBlog = (('feed/' + b.uid) === self.props.appState.addedFeedId) && (<i className="icon star"></i>);
             return (
               <div className="item" key={i}>
@@ -37,7 +40,7 @@ class BlogListView extends React.Component<RootStore, {}> {
                   </Link>
                 </div>
                 <div className="right floated content">
-                  <b>{b.unread}</b>
+                  {b.unread > 0 ? <b>{b.unread}</b> : null}
                 </div>
               </div>);
         });
@@ -51,12 +54,17 @@ class BlogListView extends React.Component<RootStore, {}> {
                 <i className="icon refresh" />
             </a>);
 
+        const filterItemClasses = this.props.appState.showAllFeeds ? "item" : "item active";
+
         return (
           <div className="ui container">
             <header className="ui inverted icon fixed top menu">
               {loaderOrRefreshButton}
               <div className="header borderless item">Yarr RSS - Subscriptions</div>
               <div className="right menu">
+                <a className={filterItemClasses} onClick={() => this.props.appState.toggleShowAll()}>
+                  <i className="icon filter" />
+                </a>
                 <Link to="/add" className="item" >
                   <i className="icon plus" />
                 </Link>

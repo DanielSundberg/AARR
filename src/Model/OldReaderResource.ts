@@ -66,16 +66,20 @@ class OldReaderResource {
         return response;
     }
 
-    async getPostIds(auth: string, uid: string) {
-        const params = {
+    async getPostIds(auth: string, uid: string, onlyUnread: boolean) {
+        const params = onlyUnread ? {
             output: 'json',
             s: uid,
             xt: 'user/-/state/com.google/read',
             n: 100,
+        } : {
+            output: 'json',
+            s: 'user/-/state/com.google/reading-list',
+            n: 100,
         };
 
         let response = fetch(
-            `${this.baseUrl}/reader/api/0/stream/items/ids?` + this.serialize(params), 
+            `${this.baseUrl}/reader/api/0/stream/items/ids?` + this.serialize(params) + '&' + this.serialize({s: uid}), 
             {
                 method: 'GET',
                 headers: new Headers({

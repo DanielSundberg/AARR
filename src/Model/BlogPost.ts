@@ -12,12 +12,12 @@ export class BlogPost {
     url: string;
     blogInfoUid: string;
 
-    constructor(uid: string) {
+    constructor(uid: string, read: boolean) {
         this.uid = uid;
         this.fetched = false;
         this.title = '';
         this.content = '';
-        this.read = false;
+        this.read = read;
         this.author = '';
         this.url = '';
         this.date = new Date(_.now());
