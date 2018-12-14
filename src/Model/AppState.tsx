@@ -123,7 +123,7 @@ class AppState {
             // console.log(altnernate.href);
             var n = post.id.lastIndexOf('/');
             var uidToMatch = post.id.substring(n + 1);
-            const blogPost = _.find(this.blogPostlist, { uid: uidToMatch });
+            const blogPost : any = _.find(this.blogPostlist, { uid: uidToMatch });
             if (blogPost) {
                 // console.log('Setting post content: ', blogPost.uid);
                 blogPost.title = post.title;
