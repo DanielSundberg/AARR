@@ -58,7 +58,7 @@ class BlogListView extends React.Component<RootStore, {}> {
 
         return (
           <div className="ui container">
-            <header className="ui inverted icon fixed top menu">
+            <header className="ui inverted icon fixed top small menu">
               {loaderOrRefreshButton}
               <div className="header borderless item">Yarr RSS - Subscriptions</div>
               <div className="right menu">
