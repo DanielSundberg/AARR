@@ -5,6 +5,7 @@ import RootStore from '../Model/RootStore';
 import { gridStyleWithTopPadding as gridStyle } from '../Model/gridStyle';
 import { BlogInfo } from '../Model/BlogInfo';
 import { Link } from 'react-router-dom';
+import { Dropdown, Icon } from 'semantic-ui-react';
 
 @inject('appState')
 @inject('routing')
@@ -47,38 +48,52 @@ class BlogListView extends React.Component<RootStore, {}> {
 
         const loaderOrRefreshButton = this.props.appState.isUpdatingList ? (
             <div className="item">
-                <div className="ui tiny active inline loader"/>
+                <div className="ui mini active inline loader"/>
             </div>
         ) : (
             <a className="item" onClick={() => this.props.appState.getListOfBlogs()}>
-                <i className="icon refresh" />
+                <i className="icon small refresh" />
             </a>);
+
+        const hamburger = (
+            <Dropdown item={true} icon='bars' onClick={() => this.props.appState.toggleShowMenu()}>
+                <Dropdown.Menu>
+                    <Dropdown.Item onClick={() => this.props.routing.push("/add")}>
+                        <Icon name="plus" />
+                        <span className='text'>Add feed...</span>
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item onClick={() => this.props.appState.logout()}>                    
+                        <Icon name="sign out" />
+                        <span className='text'>Sign out...</span>
+                    </Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+        );
 
         const filterItemClasses = this.props.appState.showAllFeeds ? "item" : "item active";
 
         return (
-          <div className="ui container">
-            <header className="ui inverted icon fixed top small menu">
-              {loaderOrRefreshButton}
-              <div className="header borderless item">Yarr RSS - Subscriptions</div>
-              <div className="right menu">
-                <a className={filterItemClasses} onClick={() => this.props.appState.toggleShowAll()}>
-                  <i className="icon filter" />
-                </a>
-                <Link to="/add" className="item" >
-                  <i className="icon plus" />
-                </Link>
-                <a className="item" onClick={() => this.props.appState.logout()}>
-                  <i className="icon sign out" />
-                </a>
-              </div>
-            </header>
-            <div className="ui grid" style={gridStyle}>
-              <div className="sixteen wide column">
-                <div className="ui relaxed big divided list">
-                  {blogPosts}
+            <div className="ui container">
+                <header className="ui inverted icon fixed top menu">
+                    {hamburger}
+                    <div className="header borderless item">Yarr RSS - Subscriptions</div>
+                    <div className="right menu">
+                        {loaderOrRefreshButton}
+                        <a className={filterItemClasses} onClick={() => this.props.appState.toggleShowAll()}>
+                            <i className="icon filter" />
+                        </a>
+                    </div>
+                </header>
+
+                <div className="ui grid" style={gridStyle}>
+                    <div className="sixteen wide column">
+                        <div className="ui relaxed big divided list">
+                            {blogPosts}
+                       </div>
+                    </div>
                 </div>
-              </div>
+
               {/* {this.props.appState.errorMessage != '' && (
                 <div className="row">
                   <div className="sixteen wide column">
@@ -90,7 +105,6 @@ class BlogListView extends React.Component<RootStore, {}> {
                 </div>
               )} */}
             </div>
-          </div>
         );
     }
 }

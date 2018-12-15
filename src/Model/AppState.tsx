@@ -32,6 +32,7 @@ class AppState {
     @observable addedFeedId: string = '';
     @observable isAddingFeed: boolean = false;
     @observable showAllFeeds: boolean = false;
+    @observable showMenu: boolean = false;
     routing: RouterStore;
   
     constructor(routing: RouterStore) {
@@ -205,6 +206,10 @@ class AppState {
 
     toggleShowAll() {
         this.showAllFeeds = !this.showAllFeeds;
+    }
+
+    toggleShowMenu() {
+        this.showMenu = !this.showMenu;
     }
 
     logout() {
