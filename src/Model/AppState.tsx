@@ -73,9 +73,7 @@ class AppState {
 
         // First fetch post ids
         let response = await OldReaderResource.getPostIds(this.auth, `feed/${uid}`, onlyUnread);
-        console.log(response);
         let data: MyApiData = await response.json();
-        console.log(data);
 
         // Now create list of blog posts
         this.blogPostlist = _.map((data as any).itemRefs, (r: any) => { return new BlogPost(r.id, !onlyUnread); }); // tslint:disable-line
@@ -123,7 +121,7 @@ class AppState {
             // console.log(altnernate.href);
             var n = post.id.lastIndexOf('/');
             var uidToMatch = post.id.substring(n + 1);
-            const blogPost : any = _.find(this.blogPostlist, { uid: uidToMatch });
+            const blogPost = _.find(this.blogPostlist, { uid: uidToMatch as string });
             if (blogPost) {
                 // console.log('Setting post content: ', blogPost.uid);
                 blogPost.title = post.title;
@@ -207,7 +205,6 @@ class AppState {
 
     toggleShowAll() {
         this.showAllFeeds = !this.showAllFeeds;
-        console.log("Show all: ", this.showAllFeeds);
     }
 
     logout() {

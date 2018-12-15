@@ -51,8 +51,8 @@ class BlogPostView extends React.Component<RootStore, {}> {
         const activeStyle = { color: '#FFFFFF', background: '#3B83C0' };
         const inactiveStyle = { color: '#FFFFFF', background: '#808080' };
 
-        const blogPosts = this.props.appState.blogPostlist.length === 0 && !this.props.appState.isLoadingPosts ? 
-            (<div className="item right">
+        const blogPosts = this.props.appState.blogPostlist.length === 0 && !this.props.appState.isLoadingPosts ? (
+            <div className="item right">
                 No posts... <i className="icon meh"></i>  
             </div>) : 
             _.map(this.props.appState.blogPostlist, (b, i) => {
@@ -116,7 +116,11 @@ class BlogPostView extends React.Component<RootStore, {}> {
                                     </div>
                                 </div>
                                 <div className="ui segment" style={menuSegmentStyle} >
-                                    <div className="ui bottom attached inverted menu borderless" style={menuSegmentStyle}>
+                                    <div 
+                                        className="ui bottom attached inverted menu borderless" 
+                                        style={menuSegmentStyle}
+                                    >
+                                        
                                         <div className="item link icon" onClick={() => this.goToPrevPost(i)}>
                                             <i className="arrow up icon"></i>
                                         </div>
