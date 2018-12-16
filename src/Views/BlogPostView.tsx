@@ -8,6 +8,7 @@ import { gridStyle } from '../Model/gridStyle';
 import ScrollToTopOnMount from './ScrollToTop';
 import StringUtils from '../Model/StringUtils';
 import { scroller as scroll } from 'react-scroll';
+import * as readingTime from 'reading-time';
 
 const Loader: React.SFC = () => {
     return (
@@ -85,7 +86,8 @@ class BlogPostView extends React.Component<RootStore, {}> {
 
                 const contentSegmentClasses = b.read ? "ui segment" : "ui segment";
                 const contentStyle = b.read ? { color: '#808080'} : {};
-        
+                const readingTimeInfo = readingTime(b.content);
+
                 return (
                     <div key={i}>              
                         <div id={`topOfPost${i}`} />
@@ -95,7 +97,10 @@ class BlogPostView extends React.Component<RootStore, {}> {
                                     <h1>
                                         <a style={whiteTextStyle} href={b.url} target="_new">{b.title}</a>
                                     </h1>
-                                    <span style={headerTextStyle}>Posted {b.date.toLocaleString()} by {b.author}</span>
+                                    <span style={headerTextStyle}>
+                                        Posted {b.date.toLocaleString()} by {b.author}<br/>
+                                        {readingTimeInfo.text}
+                                    </span>
                                 </div>
                                 <div className="ui segment" style={menuSegmentStyle} >
                                     <div className="ui top attached inverted menu borderless" style={menuSegmentStyle}>
