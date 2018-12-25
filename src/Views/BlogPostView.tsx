@@ -18,6 +18,11 @@ const Loader: React.SFC = () => {
     );
 };
 
+interface YARRAndroidInterface {
+    shareUrl: Function;
+}
+declare var YARRAndroid: YARRAndroidInterface;
+
 @inject('appState')
 @inject('routing')
 @observer
@@ -46,6 +51,14 @@ class BlogPostView extends React.Component<RootStore, {}> {
 
     goToPrevPost(nextPostIndex: number) {
         scroll.scrollTo(`topOfPost${nextPostIndex}`, null);
+    }
+
+    shareUrl(title: String, url: String) {
+        try {
+            YARRAndroid.shareUrl(title, url);
+        } catch (e) {
+            console.log("Not running in WebView or yarrAndroid object not found, exception: ", e);
+        }
     }
 
     render() {
@@ -132,6 +145,9 @@ class BlogPostView extends React.Component<RootStore, {}> {
                                         <a className="item icon" href={b.url} target="_new">
                                             <i className="external icon"></i>
                                         </a>
+                                        <div className="item link icon" onClick={() => this.shareUrl(b.title, b.url)}>
+                                            <i className="share icon"></i>
+                                        </div>
                                         {lowerLoaderOrCheckItem}                                
                                     </div>
                                 </div>

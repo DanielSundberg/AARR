@@ -1,8 +1,17 @@
 Release test:
 -Add RSS feed => ok
--Show already read items
+-Show already read items => ok
+-Hamburger menu with logout and more features => ok
+  -At least a menu is implemented
+-Share post using android intent (not deployed)
 
 Todo:
+-Menu could be a little bit larger
+-Help button with old reader info and open source/license info
+-Handle network errors (and other errors, some kind of error message?)
+-Blog name and line breaks when title is too long
+-Autoload more posts (instead of fetch button)
+-Investigate post formatting problems
 -Refactor AddForm to use its own store
   -Must handle auth inside OldReaderResource in some way...otherwise we must pass auth to state
 -Release on google play
@@ -10,19 +19,10 @@ Todo:
   -Perhaps easier to add completely new create-react-app
   -Quite difficult to fix this, too many dependency problems to sort out
     -Might be easier to update in smaller steps..
--Handle network errors (and other errors, some kind of error message?)
--Blog name and line breaks when title is too long
 -Don't store passwd in clear text
 -Investigate API key storage
--Logout 
--Share menu
 -Sorting on newest/oldest
--Share post (android share feature?)
--Hamburger menu with logout and more features
--Help button with old reader info and open source/license info
 -Send feedback button
--Investigate post formatting problems
--Autoload more posts (instead of fetch button)
 
 Other
 -Focus on nice online user experience
@@ -35,8 +35,6 @@ Desktop
 -'m' mark as read, 'n' and 'p' for navigation in blog post view om desktop
 -App width on desktop
 -Show all subscriptions, not only read
-
-
 
 
 
