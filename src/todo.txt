@@ -1,16 +1,23 @@
 Release test:
--Add RSS feed => ok
--Show already read items => ok
--Hamburger menu with logout and more features => ok
+-Add RSS feed
+-Show already read items
+-Hamburger menu with logout and more features
   -At least a menu is implemented
+-Share post using android intent
+-Make sure the old reader accound & password reminder works
 -Share post using android intent (not deployed)
 
+
 Todo:
--Add share link to android app and commit
--Make sure the old reader accound & password reminder works
+-Share post using android intent
+  -When in browser, can I display menu instead of share intent? 
+-Move screen shots to sub folder
+-Google play app description
 -Release on google play
   -License info
   -Update github page
+-Crashes and errors via Google play error reporting?
+-Privacy/data saving mode, only load images on click
 -Hamburger menu could be a little bit larger
 -Font size, line spacing & more
 -Show how many posts there is to load in "fetch 5 more" button

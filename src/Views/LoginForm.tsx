@@ -1,6 +1,7 @@
 import * as React from 'react';
 import RootStore from '../Model/RootStore';
 import { inject, observer } from 'mobx-react';
+import { default as resource } from '../Model/OldReaderResource';
 
 @inject("appState")
 @observer
@@ -18,6 +19,7 @@ class LoginForm extends React.Component<RootStore, {}> {
     }
 
     render() {
+
       return (
         <div className="ui grid middle center container">
           <div className="row">
@@ -67,7 +69,8 @@ class LoginForm extends React.Component<RootStore, {}> {
                 <div className="ui negative message">{this.props.appState.loginError}</div> : 
                 null}
               <div className="ui message">
-                New to us? <a href="#">Sign Up</a>, <a href="#">forgot password?</a>
+                {/* tslint:disable-next-line */}
+                New to The Old Reader? <a href={resource.signUpUrl} target="_new">Sign Up</a>, <a href={resource.forgotPwdUrl} target="_new">forgot password?</a>
               </div>
             </div>
             <div className="two wide column" />

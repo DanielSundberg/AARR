@@ -1,5 +1,7 @@
 class OldReaderResource {
     baseUrl: string;
+    signUpUrl: string = "https://theoldreader.com/users/sign_up";
+    forgotPwdUrl: string = "https://theoldreader.com/users/password/new";
     
     constructor(baseUrl: string) {
         this.baseUrl = baseUrl;
