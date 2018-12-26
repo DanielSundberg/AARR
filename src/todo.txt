@@ -6,15 +6,21 @@ Release test:
 -Share post using android intent (not deployed)
 
 Todo:
--Menu could be a little bit larger
+-Add share link to android app and commit
+-Make sure the old reader accound & password reminder works
+-Release on google play
+  -License info
+  -Update github page
+-Hamburger menu could be a little bit larger
+-Font size, line spacing & more
+-Show how many posts there is to load in "fetch 5 more" button
 -Help button with old reader info and open source/license info
 -Handle network errors (and other errors, some kind of error message?)
 -Blog name and line breaks when title is too long
--Autoload more posts (instead of fetch button)
+-Autoload more posts (instead of fetch button), perhaps settings toggle for this
 -Investigate post formatting problems
 -Refactor AddForm to use its own store
   -Must handle auth inside OldReaderResource in some way...otherwise we must pass auth to state
--Release on google play
 -Update to latest version of create-react-app
   -Perhaps easier to add completely new create-react-app
   -Quite difficult to fix this, too many dependency problems to sort out
@@ -23,12 +29,13 @@ Todo:
 -Investigate API key storage
 -Sorting on newest/oldest
 -Send feedback button
+-Support for more RSS aggreagators
 
 Other
+-Offline support
 -Focus on nice online user experience
 -Handle content width, yourtube movies for example
 -Error messages in console from renderHTML?
--Offline support
 
 
 Desktop
