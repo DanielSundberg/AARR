@@ -1,4 +1,4 @@
-# YARR - Yet Another RSS Reader
+# AARR - Another Awesome RSS Reader
 
 ## About
 
@@ -14,6 +14,13 @@ here we are... Please try it out and tell me what you think!
 Please report any feedback <a href="https://github.com/DanielSundberg/YARR/issues">in a Github issue</a>.
 
 The actual Android container app is in another repository: <a href="https://github.com/DanielSundberg/YARR-Android">YARR-Android</a>.
+
+## Why the stupid name?
+When I started this project I came up with the name YARR. Shortly after I started to work on this an 
+new RSS reader called YARR appeared on Google Play. My Github project existed before this app was on 
+Google play but unfortunately I did not have time to do a proper release. So to make it easy for me 
+I changed the Y for an A. And had to come up with a new name that matched the new short name... 
+And here we are.
 
 ## Technical implementation
 

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="RSSicon"
+   viewBox="0 0 8 8"
+   width="256"
+   height="256"
+   version="1.1"
+   sodipodi:docname="rss-round.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata3730">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>RSS feed icon</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3728" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1842"
+     inkscape:window-height="1051"
+     id="namedview3726"
+     showgrid="false"
+     inkscape:zoom="3.3515625"
+     inkscape:cx="128"
+     inkscape:cy="128"
+     inkscape:window-x="69"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="RSSicon" />
+  <title
+     id="title3713">RSS feed icon</title>
+  <style
+     type="text/css"
+     id="style3715">
+    .button {stroke: none; fill: #3B83C0;}
+    .symbol {stroke: none; fill: white;}
+  </style>
+  <rect
+     x="0"
+     y="0"
+     class="button"
+     width="8"
+     height="8"
+     rx="4.0625"
+     id="rect3717"
+     style="fill:#3b83c0;stroke:none" />
+  <circle
+     class="symbol"
+     cx="2.4335663"
+     cy="5.5664334"
+     r="0.78088582"
+     id="circle3719"
+     style="fill:#ffffff;stroke:none;stroke-width:0.78088582" />
+  <path
+     class="symbol"
+     d="m 1.6526807,4.004662 c 1.3275058,0 2.3426573,1.0151515 2.3426573,2.3426573 h 0.7808858 c 0,-1.7179487 -1.4055944,-3.1235431 -3.1235431,-3.1235431 z"
+     id="path3721"
+     inkscape:connector-curvature="0"
+     style="fill:#ffffff;stroke:none;stroke-width:0.78088582" />
+  <path
+     class="symbol"
+     d="M 1.6526807,2.4428905 A 3.904429,3.904429 0 0 1 5.5571095,6.3473193 H 6.3379953 A 4.6853147,4.6853147 0 0 0 1.6526807,1.6620047 Z"
+     id="path3723"
+     inkscape:connector-curvature="0"
+     style="fill:#ffffff;stroke:none;stroke-width:0.78088582" />
+</svg>

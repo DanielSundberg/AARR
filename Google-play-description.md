@@ -1,4 +1,4 @@
-# YARR - Yet Another RSS Reader
+# AARR - Another Awesome RSS Reader
 
 ## About
 
@@ -8,7 +8,7 @@ When Google shut down their reader I had to find a new way to read my RSS feeds.
 my pick was <a href="http://theoldreader.com/">The Old Reader</a>, probably because the service reminded me the most 
 of the Google reader experience. 
 
-Please report any feedback <a href="https://github.com/DanielSundberg/YARR/issues">on my Github page</a>.
+Please report any feedback <a href="https://github.com/DanielSundberg/AARR/issues">on my Github page</a>.
 
 This app is completely free and contains no ads (other than provided by RSS content providers). 
 The application is provided under the MIT free software license.

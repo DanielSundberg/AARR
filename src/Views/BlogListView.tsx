@@ -77,7 +77,7 @@ class BlogListView extends React.Component<RootStore, {}> {
             <div className="ui container">
                 <header className="ui inverted icon fixed top menu">
                     {hamburger}
-                    <div className="header borderless item">Yarr RSS - Subscriptions</div>
+                    <div className="header borderless item">Subscriptions</div>
                     <div className="right menu">
                         {loaderOrRefreshButton}
                         <a className={filterItemClasses} onClick={() => this.props.appState.toggleShowAll()}>

@@ -9,6 +9,7 @@ Release test:
 
 
 Todo:
+-Rename to AARR
 -Share post using android intent
   -When in browser, can I display menu instead of share intent? 
 -Move screen shots to sub folder
