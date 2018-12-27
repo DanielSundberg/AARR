@@ -11,9 +11,9 @@ of the Google reader experience.
 However, what was lacking was a nice mobile user experience. So after a while I decided to implement my own. And 
 here we are... Please try it out and tell me what you think!
 
-Please report any feedback <a href="https://github.com/DanielSundberg/YARR/issues">in a Github issue</a>.
+Please report any feedback <a href="https://github.com/DanielSundberg/AARR/issues">in a Github issue</a>.
 
-The actual Android container app is in another repository: <a href="https://github.com/DanielSundberg/YARR-Android">YARR-Android</a>.
+The actual Android container app is in another repository: <a href="https://github.com/DanielSundberg/AARR-Android">YARR-Android</a>.
 
 ## Why the stupid name?
 When I started this project I came up with the name YARR. Shortly after I started to work on this an 
