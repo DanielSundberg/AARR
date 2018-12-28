@@ -20,23 +20,26 @@ class OldReaderResource {
         return data;
     }
 
-    async postRequest(
-        auth: string, 
-        path: string, 
-        body: string, 
-        errorMessage: string, 
-        setError: (errorMessage: string) => void
-    ) {
+    async postRequest(auth: string, path: string, body: any) {
         // tslint:disable-next-line
-        let data : any = await (
+        let rsp : any = await (
             await this.rawPostRequest(auth, path, body)
                 .then(res => {
-                    return res.json();
+                    if (res.status === 200) {
+                        return {
+                            data: res.json(), 
+                            status: res.status
+                        };
+                    } else {
+                        return {
+                            status: res.status
+                        }; 
+                    }
                 })
                 .catch(err => {
-                    setError(errorMessage);
+                    return { status: -1 };
                 }));
-        return data;
+        return rsp;
     }
 
     async rawGetRequest(auth: string, path: string) {
@@ -77,7 +80,7 @@ class OldReaderResource {
         return response;
     }
 
-    async login(username: string, password: string, setError: (errorMessage: string) => void)  {
+    async login(username: string, password: string)  {
         // tslint:disable-next-line
         const body: any = {
             client: 'YATORClientV1',
@@ -90,9 +93,7 @@ class OldReaderResource {
         return await this.postRequest(
             '', 
             '/reader/api/0/accounts/ClientLogin',
-            body,
-            'Failed to login, please try again.',
-            setError
+            body
         );
     }
 

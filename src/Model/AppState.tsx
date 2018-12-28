@@ -162,14 +162,22 @@ class AppState {
     async login(username: string, password: string) {
         // console.log(`Logged in with ${username}`);        
         // tslint:disable-next-line
-        let data: any = await OldReaderResource.login(username, password, (e) => { this.setErrorMessage(e); });
-        if (this.errorMessage.length > 0) {
-            this.loginError = 'Could not log in, bad username or password?';
-            this.dismissError();
+        let response: any = await OldReaderResource.login(username, password);
+        if (response.status === 403) {
+            this.loginError = 'Could not log in, bad username or password?';        
+            return;
+        }
+        if (response.status === -1) {
+            this.loginError = 'Request failed, please try again.';
+            return;
+        } 
+        if (response.status !== 200) {
+            this.loginError = `Request failed, error code ${response.status}`;
             return;
         } 
         
         // Now we're logged in
+        const data: any = await response.data;
         if (data.Auth) {
             this.loginError = '';
             this.auth = data.Auth;
