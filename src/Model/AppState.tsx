@@ -192,13 +192,18 @@ class AppState {
 
     async add(feedUrl: string) {
         // console.log(`Adding feed ${feedUrl}`); 
-        this.isAddingFeed = true;       
-        let response = await OldReaderResource.add(this.auth, feedUrl);
-        if (response.status !== 200) {
-            this.addFeedMessage = 'Could not add feed!';
-            this.addFeedSuccess = false;
-        } else {
-            let data : any = await response.json(); // tslint:disable-line
+        try {
+            this.isAddingFeed = true;       
+            let response = await OldReaderResource.add(this.auth, feedUrl);
+            if (response.status === -1) {
+                this.addFeedMessage = 'Could not add feed, request failed. Please try again.';
+                return;
+            }
+            if (response.status !== 200) {
+                this.addFeedMessage = 'Could not add feed!';
+                return;
+            }
+            let data : any = await response.data; // tslint:disable-line
             // "numResults":1,"streamId":"feed/00157a17b192950b65be3791"
             let numResults = data.numResults;
             if (numResults > 0) {
@@ -208,12 +213,13 @@ class AppState {
                 // TODO: would have been nice to display feed title here 
                 //       but then we would have to fetch complete blog 
                 //       list here. We'll do that when we go back instead... 
-        } else {
+            } else {
                 this.addFeedMessage = 'Could not add feed!';
                 this.addFeedSuccess = false;
             }
+        } finally {
+            this.isAddingFeed = false;
         }
-        this.isAddingFeed = false;
     }
 
     toggleShowAll() {

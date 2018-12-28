@@ -20,7 +20,7 @@ class OldReaderResource {
         return data;
     }
 
-    async postRequest(auth: string, path: string, body: any) {
+    async postRequest(auth: string, path: string, body: any = null) {
         // tslint:disable-next-line
         let rsp : any = await (
             await this.rawPostRequest(auth, path, body)
@@ -54,7 +54,7 @@ class OldReaderResource {
         return response;
     }
 
-    async rawPostRequest(auth: string, path: string, body: string) {
+    async rawPostRequest(auth: string, path: string, body: any) {
         let headers: Headers;
         if (auth.length === 0) {
             headers = new Headers({
@@ -68,13 +68,16 @@ class OldReaderResource {
                 'Authorization': 'GoogleLogin auth=' + auth,
             });
         }
-
+        let jsonBody: any = null;
+        if (body) {
+            jsonBody = JSON.stringify(body)
+        }
         let response = fetch(
-            `${this.baseUrl}/reader/api/0/accounts/ClientLogin`, 
+            `${this.baseUrl}${path}`, 
             {
                 method: 'POST',
                 headers: headers,
-                body: JSON.stringify(body)
+                body: jsonBody
             }
         );
         return response;
@@ -99,17 +102,12 @@ class OldReaderResource {
 
     async add(auth: string, feedUrl: string) {
         let encodedFeedUrl = encodeURIComponent(feedUrl);
-        let urlToFetch = `${this.baseUrl}/reader/api/0/subscription/quickadd?quickadd=${encodedFeedUrl}`;
+        let pathToFetch = `/reader/api/0/subscription/quickadd?quickadd=${encodedFeedUrl}`;
         // console.log("Url to fetch: ", urlToFetch);
-        let response = fetch(urlToFetch, {
-            method: 'POST',
-            headers: new Headers({
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'GoogleLogin auth=' + auth,
-            }),
-        });
-        return response;
+        return await this.postRequest(
+            auth, 
+            pathToFetch
+        );
     }
 
     async listFeeds(auth: string, setError: (errorMessage: string) => void) {
