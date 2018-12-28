@@ -7,6 +7,18 @@ class OldReaderResource {
         this.baseUrl = baseUrl;
     }
 
+    async getRequest(auth: string, path: string) {
+        let response = fetch(`${this.baseUrl}${path}?output=json`, {
+            method: 'GET',
+            headers: new Headers({
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'GoogleLogin auth=' + auth,
+            }),
+        });
+        return response;
+    }
+
     async login(username: string, password: string)  {
         let response = fetch(
             `${this.baseUrl}/reader/api/0/accounts/ClientLogin`, 
@@ -44,7 +56,8 @@ class OldReaderResource {
         return response;
     }
 
-    async listFeeds(auth: string, setError : (errorMessage: string) => void) {
+    async listFeeds(auth: string, setError: (errorMessage: string) => void) {
+        // tslint:disable-next-line
         let data : any = await (
             await this.getRequest(auth, '/reader/api/0/subscription/list')
                 .then(res => {
@@ -56,28 +69,17 @@ class OldReaderResource {
         return data;
     }
 
-    async getRequest(auth: string, path: string) {
-        let response = fetch(`${this.baseUrl}${path}?output=json`, {
-            method: 'GET',
-            headers: new Headers({
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'GoogleLogin auth=' + auth,
-            }),
-        });
-        return response;
-    }
-
-    async unreadCount(auth: string) {
-        let response = fetch(`${this.baseUrl}/reader/api/0/unread-count?output=json`, {
-            method: 'GET',
-            headers: new Headers({
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'GoogleLogin auth=' + auth,
-            }),
-        });
-        return response;
+    async unreadCount(auth: string, setError: (errorMessage: string) => void) {
+        // tslint:disable-next-line
+        let data : any = await (
+            await this.getRequest(auth, '/reader/api/0/unread-count')
+                .then(res => {
+                    return res.json();
+                })
+                .catch(err => {
+                    setError('Failed to fetch unread count, please try again.');
+                }));
+        return data;
     }
 
     async getPostIds(auth: string, uid: string, onlyUnread: boolean) {

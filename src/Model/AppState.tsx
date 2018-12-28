@@ -232,47 +232,49 @@ class AppState {
     }
 
     async getListOfBlogs() {
-        // First show loader in UI
-        this.isUpdatingList = true;
+        try {
+            // First show loader in UI
+            this.isUpdatingList = true;
 
-        this.checkAuth();
+            this.checkAuth();
 
-        // List subscriptions
+            // List subscriptions
+            // tslint:disable-next-line
+            let data: any = await OldReaderResource.listFeeds(this.auth, (e) => { this.setErrorMessage(e); });
+            if (this.errorMessage.length > 0) {
+                return;
+            }
 
-        // tslint:disable-next-line
-        let data: any = await OldReaderResource.listFeeds(this.auth, (e) => this.setErrorMessage(e))
+            // Store subscriptions in state
+            for (let subscription of data.subscriptions) {
+                const uid = StringUtils.afterSlash(subscription.id);
+                const blogInfo = _.find(this.bloglist, { uid: uid });
+                if (!blogInfo) {
+                    this.bloglist.push(
+                        new BlogInfo(uid, subscription.title, '', 0, 'https:' + subscription.iconUrl)
+                    );            
+                }
+            }
+            
+            // Now fetch unread count
+            data = await OldReaderResource.unreadCount(this.auth, (e) => { this.setErrorMessage(e); });
+            if (this.errorMessage.length > 0) {
+                return;
+            }
 
-        if (this.errorMessage.length > 0) {
+            // Store unread count in blog list
+            // tslint:disable-next-line
+            for (let unread of (data as any).unreadcounts) {
+                const blogInfo = _.find(this.bloglist, { uid: StringUtils.afterSlash(unread.id) });
+                if (blogInfo) {
+                    blogInfo.unread = unread.count;
+                }
+            }
+            
+        } finally {
+            // Now turn off loader
             this.isUpdatingList = false;
-            return;
         }
-
-        // Store subscriptions in state
-        for (let subscription of data.subscriptions) {
-            const uid = StringUtils.afterSlash(subscription.id);
-            const blogInfo = _.find(this.bloglist, { uid: uid });
-            if (!blogInfo) {
-                this.bloglist.push(
-                    new BlogInfo(uid, subscription.title, '', 0, 'https:' + subscription.iconUrl)
-                );            
-            }
-        }
-        
-        // Now fetch unread count
-        let response = await OldReaderResource.unreadCount(this.auth);
-        data = await response.json();
-
-        // Store unread count in blog list
-        // tslint:disable-next-line
-        for (let unread of (data as any).unreadcounts) {
-            const blogInfo = _.find(this.bloglist, { uid: StringUtils.afterSlash(unread.id) });
-            if (blogInfo) {
-                blogInfo.unread = unread.count;
-            }
-        }
-
-        // Now turn off loader
-        this.isUpdatingList = false;
     }
 }
 
