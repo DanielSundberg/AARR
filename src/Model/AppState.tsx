@@ -161,21 +161,24 @@ class AppState {
 
     async login(username: string, password: string) {
         // console.log(`Logged in with ${username}`);        
-        let response = await OldReaderResource.login(username, password);
-        if (response.status !== 200) {
+        // tslint:disable-next-line
+        let data: any = await OldReaderResource.login(username, password, (e) => { this.setErrorMessage(e); });
+        if (this.errorMessage.length > 0) {
             this.loginError = 'Could not log in, bad username or password?';
-        } else {
+            this.dismissError();
+            return;
+        } 
+        
+        // Now we're logged in
+        if (data.Auth) {
             this.loginError = '';
-            let data: any = await response.json(); // tslint:disable-line
-            
-            // Now we're logged in
-            if (data.Auth) {
-                this.auth = data.Auth;
+            this.auth = data.Auth;
 
-                // Save auth token to local storage
-                localStorage.setItem('authToken', this.auth);
-                this.routing.push('/blogs');
-            }
+            // Save auth token to local storage
+            localStorage.setItem('authToken', this.auth);
+            this.routing.push('/blogs');
+        } else {
+            this.loginError = 'Could not get auth token, please try to login again!';  
         }
     }
 

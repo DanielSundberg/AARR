@@ -20,6 +20,25 @@ class OldReaderResource {
         return data;
     }
 
+    async postRequest(
+        auth: string, 
+        path: string, 
+        body: string, 
+        errorMessage: string, 
+        setError: (errorMessage: string) => void
+    ) {
+        // tslint:disable-next-line
+        let data : any = await (
+            await this.rawPostRequest(auth, path, body)
+                .then(res => {
+                    return res.json();
+                })
+                .catch(err => {
+                    setError(errorMessage);
+                }));
+        return data;
+    }
+
     async rawGetRequest(auth: string, path: string) {
         let response = fetch(`${this.baseUrl}${path}?output=json`, {
             method: 'GET',
@@ -32,26 +51,49 @@ class OldReaderResource {
         return response;
     }
 
-    async login(username: string, password: string)  {
+    async rawPostRequest(auth: string, path: string, body: string) {
+        let headers: Headers;
+        if (auth.length === 0) {
+            headers = new Headers({
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            });
+        } else {
+            headers = new Headers({
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'GoogleLogin auth=' + auth,
+            });
+        }
+
         let response = fetch(
             `${this.baseUrl}/reader/api/0/accounts/ClientLogin`, 
             {
                 method: 'POST',
-                headers: new Headers({
-                    'Accept': 'application/json',
-                    'Content-type': 'application/json'
-                }),
-                body: JSON.stringify({
-                    client: 'YATORClientV1',
-                    accountType: 'HOSTED_OR_GOOGLE',
-                    service: 'reader',
-                    Email: username,
-                    Passwd: password,
-                    output: 'json',
-                })
+                headers: headers,
+                body: JSON.stringify(body)
             }
         );
         return response;
+    }
+
+    async login(username: string, password: string, setError: (errorMessage: string) => void)  {
+        // tslint:disable-next-line
+        const body: any = {
+            client: 'YATORClientV1',
+            accountType: 'HOSTED_OR_GOOGLE',
+            service: 'reader',
+            Email: username,
+            Passwd: password,
+            output: 'json'
+        };
+        return await this.postRequest(
+            '', 
+            '/reader/api/0/accounts/ClientLogin',
+            body,
+            'Failed to login, please try again.',
+            setError
+        );
     }
 
     async add(auth: string, feedUrl: string) {
