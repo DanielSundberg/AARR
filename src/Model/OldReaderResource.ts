@@ -44,8 +44,20 @@ class OldReaderResource {
         return response;
     }
 
-    async listFeeds(auth: string) {
-        let response = fetch(`${this.baseUrl}/reader/api/0/subscription/list?output=json`, {
+    async listFeeds(auth: string, setError : (errorMessage: string) => void) {
+        let data : any = await (
+            await this.getRequest(auth, '/reader/api/0/subscription/list')
+                .then(res => {
+                    return res.json();
+                })
+                .catch(err => {
+                    setError('Failed to fetch subscriptions, please try again.');
+                }));
+        return data;
+    }
+
+    async getRequest(auth: string, path: string) {
+        let response = fetch(`${this.baseUrl}${path}?output=json`, {
             method: 'GET',
             headers: new Headers({
                 'Accept': 'application/json',

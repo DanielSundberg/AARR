@@ -217,6 +217,10 @@ class AppState {
         this.errorMessage = '';
     }
 
+    setErrorMessage(errorMessage: string) {
+        this.errorMessage = errorMessage;
+    }
+
     logout() {
         // Clear auth token from storage
         localStorage.removeItem("authToken");
@@ -233,19 +237,10 @@ class AppState {
 
         this.checkAuth();
 
-        let self: AppState = this;
         // List subscriptions
 
         // tslint:disable-next-line
-        let data : any = await (
-            await OldReaderResource
-                .listFeeds(this.auth)
-                .then(res => {
-                    return res.json();
-                })
-                .catch(err => {
-                    self.errorMessage = 'Failed to fetch subscriptions, please try again.';
-                }));
+        let data: any = await OldReaderResource.listFeeds(this.auth, (e) => this.setErrorMessage(e))
 
         if (this.errorMessage.length > 0) {
             this.isUpdatingList = false;
