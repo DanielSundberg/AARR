@@ -7,7 +7,20 @@ class OldReaderResource {
         this.baseUrl = baseUrl;
     }
 
-    async getRequest(auth: string, path: string) {
+    async getRequest(auth: string, path: string, errorMessage: string, setError: (errorMessage: string) => void) {
+        // tslint:disable-next-line
+        let data : any = await (
+            await this.rawGetRequest(auth, path)
+                .then(res => {
+                    return res.json();
+                })
+                .catch(err => {
+                    setError(errorMessage);
+                }));
+        return data;
+    }
+
+    async rawGetRequest(auth: string, path: string) {
         let response = fetch(`${this.baseUrl}${path}?output=json`, {
             method: 'GET',
             headers: new Headers({
@@ -57,29 +70,19 @@ class OldReaderResource {
     }
 
     async listFeeds(auth: string, setError: (errorMessage: string) => void) {
-        // tslint:disable-next-line
-        let data : any = await (
-            await this.getRequest(auth, '/reader/api/0/subscription/list')
-                .then(res => {
-                    return res.json();
-                })
-                .catch(err => {
-                    setError('Failed to fetch subscriptions, please try again.');
-                }));
-        return data;
+        return await this.getRequest(
+            auth, 
+            '/reader/api/0/subscription/list',
+            'Failed to fetch subscriptions, please try again.',
+            setError);
     }
 
     async unreadCount(auth: string, setError: (errorMessage: string) => void) {
-        // tslint:disable-next-line
-        let data : any = await (
-            await this.getRequest(auth, '/reader/api/0/unread-count')
-                .then(res => {
-                    return res.json();
-                })
-                .catch(err => {
-                    setError('Failed to fetch unread count, please try again.');
-                }));
-        return data;
+        return await this.getRequest(
+            auth, 
+            '/reader/api/0/unread-count',
+            'Failed to fetch unread count, please try again.',
+            setError);
     }
 
     async getPostIds(auth: string, uid: string, onlyUnread: boolean) {
