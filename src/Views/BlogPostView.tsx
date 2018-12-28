@@ -59,6 +59,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
         } catch (e) {
             // tslint:disable-next-line
             console.log("Not running in WebView or yarrAndroid object not found, exception: ", e);
+            alert(`Will share ${url} with title '${title}'!`);
         }
     }
 

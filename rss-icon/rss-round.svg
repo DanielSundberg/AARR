@@ -14,9 +14,9 @@
    version="1.1"
    sodipodi:docname="rss-round.svg"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
-   inkscape:export-filename="C:\code\YARR\rss-icon\round-48.png"
-   inkscape:export-xdpi="18"
-   inkscape:export-ydpi="18">
+   inkscape:export-filename="C:\code\AARR\rss-icon\round-192.png"
+   inkscape:export-xdpi="72"
+   inkscape:export-ydpi="72">
   <metadata
      id="metadata3730">
     <rdf:RDF>
@@ -40,16 +40,16 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1597"
-     inkscape:window-height="1036"
+     inkscape:window-width="1842"
+     inkscape:window-height="1051"
      id="namedview3726"
      showgrid="false"
      inkscape:zoom="3.3515625"
-     inkscape:cx="52.811189"
+     inkscape:cx="122.42552"
      inkscape:cy="128"
-     inkscape:window-x="307"
-     inkscape:window-y="4"
-     inkscape:window-maximized="0"
+     inkscape:window-x="69"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
      inkscape:current-layer="RSSicon" />
   <title
      id="title3713">RSS feed icon</title>
@@ -60,31 +60,31 @@
     .symbol {stroke: none; fill: white;}
   </style>
   <rect
-     x="0"
-     y="0"
+     x="0.3125"
+     y="0.34950465"
      class="button"
-     width="8"
-     height="8"
-     rx="4.0625"
+     width="7.3379955"
+     height="7.3379955"
+     rx="3.7263258"
      id="rect3717"
-     style="fill:#3b83c0;stroke:none" />
+     style="fill:#3b83c0;stroke:none;stroke-width:0.91724944" />
   <circle
      class="symbol"
-     cx="2.4335663"
-     cy="5.5664334"
-     r="0.78088582"
+     cx="2.5446873"
+     cy="5.4553123"
+     r="0.71626705"
      id="circle3719"
-     style="fill:#ffffff;stroke:none;stroke-width:0.78088582" />
+     style="fill:#ffffff;stroke:none;stroke-width:0.71626705" />
   <path
      class="symbol"
-     d="m 1.6526807,4.004662 c 1.3275058,0 2.3426573,1.0151515 2.3426573,2.3426573 h 0.7808858 c 0,-1.7179487 -1.4055944,-3.1235431 -3.1235431,-3.1235431 z"
+     d="m 1.8284204,4.0227785 c 1.2176539,0 2.1488011,0.9311472 2.1488011,2.1488011 h 0.716267 c 0,-1.5757875 -1.2892806,-2.8650681 -2.8650681,-2.8650681 z"
      id="path3721"
      inkscape:connector-curvature="0"
-     style="fill:#ffffff;stroke:none;stroke-width:0.78088582" />
+     style="fill:#ffffff;stroke:none;stroke-width:0.71626705" />
   <path
      class="symbol"
-     d="M 1.6526807,2.4428905 A 3.904429,3.904429 0 0 1 5.5571095,6.3473193 H 6.3379953 A 4.6853147,4.6853147 0 0 0 1.6526807,1.6620047 Z"
+     d="m 1.8284204,2.5902445 a 3.5813352,3.5813352 0 0 1 3.5813351,3.5813351 h 0.716267 A 4.2976022,4.2976022 0 0 0 1.8284204,1.8739775 Z"
      id="path3723"
      inkscape:connector-curvature="0"
-     style="fill:#ffffff;stroke:none;stroke-width:0.78088582" />
+     style="fill:#ffffff;stroke:none;stroke-width:0.71626705" />
 </svg>

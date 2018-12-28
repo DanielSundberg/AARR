@@ -1,22 +1,11 @@
 Release test:
--Add RSS feed
--Show already read items
--Hamburger menu with logout and more features
-  -At least a menu is implemented
--Share post using android intent
--Make sure the old reader accound & password reminder works
--Share post using android intent (not deployed)
-
 
 Todo:
--Rename to AARR
--Share post using android intent
-  -When in browser, can I display menu instead of share intent? 
--Move screen shots to sub folder
--Google play app description
--Release on google play
-  -License info
-  -Update github page
+-Error handling
+-Make square icon a little bit smaller (like standard android icons) 
+-App-titel could be "RSS Awsome" or something like that
+-Tidy up both android and html project folders
+  -Move screen shots to sub folder
 -Crashes and errors via Google play error reporting?
 -Privacy/data saving mode, only load images on click
 -Hamburger menu could be a little bit larger
@@ -54,6 +43,19 @@ Desktop
 
 
 Done:
+-Release on google play
+  -License info
+  -Update github page
+-Share post using android intent => ok
+  -When in browser, can I display menu instead of share intent? 
+  -Now displays alert in browser
+-Add RSS feed => ok
+-Show already read items => ok
+-Hamburger menu with logout and more features => ok
+  -At least a menu is implemented
+-Share post using android intent => ok
+-Make sure the old reader accound & password reminder works => ok
+-Rename to AARR => ok
 -Save login => ok
 -Show date for posts => ok
 -Routing, mobx-react-router => ok
