@@ -6,6 +6,7 @@ import { gridStyleWithTopPadding as gridStyle } from '../Model/gridStyle';
 import { BlogInfo } from '../Model/BlogInfo';
 import { Link } from 'react-router-dom';
 import { Dropdown, Icon } from 'semantic-ui-react';
+import FooterErrorMessage from './FooterErrorMessage';
 
 @inject('appState')
 @inject('routing')
@@ -72,7 +73,6 @@ class BlogListView extends React.Component<RootStore, {}> {
         );
 
         const filterItemClasses = this.props.appState.showAllFeeds ? "item" : "item active";
-
         return (
             <div className="ui container">
                 <header className="ui inverted icon fixed top menu">
@@ -85,7 +85,6 @@ class BlogListView extends React.Component<RootStore, {}> {
                         </a>
                     </div>
                 </header>
-
                 <div className="ui grid" style={gridStyle}>
                     <div className="sixteen wide column">
                         <div className="ui relaxed big divided list">
@@ -93,17 +92,10 @@ class BlogListView extends React.Component<RootStore, {}> {
                        </div>
                     </div>
                 </div>
-
-              {/* {this.props.appState.errorMessage != '' && (
-                <div className="row">
-                  <div className="sixteen wide column">
-                    <div className="ui negative message">
-                      <i className="close icon" onClick={() => this.props.appState.clearErrorMessage()}></i>
-                      <i className="warning icon" />{this.props.appState.errorMessage}
-                    </div>
-                  </div>
-                </div>
-              )} */}
+                <FooterErrorMessage 
+                    errorMessage={this.props.appState.errorMessage} 
+                    dismissError={() => this.props.appState.dismissError()} 
+                />
             </div>
         );
     }

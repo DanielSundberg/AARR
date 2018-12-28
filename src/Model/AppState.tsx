@@ -33,6 +33,7 @@ class AppState {
     @observable isAddingFeed: boolean = false;
     @observable showAllFeeds: boolean = false;
     @observable showMenu: boolean = false;
+    @observable errorMessage: string = '';
     routing: RouterStore;
   
     constructor(routing: RouterStore) {
@@ -212,6 +213,10 @@ class AppState {
         this.showMenu = !this.showMenu;
     }
 
+    dismissError() {
+        this.errorMessage = '';
+    }
+
     logout() {
         // Clear auth token from storage
         localStorage.removeItem("authToken");
@@ -228,13 +233,27 @@ class AppState {
 
         this.checkAuth();
 
+        let self: AppState = this;
         // List subscriptions
-        let response = await OldReaderResource.listFeeds(this.auth);
-        let data : any = await response.json(); // tslint:disable-line
+
+        // tslint:disable-next-line
+        let data : any = await (
+            await OldReaderResource
+                .listFeeds(this.auth)
+                .then(res => {
+                    return res.json();
+                })
+                .catch(err => {
+                    self.errorMessage = 'Failed to fetch subscriptions, please try again.';
+                }));
+
+        if (this.errorMessage.length > 0) {
+            this.isUpdatingList = false;
+            return;
+        }
 
         // Store subscriptions in state
-        // tslint:disable-next-line
-        for (let subscription of (data as any).subscriptions) {
+        for (let subscription of data.subscriptions) {
             const uid = StringUtils.afterSlash(subscription.id);
             const blogInfo = _.find(this.bloglist, { uid: uid });
             if (!blogInfo) {
@@ -245,7 +264,7 @@ class AppState {
         }
         
         // Now fetch unread count
-        response = await OldReaderResource.unreadCount(this.auth);
+        let response = await OldReaderResource.unreadCount(this.auth);
         data = await response.json();
 
         // Store unread count in blog list
