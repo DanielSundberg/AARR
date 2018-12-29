@@ -2,6 +2,7 @@ Release test:
 
 Todo:
 -Error handling
+  -Make post request generic method a little bit rawer
 -Make square icon a little bit smaller (like standard android icons) 
 -App-titel could be "RSS Awsome" or something like that
 -Tidy up both android and html project folders

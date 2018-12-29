@@ -7,23 +7,59 @@ class OldReaderResource {
         this.baseUrl = baseUrl;
     }
 
-    async getRequest(auth: string, path: string, errorMessage: string, setError: (errorMessage: string) => void) {
-        // tslint:disable-next-line
-        let data : any = await (
-            await this.rawGetRequest(auth, path)
-                .then(res => {
-                    return res.json();
-                })
-                .catch(err => {
-                    setError(errorMessage);
-                }));
-        return data;
+    async rawGetRequest(auth: string, path: string) {
+        let response = fetch(`${this.baseUrl}${path}?output=json`, {
+            method: 'GET',
+            headers: new Headers({
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'GoogleLogin auth=' + auth,
+            }),
+        });
+        return response;
     }
 
-    async postRequest(auth: string, path: string, body: any = null) {
+    async getRequest(auth: string, path: string) {
         // tslint:disable-next-line
         let rsp : any = await (
-            await this.rawPostRequest(auth, path, body)
+            await this.rawGetRequest(auth, path)
+                .then(res => {
+                    if (res.status === 200) {
+                        return {
+                            data: res.json(), 
+                            status: res.status
+                        };
+                    } else {
+                        return {
+                            status: res.status
+                        }; 
+                    } 
+                })
+                .catch(err => {
+                    return {
+                        status: -1,
+                        message: "Request failed, please try again."
+                    };
+                }));
+        return rsp;
+    }
+
+    // tslint:disable-next-line
+    async postRequest(auth: string, path: string, headers: Headers, body: any = null) {
+        // Add authorization headers if supplied
+        if ((auth.length > 0) && headers) {
+            headers.append('Authorization', 'GoogleLogin auth=' + auth);
+        }
+        
+        // tslint:disable-next-line
+        let rsp : any = await (
+            await fetch(
+                `${this.baseUrl}${path}`, 
+                {
+                    method: 'POST',
+                    headers: headers,
+                    body: body
+                })
                 .then(res => {
                     if (res.status === 200) {
                         return {
@@ -42,61 +78,24 @@ class OldReaderResource {
         return rsp;
     }
 
-    async rawGetRequest(auth: string, path: string) {
-        let response = fetch(`${this.baseUrl}${path}?output=json`, {
-            method: 'GET',
-            headers: new Headers({
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'GoogleLogin auth=' + auth,
-            }),
-        });
-        return response;
-    }
-
-    async rawPostRequest(auth: string, path: string, body: any) {
-        let headers: Headers;
-        if (auth.length === 0) {
-            headers = new Headers({
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
-        } else {
-            headers = new Headers({
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'GoogleLogin auth=' + auth,
-            });
-        }
-        let jsonBody: any = null;
-        if (body) {
-            jsonBody = JSON.stringify(body)
-        }
-        let response = fetch(
-            `${this.baseUrl}${path}`, 
-            {
-                method: 'POST',
-                headers: headers,
-                body: jsonBody
-            }
-        );
-        return response;
-    }
-
     async login(username: string, password: string)  {
         // tslint:disable-next-line
-        const body: any = {
+        const jsonBody: any = JSON.stringify({
             client: 'YATORClientV1',
             accountType: 'HOSTED_OR_GOOGLE',
             service: 'reader',
             Email: username,
             Passwd: password,
             output: 'json'
-        };
+        });
         return await this.postRequest(
             '', 
             '/reader/api/0/accounts/ClientLogin',
-            body
+            new Headers({
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }),
+            jsonBody
         );
     }
 
@@ -106,24 +105,20 @@ class OldReaderResource {
         // console.log("Url to fetch: ", urlToFetch);
         return await this.postRequest(
             auth, 
-            pathToFetch
+            pathToFetch,
+            new Headers({
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            })  
         );
     }
 
-    async listFeeds(auth: string, setError: (errorMessage: string) => void) {
-        return await this.getRequest(
-            auth, 
-            '/reader/api/0/subscription/list',
-            'Failed to fetch subscriptions, please try again.',
-            setError);
+    async listFeeds(auth: string) {
+        return await this.getRequest(auth, '/reader/api/0/subscription/list');
     }
 
-    async unreadCount(auth: string, setError: (errorMessage: string) => void) {
-        return await this.getRequest(
-            auth, 
-            '/reader/api/0/unread-count',
-            'Failed to fetch unread count, please try again.',
-            setError);
+    async unreadCount(auth: string) {
+        return await this.getRequest(auth, '/reader/api/0/unread-count');
     }
 
     async getPostIds(auth: string, uid: string, onlyUnread: boolean) {

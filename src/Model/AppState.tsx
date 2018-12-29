@@ -167,6 +167,7 @@ class AppState {
             this.loginError = 'Could not log in, bad username or password?';        
             return;
         }
+        this.checkHttpError(response, `Request failed, error code ${response.status}`)
         if (response.status === -1) {
             this.loginError = 'Request failed, please try again.';
             return;
@@ -177,6 +178,7 @@ class AppState {
         } 
         
         // Now we're logged in
+        // tslint:disable-next-line
         const data: any = await response.data;
         if (data.Auth) {
             this.loginError = '';
@@ -203,6 +205,7 @@ class AppState {
                 this.addFeedMessage = 'Could not add feed!';
                 return;
             }
+            
             let data : any = await response.data; // tslint:disable-line
             // "numResults":1,"streamId":"feed/00157a17b192950b65be3791"
             let numResults = data.numResults;
@@ -214,7 +217,7 @@ class AppState {
                 //       but then we would have to fetch complete blog 
                 //       list here. We'll do that when we go back instead... 
             } else {
-                this.addFeedMessage = 'Could not add feed!';
+                this.addFeedMessage = 'Could not add feed! Invalid url?';
                 this.addFeedSuccess = false;
             }
         } finally {
@@ -232,10 +235,6 @@ class AppState {
 
     dismissError() {
         this.errorMessage = '';
-    }
-
-    setErrorMessage(errorMessage: string) {
-        this.errorMessage = errorMessage;
     }
 
     logout() {
@@ -257,12 +256,12 @@ class AppState {
 
             // List subscriptions
             // tslint:disable-next-line
-            let data: any = await OldReaderResource.listFeeds(this.auth, (e) => { this.setErrorMessage(e); });
-            if (this.errorMessage.length > 0) {
-                return;
-            }
+            let rsp: any = await OldReaderResource.listFeeds(this.auth);
+            this.checkHttpError(rsp, "Could not fetch subscriptions, please try again.");
 
             // Store subscriptions in state
+            // tslint:disable-next-line
+            let data: any = await rsp.data;
             for (let subscription of data.subscriptions) {
                 const uid = StringUtils.afterSlash(subscription.id);
                 const blogInfo = _.find(this.bloglist, { uid: uid });
@@ -274,10 +273,9 @@ class AppState {
             }
             
             // Now fetch unread count
-            data = await OldReaderResource.unreadCount(this.auth, (e) => { this.setErrorMessage(e); });
-            if (this.errorMessage.length > 0) {
-                return;
-            }
+            rsp = await OldReaderResource.unreadCount(this.auth);
+            this.checkHttpError(rsp, "Could not fetch subscriptions, please try again.");
+            data = await rsp.data;
 
             // Store unread count in blog list
             // tslint:disable-next-line
@@ -291,6 +289,17 @@ class AppState {
         } finally {
             // Now turn off loader
             this.isUpdatingList = false;
+        }
+    }
+
+    checkHttpError(response: any, httpErrorMessage: string) {
+        if (response.status === -1) {
+            this.errorMessage = response.message;
+            throw new Error();
+        }
+        if (response.status !== 200) {
+            this.errorMessage = httpErrorMessage;
+            throw new Error();
         }
     }
 }
