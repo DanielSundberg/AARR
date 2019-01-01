@@ -1,9 +1,11 @@
 Release test:
+-Make square icon a little bit smaller (like standard android icons) 
+-Truncate blog titles
 
 Todo:
 -Error handling
-  -Make post request generic method a little bit rawer
--Make square icon a little bit smaller (like standard android icons) 
+  -Handle errors on more requests
+  -Test all error scenarios
 -App-titel could be "RSS Awsome" or something like that
 -Tidy up both android and html project folders
   -Move screen shots to sub folder

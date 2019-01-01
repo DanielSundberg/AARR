@@ -167,7 +167,7 @@ class AppState {
             this.loginError = 'Could not log in, bad username or password?';        
             return;
         }
-        this.checkHttpError(response, `Request failed, error code ${response.status}`)
+        this.checkHttpError(response, `Request failed, error code ${response.status}`);
         if (response.status === -1) {
             this.loginError = 'Request failed, please try again.';
             return;
@@ -292,6 +292,7 @@ class AppState {
         }
     }
 
+    // tslint:disable-next-line
     checkHttpError(response: any, httpErrorMessage: string) {
         if (response.status === -1) {
             this.errorMessage = response.message;
