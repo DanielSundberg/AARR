@@ -1,4 +1,6 @@
-export const gridStyle = {padding: '0.2em'};
+export const belowMainMenuStyle = {
+    padding: '0.2em'
+};
 export const gridStyleWithTopPadding = {
     padding: '0.2em', 
     paddingTop: '3.5em'
@@ -10,3 +12,4 @@ export const gridStyleWithTopPadding = {
     bottom: '0',
     width: '100%'
  };
+ 

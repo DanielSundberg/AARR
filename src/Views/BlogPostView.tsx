@@ -4,11 +4,12 @@ import { inject, observer } from 'mobx-react';
 import RootStore from '../Model/RootStore';
 import renderHTML from 'react-render-html';
 import Headroom from 'react-headroom';
-import { gridStyle } from '../Model/gridStyle';
+import { belowMainMenuStyle } from '../Model/CustomStyles';
 import ScrollToTopOnMount from './ScrollToTop';
 import StringUtils from '../Model/StringUtils';
 import { scroller as scroll } from 'react-scroll';
 import * as readingTime from 'reading-time';
+import { HeaderErrorMessage } from './HeaderErrorMessage';
 
 const Loader: React.SFC = () => {
     return (
@@ -67,10 +68,14 @@ class BlogPostView extends React.Component<RootStore, {}> {
         const activeStyle = { color: '#FFFFFF', background: '#3B83C0' };
         const inactiveStyle = { color: '#FFFFFF', background: '#808080' };
 
-        const blogPosts = this.props.appState.blogPostlist.length === 0 && !this.props.appState.isLoadingPosts ? (
-            <div className="item right">
-                No posts... <i className="icon meh"></i>  
-            </div>) : 
+        const blogPosts = 
+            this.props.appState.blogPostlist.length === 0 && 
+            this.props.appState.errorMessage.length === 0 &&
+            !this.props.appState.isLoadingPosts ? (
+            <HeaderErrorMessage 
+                errorMessage="No posts..."
+                dismissError={() => this.props.appState.dismissError()} 
+            />) : 
             _.map(this.props.appState.blogPostlist, (b, i) => {
                 if (!b.title) { return null; }
 
@@ -192,7 +197,11 @@ class BlogPostView extends React.Component<RootStore, {}> {
                         <div className="header borderless item">{this.props.appState.currentBlogTitle}</div>
                     </div>
                 </Headroom>
-                <div className="ui grid" style={gridStyle}>
+                <HeaderErrorMessage 
+                    errorMessage={this.props.appState.errorMessage}
+                    dismissError={() => this.props.appState.dismissError()} 
+                />
+                <div className="ui grid" style={belowMainMenuStyle}>
                     <div className="sixteen wide column">
                         {blogPosts}
                         {moreToFetchloader}

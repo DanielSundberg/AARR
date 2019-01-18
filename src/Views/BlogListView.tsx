@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { inject, observer } from 'mobx-react';
 import RootStore from '../Model/RootStore';
-import { gridStyleWithTopPadding as gridStyle } from '../Model/gridStyle';
+import { gridStyleWithTopPadding as gridStyle } from '../Model/CustomStyles';
 import { BlogInfo } from '../Model/BlogInfo';
 import { Link } from 'react-router-dom';
 import { Dropdown, Icon } from 'semantic-ui-react';

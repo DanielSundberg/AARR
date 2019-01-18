@@ -12,10 +12,6 @@ export enum LoggedInState {
     LoggedIn = 2,
 }
 
-interface MyApiData {
-    name: string;
-}
-
 class AppState {
     @observable bloglist: BlogInfo[] = [];
     @observable blogPostlist: BlogPost[] = [];
@@ -65,7 +61,9 @@ class AppState {
 
         this.checkAuth();
 
-        // Fetch posts for currently selected blog
+        // We will now fetch posts for the currently selected blog
+        
+        // Determine if we should fetch all or only unread
         const selectedBlog = _.find(this.bloglist, { uid: uid });
         let onlyUnread =  true;
         if (selectedBlog) {
@@ -74,14 +72,27 @@ class AppState {
         }
 
         // First fetch post ids
-        let response = await OldReaderResource.getPostIds(this.auth, `feed/${uid}`, onlyUnread);
-        let data: MyApiData = await response.json();
+
+        // tslint:disable-next-line
+        let rsp : any = await OldReaderResource.getPostIds(this.auth, `feed/${uid}`, onlyUnread)
+            .catch(err => {
+                return {
+                    status: -1
+                };
+            });
+        if (rsp.status !== 200) {
+            this.errorMessage = "Could not fetch posts, please try again.";
+            this.isLoadingPosts = false;
+            return;
+        }
+
+        let data: any = await rsp.json(); // tslint:disable-line
 
         // Now create list of blog posts
-        this.blogPostlist = _.map((data as any).itemRefs, (r: any) => { return new BlogPost(r.id, !onlyUnread); }); // tslint:disable-line
+        this.blogPostlist = _.map(data.itemRefs, (r: any) => { return new BlogPost(r.id, !onlyUnread); }); // tslint:disable-line
         // console.log(itemRefs)
 
-        // Fetch first 5 unread posts
+        // Fetch first N unread posts
         if (this.blogPostlist.length > 0) {
             this.fetchFiveUnreadPosts();
         } else {
