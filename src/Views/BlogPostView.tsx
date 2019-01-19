@@ -10,6 +10,7 @@ import StringUtils from '../Model/StringUtils';
 import { scroller as scroll } from 'react-scroll';
 import * as readingTime from 'reading-time';
 import { HeaderErrorMessage } from './HeaderErrorMessage';
+import * as InfiniteScroll from 'react-infinite-scroller';
 
 const Loader: React.SFC = () => {
     return (
@@ -64,6 +65,19 @@ class BlogPostView extends React.Component<RootStore, {}> {
         }
     }
 
+    loadMore(): void {
+        if (this.moreToFetch()) {
+            this.props.appState.fetchFiveUnreadPosts();
+        }
+    }
+
+    moreToFetch(): boolean {
+        const moreToFetch = _.some(this.props.appState.blogPostlist, (b) => {
+            return !b.fetched;
+        });
+        return moreToFetch;
+    }
+
     render() {
         const activeStyle = { color: '#FFFFFF', background: '#3B83C0' };
         const inactiveStyle = { color: '#FFFFFF', background: '#808080' };
@@ -72,7 +86,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
             this.props.appState.blogPostlist.length === 0 && 
             this.props.appState.errorMessage.length === 0 &&
             !this.props.appState.isLoadingPosts ? (
-            <HeaderErrorMessage 
+            <HeaderErrorMessage
                 errorMessage="No posts..."
                 dismissError={() => this.props.appState.dismissError()} 
             />) : 
@@ -164,23 +178,8 @@ class BlogPostView extends React.Component<RootStore, {}> {
                     </div>);
             });
 
-        const moreToFetch = _.some(this.props.appState.blogPostlist, (b) => {
-            return !b.fetched;
-        });
-        const moreToFetchButton = moreToFetch && (
-            <div className="row">
-                <div 
-                    className="ui fluid button"
-                    style={activeStyle}
-                    onClick={() => this.props.appState.fetchFiveUnreadPosts()}
-                >
-                    Fetch more posts...
-                </div>
-            </div> 
-        );
-
-        const moreToFetchloader = this.props.appState.isLoadingPosts && (
-            <div className="row">
+        const moreToFetchloader = (
+            <div className="row" key={0}>
               <div className="sixteen wide column">
                 <div className="ui mini text active centered inline loader">Loading posts...</div>
               </div>
@@ -203,9 +202,30 @@ class BlogPostView extends React.Component<RootStore, {}> {
                 />
                 <div className="ui grid" style={belowMainMenuStyle}>
                     <div className="sixteen wide column">
-                        {blogPosts}
-                        {moreToFetchloader}
-                        {!this.props.appState.isLoadingPosts && moreToFetchButton}
+
+                        {/* There's a bug in the hasMore property, the loadMore() callback will be called 
+                            even if hasMore is set to false: 
+                            https://github.com/CassetteRocks/react-infinite-scroller/issues/44
+
+                            I work around this by checking moreToFetch in loadMore() method.
+                        <InfiniteScroll
+                            pageStart={0}
+                            loadMore={() => this.loadMore()}
+                            hasMore={moreToFetch}
+                            loader={moreToFetchloader}
+                        >
+                            {blogPosts}
+                        </InfiniteScroll> */}
+                        <InfiniteScroll
+                            pageStart={0}
+                            loadMore={() => this.loadMore()}
+                            hasMore={this.moreToFetch()}
+                            loader={moreToFetchloader}
+                            threshold={1000}
+                        >
+                            {blogPosts}
+                        </InfiniteScroll>
+
                     </div>
                 </div>
             </div>);

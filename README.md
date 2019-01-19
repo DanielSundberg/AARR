@@ -1,5 +1,12 @@
 # AARR - Another Awesome RSS Reader
 
+## Download
+
+Please download the app from Google Play to support my development:
+https://play.google.com/store/apps/details?id=com.danielsundberg.yarr
+
+
+
 ## About
 
 RSS reader for <a href="http://theoldreader.com/">The Old Reader</a>. 

@@ -3,6 +3,7 @@ Release test:
 -Truncate blog titles
 
 Todo:
+-Experimentera lite mer med hur mycket som ska vara på en rad
 -Error handling
   -Handle errors on more requests
   -Test all error scenarios
