@@ -1,6 +1,6 @@
 # AARR - Another Awesome RSS Reader
 
-## Download
+## Google Play Download
 
 Please download the app from Google Play to support my development:
 https://play.google.com/store/apps/details?id=com.danielsundberg.yarr

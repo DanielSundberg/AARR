@@ -1,9 +1,9 @@
 Release test:
--Make square icon a little bit smaller (like standard android icons) 
 -Truncate blog titles
 
 Todo:
--Experimentera lite mer med hur mycket som ska vara på en rad
+-How many chars should be visible on one line in blog list view
+  -Perhaps we need a setting for this
 -Error handling
   -Handle errors on more requests
   -Test all error scenarios
@@ -47,6 +47,7 @@ Desktop
 
 
 Done:
+-Make square icon a little bit smaller (like standard android icons) 
 -Release on google play
   -License info
   -Update github page
