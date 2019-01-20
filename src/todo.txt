@@ -14,6 +14,7 @@ Todo:
 -Privacy/data saving mode, only load images on click
 -Hamburger menu could be a little bit larger
 -Font size, line spacing & more
+  -https://www.npmjs.com/package/react-font-size-changer
 -Show how many posts there is to load in "fetch 5 more" button
 -Help button with old reader info and open source/license info
 -Handle network errors (and other errors, some kind of error message?)

@@ -218,6 +218,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
                         </InfiniteScroll> */}
                         <InfiniteScroll
                             pageStart={0}
+                            initialLoad={false}
                             loadMore={() => this.loadMore()}
                             hasMore={this.moreToFetch()}
                             loader={moreToFetchloader}

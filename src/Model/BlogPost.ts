@@ -9,7 +9,7 @@ export class BlogPost {
     @observable read: boolean;
     date: Date;
     author: string;
-    url: string;
+    @observable url: string;
     blogInfoUid: string;
 
     constructor(uid: string, read: boolean) {
