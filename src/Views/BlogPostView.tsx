@@ -119,7 +119,8 @@ class BlogPostView extends React.Component<RootStore, {}> {
                 );
 
                 const contentSegmentClasses = b.read ? "ui segment" : "ui segment";
-                const contentStyle = b.read ? { color: '#808080'} : {};
+                const fontScale = `${this.props.appState.contentFontScale}rem`;
+                const contentStyle = b.read ? { color: '#808080', fontSize: fontScale } : { fontSize: fontScale };
                 const readingTimeInfo = readingTime(b.content);
 
                 return (
@@ -193,7 +194,15 @@ class BlogPostView extends React.Component<RootStore, {}> {
                         <a className="item" onClick={() => this.props.routing.goBack()}>
                             <i className="icon angle left" />
                         </a>
-                        <div className="header borderless item">{this.props.appState.currentBlogTitle}</div>
+                        <div className="header borderless item left">{this.props.appState.currentBlogTitle}</div>
+                        <div className="right menu">
+                            <a className="item right" onClick={() => this.props.appState.increaseFontSize()}>
+                                <i className="icon plus" />
+                            </a>
+                            <a className="item" onClick={() => this.props.appState.decreseFontSize()}>
+                                <i className="icon minus" />
+                            </a>
+                        </div>
                     </div>
                 </Headroom>
                 <HeaderErrorMessage 

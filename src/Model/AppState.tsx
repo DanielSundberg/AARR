@@ -30,6 +30,7 @@ class AppState {
     @observable showAllFeeds: boolean = false;
     @observable showMenu: boolean = false;
     @observable errorMessage: string = '';
+    @observable contentFontScale: number = 1.0;
     routing: RouterStore;
   
     constructor(routing: RouterStore) {
@@ -39,6 +40,7 @@ class AppState {
         this.loggedIn = LoggedInState.Unknown;
         this.routing = routing;
         this.loginError = '';
+        this.contentFontScale = parseFloat(localStorage.getItem('contentFontScale') || "1.0");
     }
 
     async checkAuth() {
@@ -312,6 +314,20 @@ class AppState {
         if (response.status !== 200) {
             this.errorMessage = httpErrorMessage;
             throw new Error();
+        }
+    }
+
+    increaseFontSize() {
+        if (this.contentFontScale < 1.5) {
+            this.contentFontScale += 0.1;
+            localStorage.setItem('contentFontScale', this.contentFontScale.toString());
+        }
+    }
+
+    decreseFontSize() {
+        if (this.contentFontScale > 0.7) {
+            this.contentFontScale -= 0.1;
+            localStorage.setItem('contentFontScale', this.contentFontScale.toString());
         }
     }
 }
