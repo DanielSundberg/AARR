@@ -7,27 +7,24 @@ Todo:
 -Error handling
   -Handle errors on more requests
   -Test all error scenarios
+-Investigate post formatting problems
 -App-titel could be "RSS Awsome" or something like that
 -Tidy up both android and html project folders
   -Move screen shots to sub folder
--Crashes and errors via Google play error reporting?
--Privacy/data saving mode, only load images on click
 -Hamburger menu could be a little bit larger
+-Handle content width, eg. youtube movies or code examples
 -Font size, line spacing & more
   -https://www.npmjs.com/package/react-font-size-changer
--Show how many posts there is to load in "fetch 5 more" button
 -Help button with old reader info and open source/license info
+-Crashes and errors via Google play error reporting?
+-Privacy/data saving mode, only load images on click
 -Handle network errors (and other errors, some kind of error message?)
--Blog name and line breaks when title is too long
--Autoload more posts (instead of fetch button), perhaps settings toggle for this
--Investigate post formatting problems
 -Refactor AddForm to use its own store
   -Must handle auth inside OldReaderResource in some way...otherwise we must pass auth to state
 -Update to latest version of create-react-app
   -Perhaps easier to add completely new create-react-app
   -Quite difficult to fix this, too many dependency problems to sort out
     -Might be easier to update in smaller steps..
--Don't store passwd in clear text
 -Investigate API key storage
 -Sorting on newest/oldest
 -Send feedback button
@@ -36,15 +33,12 @@ Todo:
 Other
 -Offline support
 -Focus on nice online user experience
--Handle content width, yourtube movies for example
 -Error messages in console from renderHTML?
 
 
 Desktop
 -'m' mark as read, 'n' and 'p' for navigation in blog post view om desktop
 -App width on desktop
--Show all subscriptions, not only read
-
 
 
 Done:

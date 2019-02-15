@@ -196,11 +196,11 @@ class BlogPostView extends React.Component<RootStore, {}> {
                         </a>
                         <div className="header borderless item left">{this.props.appState.currentBlogTitle}</div>
                         <div className="right menu">
-                            <a className="item right" onClick={() => this.props.appState.increaseFontSize()}>
-                                <i className="icon plus" />
-                            </a>
                             <a className="item" onClick={() => this.props.appState.decreseFontSize()}>
                                 <i className="icon minus" />
+                            </a>
+                            <a className="item right" onClick={() => this.props.appState.increaseFontSize()}>
+                                <i className="icon plus" />
                             </a>
                         </div>
                     </div>
