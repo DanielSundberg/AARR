@@ -11,6 +11,7 @@ import BlogPostView from './Views/BlogPostView';
 import BlogListView from './Views/BlogListView';
 import RootStore from './Model/RootStore';
 import AddForm from './Views/AddForm';
+import ContainerAppCallbacks from './Model/ContainerAppCallbacks';
 
 // const browserHistory = createBrowserHistory();
 const hashHistory = createHashHistory();
@@ -20,8 +21,14 @@ const rootStore = new RootStore(routingStore);
 
 const history = syncHistoryWithStore(hashHistory, routingStore);
 
+declare global {
+  // tslint:disable-next-line
+  interface Window { ContainerAppCallbacks: any; }
+}
+window.ContainerAppCallbacks = new ContainerAppCallbacks();
+
 class App extends React.Component {
-    render() {
+  render() {
         // tslint:disable-next-line
         console.log('Starting AARR!');
         return (
