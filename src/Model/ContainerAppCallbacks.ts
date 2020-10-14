@@ -1,10 +1,10 @@
 export default class ContainerAppCallbacks {
-    onResume(): void {
+    onResume(apiKey: string) {
       // tslint:disable-next-line
-      console.log("Resuming!");
+      alert(`Resuming, api key=${apiKey}`);
     }
-    onPause(): void {
+    onPause(apiKey: string) {
       // tslint:disable-next-line
-      console.log("Pausing");
+      alert(`Pausing, api key=${apiKey}`);
     }
   }
