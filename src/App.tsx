@@ -11,21 +11,23 @@ import BlogPostView from './Views/BlogPostView';
 import BlogListView from './Views/BlogListView';
 import RootStore from './Model/RootStore';
 import AddForm from './Views/AddForm';
+import SettingsForm from './Views/SettingsForm';
 import ContainerAppCallbacks from './Model/ContainerAppCallbacks';
-
-// const browserHistory = createBrowserHistory();
-const hashHistory = createHashHistory();
-const routingStore = new RouterStore();
-
-const rootStore = new RootStore(routingStore);
-
-const history = syncHistoryWithStore(hashHistory, routingStore);
 
 declare global {
   // tslint:disable-next-line
   interface Window { ContainerAppCallbacks: any; }
 }
-window.ContainerAppCallbacks = new ContainerAppCallbacks();
+var contatinerAppCallbacks = new ContainerAppCallbacks();
+window.ContainerAppCallbacks = contatinerAppCallbacks;
+
+// const browserHistory = createBrowserHistory();
+const hashHistory = createHashHistory();
+const routingStore = new RouterStore();
+
+const rootStore = new RootStore(routingStore, contatinerAppCallbacks);
+
+const history = syncHistoryWithStore(hashHistory, routingStore);
 
 class App extends React.Component {
   render() {
@@ -40,6 +42,7 @@ class App extends React.Component {
                   <Route exact={true} path="/blogs" component={BlogListView} />
                   <Route path="/blogs/:blogId" component={BlogPostView} />
                   <Route path="/add" component={AddForm} />
+                  <Route path="/settings" component={SettingsForm} />
                   <Route component={CheckAuthView} />
                 </Switch>
               </Router>
