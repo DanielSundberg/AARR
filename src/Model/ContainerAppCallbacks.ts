@@ -1,10 +1,10 @@
 export default class ContainerAppCallbacks {
-    onResume(apiKey: string) {
+    startSession(url: string, apiKey: string) {
       // tslint:disable-next-line
-      alert(`Resuming, api key=${apiKey}`);
+      console.log(`Starting session, url=${url}, api-key=${apiKey}`);
     }
-    onPause(apiKey: string) {
+    endSession(url: string, apiKey: string) {
       // tslint:disable-next-line
-      alert(`Pausing, api key=${apiKey}`);
+      console.log(`Ending session, url=${url}, api-key=${apiKey}`);
     }
   }
