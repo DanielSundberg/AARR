@@ -121,6 +121,10 @@ class OldReaderResource {
         return await this.getRequest(auth, '/reader/api/0/unread-count');
     }
 
+    async userInfo(auth: string) {
+        return await this.getRequest(auth, '/reader/api/0/user-info?output=json');
+    }
+
     async getPostIds(auth: string, uid: string, onlyUnread: boolean) {
         const params = onlyUnread ? {
             output: 'json',

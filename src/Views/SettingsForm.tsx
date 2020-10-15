@@ -1,7 +1,11 @@
 import * as React from 'react';
 import RootStore from '../Model/RootStore';
-import { inject, observer } from 'mobx-react';
+// import { inject, observer } from 'mobx-react';
+import { inject } from 'mobx-react';
 import AARRStatApi from '../Model/AARRStatAPI';
+import OldReaderResource from '../Model/OldReaderResource';
+import * as sha256 from 'crypto-js/sha256';
+import { v4 as uuidv4 } from 'uuid';
 
 const Loader: React.SFC = () => {
   return (
@@ -42,10 +46,10 @@ interface SettingsFormState {
   isSaving: boolean;
   deviceName: string;
   hasChanges: boolean;
+  errorMessage: string;
 }
 
 @inject("containerAppCallbacks")
-@observer
 class SettingsForm extends React.Component<RootStore, SettingsFormState> {
 
     constructor(props: RootStore) {
@@ -55,21 +59,57 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
         isSaving: false, 
         enableTelemetry: localStorage.getItem('enableTelemetry') === "true",
         deviceName: localStorage.getItem('deviceName') || `My device ${Math.floor(Math.random() * 1000000)}`, 
-        hasChanges: false
+        hasChanges: false,
+        errorMessage: '',
       };
     }
 
     async saveSettings(self: any) { // tslint:disable-line
-      
+      this.setState({
+        isSaving: true
+      });
+
       // tslint:disable-next-line
       console.log(`Save settings, enable telemetry: ${this.state.enableTelemetry}, device name: ${this.state.deviceName}`);
       if (this.state.enableTelemetry) {
-        // Call out to AARRStat api
-        let aarrStatApi = new AARRStatApi(this.props.containerAppCallbacks.url, this.props.containerAppCallbacks.apiKey);
-        let response: any = await aarrStatApi.ping();
         
-        // tslint:disable-next-line
-        console.log(`Request result ${response.status}`);        
+        // First fetch user info to get user id
+        const authToken = localStorage.getItem('authToken') || "";
+        let rsp : any = await OldReaderResource.userInfo(authToken);
+        if (rsp.status !== 200) {
+          this.setState({
+            errorMessage: rsp.message, 
+            isSaving: false
+          });
+          return;
+        }
+        let data: any = await rsp.data; // tslint:disable-line
+        console.log("OldReader user id: ", data.userId);
+        
+        // Create and store user id hash
+        const userIdHash = sha256(data.userId).toString();
+        console.log("Hashed user id: ", userIdHash); // tslint:disable-line
+        localStorage.setItem('userId', userIdHash);
+
+        // Create hashed device id if it doesn't already exist
+        // This will stay the same as long as the app is installed
+        let deviceIdHash = localStorage.getItem("deviceId") || "";
+        if (deviceIdHash.length !== 64) {
+          deviceIdHash = sha256(uuidv4()).toString()
+          console.log("Hashed device id: ", deviceIdHash); // tslint:disable-line
+          localStorage.setItem('deviceId', deviceIdHash);
+        }
+
+        // Store device name entered by user
+        localStorage.setItem('deviceName', this.state.deviceName);
+
+        // Register device with AARRStat api
+        let aarrStatApi = new AARRStatApi(
+          this.props.containerAppCallbacks.url, 
+          this.props.containerAppCallbacks.apiKey);
+
+        let response: any = await aarrStatApi.ping(); // tslint:disable-line
+        console.log(`Request result ${response.status}`); // tslint:disable-line
 
         if (response.status !== 200) {
           // tslint:disable-next-line
@@ -77,20 +117,21 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
           return;
         }
 
-        let data: any = await response.data;
-        console.log("Response: ", data.result);
-
+        // Finally enable telemetry for app
         localStorage.setItem('enableTelemetry', "true");
-        localStorage.setItem('deviceName', this.state.deviceName);
+
       } else {
         localStorage.setItem('enableTelemetry', "false");
       }
-      this.setState({ hasChanges: false })
+      this.setState({ 
+        isSaving: false,
+        hasChanges: false, 
+        errorMessage: ''
+      });
     }
 
     render() {
-      // tslint:disable-next-line
-      console.log("Url: ", this.props.containerAppCallbacks.url);
+      // console.log("Url: ", this.props.containerAppCallbacks.url); // tslint:disable-line
       let buttonContentOrLoader = this.state.isSaving ? 
         <Loader /> : (
         <div>Save</div>
@@ -102,8 +143,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
       let button = (
         <button 
           className={buttonClasses} 
-          // tslint:disable-next-line
-          onClick={(ev: any) => this.saveSettings(this)}
+          onClick={(ev: any) => this.saveSettings(this)} // tslint:disable-line
         >
           {buttonContentOrLoader}
         </button>
@@ -112,6 +152,8 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
       let deviceNameInputClasses = this.state.enableTelemetry ? 
         "ui left input" : 
         "ui left input disabled";
+
+      let errorMessageOrEmpty = this.state.errorMessage && <div className="ui error message">{this.state.errorMessage}</div>;
 
       return (
         <div className="ui grid container">
@@ -171,6 +213,8 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
               <TelemetryInfo/>
             </div>
           </div>
+
+          {errorMessageOrEmpty}
 
           {/* Save button */}
           <div className="row">
