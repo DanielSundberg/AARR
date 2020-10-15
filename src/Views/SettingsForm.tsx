@@ -75,7 +75,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
         
         // First fetch user info to get user id
         const authToken = localStorage.getItem('authToken') || "";
-        let rsp : any = await OldReaderResource.userInfo(authToken);
+        let rsp : any = await OldReaderResource.userInfo(authToken); // tslint:disable-line
         if (rsp.status !== 200) {
           this.setState({
             errorMessage: rsp.message, 
@@ -84,7 +84,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
           return;
         }
         let data: any = await rsp.data; // tslint:disable-line
-        console.log("OldReader user id: ", data.userId);
+        console.log("OldReader user id: ", data.userId); // tslint:disable-line
         
         // Create and store user id hash
         const userIdHash = sha256(data.userId).toString();
@@ -95,7 +95,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
         // This will stay the same as long as the app is installed
         let deviceIdHash = localStorage.getItem("deviceId") || "";
         if (deviceIdHash.length !== 64) {
-          deviceIdHash = sha256(uuidv4()).toString()
+          deviceIdHash = sha256(uuidv4()).toString();
           console.log("Hashed device id: ", deviceIdHash); // tslint:disable-line
           localStorage.setItem('deviceId', deviceIdHash);
         }
@@ -107,13 +107,14 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
         let aarrStatApi = new AARRStatApi(
           this.props.containerAppCallbacks.url, 
           this.props.containerAppCallbacks.apiKey);
-
-        let response: any = await aarrStatApi.ping(); // tslint:disable-line
+        let response: any = await aarrStatApi.newDevice(deviceIdHash, userIdHash, this.state.deviceName); // tslint:disable-line
         console.log(`Request result ${response.status}`); // tslint:disable-line
-
         if (response.status !== 200) {
-          // tslint:disable-next-line
-          console.log(`Request failed, error code ${response.status}, response: ${response}`);
+          console.log(`Request failed, error code ${response.status}, response: `, response); // tslint:disable-line
+          this.setState({
+            errorMessage: 'Request failed, please try again!', 
+            isSaving: false, 
+          });
           return;
         }
 
@@ -123,6 +124,8 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
       } else {
         localStorage.setItem('enableTelemetry', "false");
       }
+
+      // Set state so that we properly update ui
       this.setState({ 
         isSaving: false,
         hasChanges: false, 
@@ -153,7 +156,8 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
         "ui left input" : 
         "ui left input disabled";
 
-      let errorMessageOrEmpty = this.state.errorMessage && <div className="ui error message">{this.state.errorMessage}</div>;
+      let errorMessageOrEmpty = this.state.errorMessage && 
+        <div className="ui error message">{this.state.errorMessage}</div>;
 
       return (
         <div className="ui grid container">
