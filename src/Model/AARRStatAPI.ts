@@ -20,4 +20,29 @@ export default class AARRStatAPI extends ApiBase {
             )
         );
     }
+
+    async startSession(type: string, userId: string, deviceId: string, session: string) {
+        return await this.postRequest(
+            '/aarrstat/startsession',
+            JSON.stringify(
+                {
+                    type: type,
+                    user: userId, 
+                    device: deviceId,
+                    session: session
+                }
+            )
+        );
+    }
+
+    async endSession(session: string) {
+        return await this.postRequest(
+            '/aarrstat/endsession',
+            JSON.stringify(
+                {
+                    session: session
+                }
+            )
+        );
+    }
 }
