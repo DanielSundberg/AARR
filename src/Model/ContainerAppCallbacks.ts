@@ -21,8 +21,21 @@ export default class ContainerAppCallbacks {
       // If current session is older than one hour, create a new session anyway
       // We don't believe anyone is using a mobile app for more than one hour.
       const now = new Date();
-      const sessionIsOlderThanOneHour = (now.valueOf() - this.sessionStart.valueOf()) > 3600;
-      if (sessionIsOlderThanOneHour || this.session === '') {
+      const sessionAge = (now.valueOf() - this.sessionStart.valueOf());
+
+      console.log("Session start: ", this.sessionStart); // tslint:disable-line
+      console.log("Now: ", now); // tslint:disable-line
+      console.log("Session age: ", sessionAge); // tslint:disable-line
+      console.log("Session: ", this.session); // tslint:disable-line
+
+      const sessionTooOld = sessionAge > 3600000;
+      const noSession = this.session.length === 0;
+
+      console.log("SessionTooOld: ", sessionTooOld); // tslint:disable-line
+      console.log("NoSession: ", noSession); // tslint:disable-line
+
+      if (sessionTooOld || noSession) {
+        console.log("Starting new session."); // tslint:disable-line
         const newSession = sha256(uuidv4()).toString();
         const newSessionStart = now;
 
@@ -33,6 +46,12 @@ export default class ContainerAppCallbacks {
         // If not set we fail silently, user doesn't care if telemetry succeed or not
         if (userId.length > 0 && deviceId.length > 0) {
 
+          // Store commited session and sessionStart before call to aarrstat so that we 
+          // don't call startSession any more times if called again before below call 
+          // has returned.
+          this.session = newSession;
+          this.sessionStart = newSessionStart;
+
           let aarrStatApi = new AARRStatApi(this.url, this.apiKey);
           let response: any = await aarrStatApi.startSession("app", userId, deviceId, newSession); // tslint:disable-line
           console.log(`Request result ${response.status}`); // tslint:disable-line
@@ -40,10 +59,6 @@ export default class ContainerAppCallbacks {
             console.log(`Request failed, error code ${response.status}, response: `, response); // tslint:disable-line
             return;
           }
-
-          // Store commited session and sessionStart
-          this.session = newSession;
-          this.sessionStart = newSessionStart;
         }
       }
     } else {
