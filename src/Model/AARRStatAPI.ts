@@ -8,14 +8,15 @@ export default class AARRStatAPI extends ApiBase {
         );
     }
 
-    async newDevice(deviceId: string, userId: string, description: string) {
+    async newDevice(deviceId: string, userId: string, description: string, enabled: boolean = true) {
         return await this.postRequest(
-            '/aarrstat/newdevice',
+            '/aarrstat/device/new',
             JSON.stringify(
                 {
                     id: deviceId,
                     user: userId, 
-                    description: description
+                    description: description,
+                    enabled: enabled
                 }
             )
         );
@@ -23,7 +24,7 @@ export default class AARRStatAPI extends ApiBase {
 
     async startSession(type: string, userId: string, deviceId: string, session: string) {
         return await this.postRequest(
-            '/aarrstat/startsession',
+            '/aarrstat/session/start',
             JSON.stringify(
                 {
                     type: type,
@@ -37,7 +38,7 @@ export default class AARRStatAPI extends ApiBase {
 
     async endSession(session: string) {
         return await this.postRequest(
-            '/aarrstat/endsession',
+            '/aarrstat/session/end',
             JSON.stringify(
                 {
                     session: session

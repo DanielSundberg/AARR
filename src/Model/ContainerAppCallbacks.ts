@@ -36,7 +36,7 @@ export default class ContainerAppCallbacks {
 
       if (sessionTooOld || noSession) {
         console.log("Starting new session."); // tslint:disable-line
-        const newSession = sha256(uuidv4()).toString();
+        const newSession =   Buffer.from(sha256(uuidv4()).toString(), 'binary').toString('base64').substr(0, 12);
         const newSessionStart = now;
 
         const userId = localStorage.getItem('userId') || "";
