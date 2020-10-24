@@ -4,13 +4,13 @@ export default class AARRStatAPI extends ApiBase {
     async ping() {
         // tslint:disable-next-line
         return await super.getRequest(
-            '/aarrstat/ping'
+            '/api/session/ping'
         );
     }
 
     async newDevice(deviceId: string, userId: string, description: string, enabled: boolean = true) {
         return await this.postRequest(
-            '/aarrstat/device/new',
+            '/api/device/new',
             JSON.stringify(
                 {
                     id: deviceId,
@@ -24,7 +24,7 @@ export default class AARRStatAPI extends ApiBase {
 
     async startSession(type: string, userId: string, deviceId: string, session: string) {
         return await this.postRequest(
-            '/aarrstat/session/start',
+            '/api/session/start',
             JSON.stringify(
                 {
                     type: type,
@@ -38,7 +38,7 @@ export default class AARRStatAPI extends ApiBase {
 
     async endSession(session: string) {
         return await this.postRequest(
-            '/aarrstat/session/end',
+            '/api/session/end',
             JSON.stringify(
                 {
                     session: session

@@ -8,7 +8,7 @@
       "target": "https://theoldreader.com",
       "changeOrigin": true
     },
-    "/aarrstat": {
+    "/api": {
       "target": "http://localhost:5000",
       "changeOrigin": true
     }
