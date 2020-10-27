@@ -7,13 +7,13 @@ class RootStore {
     appState: AppState;
     routing: RouterStore;
     containerAppCallbacks: ContainerAppCallbacks;
-    themeEngine: ThemeEngine;
+    theme: ThemeEngine;
 
     constructor(routing: RouterStore, containerAppCallbacks: ContainerAppCallbacks) {
         this.routing = routing;
         this.appState = new AppState(routing);
         this.containerAppCallbacks = containerAppCallbacks;
-        this.themeEngine = new ThemeEngine();
+        this.theme = new ThemeEngine();
     }
 }
 

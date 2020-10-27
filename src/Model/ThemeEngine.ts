@@ -18,6 +18,8 @@ interface Theme {
     blogHeaderActiveColor: string;
     blogHeaderInactiveBackground: string;
     blogHeaderInactiveColor: string;
+    activeButtonBackground: string;
+    activeButtonColor: string;
 }
 
 const lightTheme: Theme = {
@@ -26,7 +28,7 @@ const lightTheme: Theme = {
     listBackground: "#ffffff",
     blogListCountColor: "#000000",
     blogListLinkColor: "#4183C4",
-    headerTextColor: "#ffffff",
+    headerTextColor: "#000000",
     softMenuColor: "#B7B7B7",
     dropDownMenuBackground: "#ffffff", 
     inputBackground: "#ffffff", 
@@ -36,7 +38,9 @@ const lightTheme: Theme = {
     blogHeaderActiveBackground: "#3B83C0", 
     blogHeaderActiveColor: "#FFFFFF",
     blogHeaderInactiveBackground: "#808080",
-    blogHeaderInactiveColor: "#FFFFFF"
+    blogHeaderInactiveColor: "#FFFFFF", 
+    activeButtonBackground: "#3B83C0",
+    activeButtonColor: "#FFFFFF"
 };
 
 const darkTheme: Theme = {
@@ -55,19 +59,21 @@ const darkTheme: Theme = {
     blogHeaderActiveBackground: "#204E71", 
     blogHeaderActiveColor: "#B7B7B7",
     blogHeaderInactiveBackground: "#808080",
-    blogHeaderInactiveColor: "#B7B7B7"
+    blogHeaderInactiveColor: "#B7B7B7", 
+    activeButtonBackground: "#204E71", 
+    activeButtonColor: "#B7B7B7"
 };
 
 class ThemeEngine {
     @observable theme: Theme;
 
     constructor() {
-        // const storedTheme = localStorage.getItem("theme");
-        // if (storedTheme && storedTheme === "dark") {
-        //     this.theme = darkTheme;
-        // } else {
-        //     this.theme = lightTheme;
-        // }
+        const storedTheme = localStorage.getItem("theme");
+        if (storedTheme && storedTheme === "dark") {
+            this.theme = darkTheme;
+        } else {
+            this.theme = lightTheme;
+        }
         this.theme = darkTheme;
     }
 
@@ -75,8 +81,22 @@ class ThemeEngine {
         return [lightTheme, darkTheme];
     }
 
-    setTheme(key: string) {
-        localStorage.setItem("theme", key);
+    setLightTheme() {
+        localStorage.setItem("theme", "light");
+        this.theme = lightTheme;
+    }
+
+    setDarkTheme() {
+        localStorage.setItem("theme", "dark");
+        this.theme = darkTheme;
+    }
+
+    isLight() : boolean {
+        return this.theme.key === "light";
+    }
+
+    isDark() : boolean {
+        return this.theme.key === "dark";
     }
 
     listBackgroundColor() {
@@ -126,6 +146,12 @@ class ThemeEngine {
         }
     }
 
+    checkbox() {
+        return {
+
+        }
+    }
+
     infoMessageStyle() {
         return {
             color: this.theme.infoMessageColor,
@@ -144,6 +170,13 @@ class ThemeEngine {
         return {
             color: this.theme.blogHeaderInactiveColor,
             background: this.theme.blogHeaderInactiveBackground
+        }
+    }
+
+    activeButton() {
+        return {
+            background: this.theme.activeButtonBackground, 
+            color: this.theme.activeButtonColor
         }
     }
 }

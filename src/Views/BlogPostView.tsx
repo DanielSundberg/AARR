@@ -27,7 +27,7 @@ declare var YARRAndroid: YARRAndroidInterface;
 
 @inject('appState')
 @inject('routing')
-@inject('themeEngine')
+@inject('theme')
 @observer
 class BlogPostView extends React.Component<RootStore, {}> {
     constructor(props: RootStore) {
@@ -41,7 +41,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
             const uid = StringUtils.afterSlash(location.pathname);
             this.props.appState.showBlog(uid);
         }
-        document.body.style.backgroundColor = this.props.themeEngine.listBackgroundColor();
+        document.body.style.backgroundColor = this.props.theme.listBackgroundColor();
     }
   
     markAsReadAndScroll(self: BlogPostView, uid: string, read: boolean, nextPostIndex: number) {
@@ -81,8 +81,8 @@ class BlogPostView extends React.Component<RootStore, {}> {
     }
 
     render() {
-        const activeStyle = this.props.themeEngine.blogHeaderActiveStyle();
-        const inactiveStyle = this.props.themeEngine.blogHeaderInactiveStyle();
+        const activeStyle = this.props.theme.blogHeaderActiveStyle();
+        const inactiveStyle = this.props.theme.blogHeaderInactiveStyle();
 
         const blogPosts = 
             this.props.appState.blogPostlist.length === 0 && 
@@ -96,15 +96,15 @@ class BlogPostView extends React.Component<RootStore, {}> {
                 if (!b.title) { return null; }
 
                 const markAsReadButtonText = b.read ? 'Mark as unread' : 'Mark as read';          
-                const headerTextStyle = b.read ? {} : { color: this.props.themeEngine.theme.headerTextColor };
-                const whiteTextStyle = this.props.themeEngine.headerTextStyle();
+                const headerTextStyle = b.read ? {} : { color: this.props.theme.theme.headerTextColor };
+                const whiteTextStyle = this.props.theme.headerTextStyle();
                 const headerContentStyle = b.read ? inactiveStyle : activeStyle ;
                 const menuSegmentStyle = b.read ? 
-                    { ...this.props.themeEngine.blogHeaderInactiveStyle(), ...{padding: '2px'} } : 
-                    { ...this.props.themeEngine.blogHeaderActiveStyle(), ...{padding: '2px'} };
+                    { ...this.props.theme.blogHeaderInactiveStyle(), ...{padding: '2px'} } : 
+                    { ...this.props.theme.blogHeaderActiveStyle(), ...{padding: '2px'} };
                 const menuIconStyle = b.read ? 
-                    this.props.themeEngine.blogHeaderInactiveStyle() :
-                    this.props.themeEngine.blogHeaderActiveStyle();
+                    this.props.theme.blogHeaderInactiveStyle() :
+                    this.props.theme.blogHeaderActiveStyle();
 
                 const upperLoaderOrCheckItem = this.props.appState.postsBeingEdited.indexOf(b.uid, 0) > -1 ? (
                     <Loader />
@@ -126,7 +126,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
                 const contentSegmentClasses = b.read ? "ui segment" : "ui segment";
                 const fontScale = `${this.props.appState.contentFontScale}rem`;
                 let contentStyle = b.read ? { color: '#808080', fontSize: fontScale } : { fontSize: fontScale };
-                contentStyle = {...contentStyle, ...this.props.themeEngine.listBackgroundStyle()};
+                contentStyle = {...contentStyle, ...this.props.theme.listBackgroundStyle()};
                 const readingTimeInfo = readingTime(b.content);
 
                 return (
@@ -156,7 +156,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
                                 </div>
                                 <div className={contentSegmentClasses} style={contentStyle} >
                                     <div className="content">     
-                                        <div className="description" style={this.props.themeEngine.headerTextStyle()}>
+                                        <div className="description" style={this.props.theme.headerTextStyle()}>
                                             {renderHTML(b.content)}
                                         </div>
                                     </div>
@@ -188,24 +188,24 @@ class BlogPostView extends React.Component<RootStore, {}> {
         const moreToFetchloader = (
             <div className="row" key={0}>
               <div className="sixteen wide column">
-                <div className="ui mini text active centered inline loader">Loading posts...</div>
+                <div className="ui mini text active centered inline loader" style={this.props.theme.headerTextStyle()}>Loading posts...</div>
               </div>
             </div>);
 
         return (
-            <div className="container" style={this.props.themeEngine.listBackgroundStyle()}>
+            <div className="container" style={this.props.theme.listBackgroundStyle()}>
                 <ScrollToTopOnMount />
                 <Headroom>
                     <div className="ui attached inverted icon menu" >
-                        <a className="item" onClick={() => this.props.routing.goBack()} style={this.props.themeEngine.headerTextStyle()}>
+                        <a className="item" onClick={() => this.props.routing.goBack()} style={this.props.theme.headerTextStyle()}>
                             <i className="icon angle left" />
                         </a>
                         <div className="header borderless item left">{this.props.appState.currentBlogTitle}</div>
                         <div className="right menu">
-                            <a className="item" onClick={() => this.props.appState.decreseFontSize()} style={this.props.themeEngine.headerTextStyle()}>
+                            <a className="item" onClick={() => this.props.appState.decreseFontSize()} style={this.props.theme.headerTextStyle()}>
                                 <i className="icon minus" />
                             </a>
-                            <a className="item right" onClick={() => this.props.appState.increaseFontSize()} style={this.props.themeEngine.headerTextStyle()}>
+                            <a className="item right" onClick={() => this.props.appState.increaseFontSize()} style={this.props.theme.headerTextStyle()}>
                                 <i className="icon plus" />
                             </a>
                         </div>

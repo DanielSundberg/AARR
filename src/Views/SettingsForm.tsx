@@ -1,7 +1,6 @@
 import * as React from 'react';
 import RootStore from '../Model/RootStore';
-// import { inject, observer } from 'mobx-react';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import AARRStatApi from '../Model/AARRStatAPI';
 import OldReaderResource from '../Model/OldReaderResource';
 import * as sha256 from 'crypto-js/sha256';
@@ -50,7 +49,8 @@ interface SettingsFormState {
 }
 
 @inject("containerAppCallbacks")
-@inject("themeEngine")
+@inject("theme")
+@observer
 class SettingsForm extends React.Component<RootStore, SettingsFormState> {
 
     constructor(props: RootStore) {
@@ -66,10 +66,10 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
     }
 
     componentWillMount() {
-        document.body.style.backgroundColor = this.props.themeEngine.listBackgroundColor();
+        document.body.style.backgroundColor = this.props.theme.listBackgroundColor();
     }
 
-    async saveSettings(self: any) { // tslint:disable-line
+    async saveTelemetrySettings(self: any) { // tslint:disable-line
         this.setState({
             isSaving: true
         });
@@ -153,29 +153,38 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
         });
     }
 
+    setLightTheme(self: any) {
+        self.props.theme.setLightTheme();
+    }
+
+    setDarkTheme(self: any) {
+        self.props.theme.setDarkTheme();
+    }
+
     render() {
         // console.log("Url: ", this.props.containerAppCallbacks.url); // tslint:disable-line
-        let buttonContentOrLoader = this.state.isSaving ?
-            <Loader /> : (<div>Save</div>);
-
-        let buttonClasses = this.state.hasChanges ?
-            "ui large primary floated fluid submit button" :
-            "ui large primary floated fluid submit button disabled";
-        let button = (
-            <button
-                className={buttonClasses}
-                onClick={(ev: any) => this.saveSettings(this)} // tslint:disable-line
-            >
-                {buttonContentOrLoader}
-            </button>
-        );
+        document.body.style.backgroundColor = this.props.theme.listBackgroundColor();
 
         let deviceNameInputClasses = this.state.enableTelemetry ?
-            "ui left input" :
-            "ui left input disabled";
+            "ui action input" :
+            "ui action input disabled";
 
         let errorMessageOrEmpty = this.state.errorMessage &&
             <div className="ui error message">{this.state.errorMessage}</div>;
+        let loaderOrEmpty = this.state.isSaving && <Loader />;
+
+        const lightThemeButtonStyle = this.props.theme.isLight() ? 
+            this.props.theme.blogHeaderActiveStyle() : 
+            this.props.theme.blogHeaderInactiveStyle();
+        const darkThemeButtonStyle = this.props.theme.isDark() ? 
+            this.props.theme.blogHeaderActiveStyle() : 
+            this.props.theme.blogHeaderInactiveStyle();
+        const lightThemeButtonIcon = this.props.theme.isLight() ? 
+            <i className="check circle outline icon"/> : 
+            <i className="circle outline icon"/>;
+        const darkThemeButtonIcon = this.props.theme.isDark() ? 
+            <i className="check circle outline icon"/> : 
+            <i className="circle outline icon"/>;
 
         return (
             <div className="ui grid container">
@@ -184,27 +193,56 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                 {/* Header */}
                 <div className="row">
                     <div className="sixteen wide column">
-                        <h1 className="ui header center" style={this.props.themeEngine.headerTextStyle()}>
+                        <h1 className="ui header center" style={this.props.theme.headerTextStyle()}>
                             Settings
                       </h1>
                     </div>
                 </div>
 
-                {/* Telemetry header and enable checkbox */}
+                {loaderOrEmpty}
+                {errorMessageOrEmpty}
+
+                {/* Select theme */}
                 <div className="row">
                     <div className="sixteen wide column">
-                        <h3 className="ui header" style={this.props.themeEngine.headerTextStyle()}>Telemetry</h3>
+                        <h2 className="ui header" style={this.props.theme.headerTextStyle()}>Theme</h2>
+                        <div className="row">
+                            <button 
+                                className="ui toggle large button" 
+                                style={lightThemeButtonStyle}
+                                onClick={(ev: any) => this.setLightTheme(this)}
+                            >
+                                {lightThemeButtonIcon} Light
+                            </button>
+                            <button 
+                                className="ui toggle large button" 
+                                style={darkThemeButtonStyle}
+                                onClick={(ev: any) => this.setDarkTheme(this)}
+                            >
+                                {darkThemeButtonIcon} Dark
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Enable Usage statistics */}
+                <div className="row">
+                    <div className="sixteen wide column">
+                        <h2 className="ui header" style={this.props.theme.headerTextStyle()}>Usage statistics</h2>
                         <div className="row">
                             <div className="four wide column">
-                                <div className="ui checkbox" >
+                                <div className="ui checkbox" style={this.props.theme.checkbox()}>
                                     <input
                                         type="checkbox"
                                         name="enable-telemetry"
                                         checked={this.state.enableTelemetry}
                                         // tslint:disable-next-line
-                                        onChange={(ev: any) => this.setState({ enableTelemetry: !this.state.enableTelemetry, hasChanges: true })}
+                                        onChange={(ev: any) => { 
+                                            this.setState({ enableTelemetry: !this.state.enableTelemetry, hasChanges: true }); 
+                                            this.saveTelemetrySettings(this);
+                                        }}
                                     />
-                                    <label style={this.props.themeEngine.headerTextStyle()}>Enable Telemetry</label>
+                                    <label style={this.props.theme.headerTextStyle()}>Yes I'm in!</label>
                                 </div>
                             </div>
                         </div>
@@ -216,16 +254,24 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                     <div className="ui sixteen wide column">
                         <form className="ui large form">
                             <div className="field">
+                                <label style={this.props.theme.headerTextStyle()}>Device name:</label>
                                 <div className={deviceNameInputClasses}>
                                     <input
                                         type="text"
                                         name="device-name"
                                         placeholder="Device name"
                                         value={this.state.deviceName}
-                                        style={this.props.themeEngine.inputStyle()}
+                                        style={this.props.theme.inputStyle()}
                                         // tslint:disable-next-line
                                         onChange={(ev: any) => this.setState({ deviceName: ev.target.value, hasChanges: true })}
                                     />
+                                    <button 
+                                        className="ui button" 
+                                        style={this.props.theme.activeButton()}
+                                        onClick={(ev: any) => this.saveTelemetrySettings(this)}
+                                    >
+                                        <i className="check icon"/>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -235,18 +281,12 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                 {/* Telemetry info label */}
                 <div className="row">
                     <div className="ui sixteen wide column">
-                        <TelemetryInfo style={this.props.themeEngine.infoMessageStyle()} />
+                        <TelemetryInfo style={this.props.theme.infoMessageStyle()} />
                     </div>
                 </div>
 
-                {errorMessageOrEmpty}
+                
 
-                {/* Save button */}
-                <div className="row">
-                    <div className="ui sixteen wide column">
-                        {button}
-                    </div>
-                </div>
             </div>);
     }
 }
