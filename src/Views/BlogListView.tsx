@@ -10,6 +10,7 @@ import FooterErrorMessage from './FooterErrorMessage';
 
 @inject('appState')
 @inject('routing')
+@inject('themeEngine')
 @observer
 class BlogListView extends React.Component<RootStore, {}> {
     constructor(props: RootStore) {
@@ -18,6 +19,7 @@ class BlogListView extends React.Component<RootStore, {}> {
 
     componentWillMount() {
         this.props.appState.getListOfBlogs();
+        document.body.style.backgroundColor = this.props.themeEngine.listBackgroundColor();
     }
 
     render() {
@@ -39,67 +41,86 @@ class BlogListView extends React.Component<RootStore, {}> {
             return (
               <div className="item" key={i}>
                 <div className="content left floated">
-                  <Link to={`/blogs/${b.uid}`}>
+                  <Link to={`/blogs/${b.uid}`} style={this.props.themeEngine.blogListLinkStyle()}>
                     {/* <i className="large bookmark middle aligned icon" /> */}
                     <img src={b.iconUrl} style={imgStyle} />
                     <b>{b.title.substr(0, titleMaxChars - 2) + dots}</b>
                     {newBlog}
                   </Link>
                 </div>
-                <div className="right floated content">
+                <div className="right floated content" style={this.props.themeEngine.blogListCountStyle()}>
                   {b.unread > 0 ? <b>{b.unread}</b> : null}
                 </div>
               </div>);
         });
 
         const loaderOrRefreshButton = this.props.appState.isUpdatingList ? (
-            <div className="item">
+            <div className="item" style={this.props.themeEngine.softMenuStyle()}>
                 <div className="ui mini active inline loader"/>
             </div>
         ) : (
-            <a className="item" onClick={() => this.props.appState.getListOfBlogs()}>
+            <a 
+                className="item" 
+                onClick={() => this.props.appState.getListOfBlogs()} 
+                style={this.props.themeEngine.softMenuStyle()}
+            >
                 <i className="icon small refresh" />
             </a>
         );
 
+        const menuItemStyle = this.props.themeEngine.softMenuStyle();
         const hamburger = (
-            <Dropdown item={true} icon='bars' onClick={() => this.props.appState.toggleShowMenu()}>
-                <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => this.props.routing.push("/add")}>
-                        <Icon name="plus" />
-                        <span className='text'>Add feed...</span>
+            <Dropdown 
+                item={true} 
+                icon='bars' 
+                onClick={() => this.props.appState.toggleShowMenu()} 
+                style={this.props.themeEngine.softMenuStyle()}
+            >
+                <Dropdown.Menu style={this.props.themeEngine.dropDownMenuBackground()}>
+                    <Dropdown.Item onClick={() => this.props.routing.push("/add")} >
+                        <div style={menuItemStyle}>
+                            <Icon name="plus" />
+                            <span className='text' >Add feed...</span>
+                        </div>
                     </Dropdown.Item>
                     <Dropdown.Divider />
                     <Dropdown.Item onClick={() => this.props.routing.push("/settings")}>
-                        <Icon name="cogs" />
-                        <span className='text'>Settings...</span>
+                        <div style={menuItemStyle}>
+                            <Icon name="cogs" style={this.props.themeEngine.softMenuStyle()}/>
+                            <span className='text' style={this.props.themeEngine.softMenuStyle()}>Settings...</span>
+                        </div>
                     </Dropdown.Item>
                     <Dropdown.Divider />
                     <Dropdown.Item onClick={() => this.props.appState.logout()}>                    
-                        <Icon name="sign out" />
-                        <span className='text'>Sign out...</span>
+                        <div style={menuItemStyle}>
+                            <Icon name="sign out" style={this.props.themeEngine.softMenuStyle()}/>
+                            <span className='text' style={this.props.themeEngine.softMenuStyle()}>Sign out...</span>
+                        </div>
                     </Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
         );
 
         return (
+
             <div className="ui container">
                 <header className="ui inverted icon fixed top menu">
                     {hamburger}
-                    <div className="header borderless item">Subscriptions</div>
-                    <div className="right menu">
+                    <div className="header borderless item" style={this.props.themeEngine.softMenuStyle()}>
+                        Subscriptions
+                    </div>
+                    <div className="right menu" >
                         {loaderOrRefreshButton}
-                        <a className={filterItemClasses} onClick={() => this.props.appState.toggleShowAll()}>
+                        <a className={filterItemClasses} onClick={() => this.props.appState.toggleShowAll()} >
                             <i className="icon filter" />
                         </a>
                     </div>
                 </header>
-                <div className="ui grid" style={gridStyle}>
+                <div className="ui grid" style={{...gridStyle}}>
                     <div className="sixteen wide column">
                         <div className="ui relaxed big divided list">
                             {blogPosts}
-                       </div>
+                    </div>
                     </div>
                 </div>
                 <FooterErrorMessage 

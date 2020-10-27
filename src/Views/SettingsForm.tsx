@@ -15,9 +15,9 @@ const Loader: React.SFC = () => {
     );
 };
 
-const TelemetryInfo: React.FunctionComponent = () => {
+const TelemetryInfo: React.FunctionComponent<{style:any}> = ({style}) => {
     return (
-        <div className="ui info message">
+        <div className="ui info message" style={    style}>
             Only usage statistics such as the number of times the app has been
             opened and how much time that has been spent reading articles will
             be collected.
@@ -50,6 +50,7 @@ interface SettingsFormState {
 }
 
 @inject("containerAppCallbacks")
+@inject("themeEngine")
 class SettingsForm extends React.Component<RootStore, SettingsFormState> {
 
     constructor(props: RootStore) {
@@ -62,6 +63,10 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
             hasChanges: false,
             errorMessage: '',
         };
+    }
+
+    componentWillMount() {
+        document.body.style.backgroundColor = this.props.themeEngine.listBackgroundColor();
     }
 
     async saveSettings(self: any) { // tslint:disable-line
@@ -179,7 +184,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                 {/* Header */}
                 <div className="row">
                     <div className="sixteen wide column">
-                        <h1 className="ui header center">
+                        <h1 className="ui header center" style={this.props.themeEngine.headerTextStyle()}>
                             Settings
                       </h1>
                     </div>
@@ -188,16 +193,20 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                 {/* Telemetry header and enable checkbox */}
                 <div className="row">
                     <div className="sixteen wide column">
-                        <h3 className="ui header">Telemetry</h3>
-                        <div className="ui toggle checkbox">
-                            <input
-                                type="checkbox"
-                                name="enable-telemetry"
-                                checked={this.state.enableTelemetry}
-                                // tslint:disable-next-line
-                                onChange={(ev: any) => this.setState({ enableTelemetry: !this.state.enableTelemetry, hasChanges: true })}
-                            />
-                            <label className="">Enable telemetry</label>
+                        <h3 className="ui header" style={this.props.themeEngine.headerTextStyle()}>Telemetry</h3>
+                        <div className="row">
+                            <div className="four wide column">
+                                <div className="ui checkbox" >
+                                    <input
+                                        type="checkbox"
+                                        name="enable-telemetry"
+                                        checked={this.state.enableTelemetry}
+                                        // tslint:disable-next-line
+                                        onChange={(ev: any) => this.setState({ enableTelemetry: !this.state.enableTelemetry, hasChanges: true })}
+                                    />
+                                    <label style={this.props.themeEngine.headerTextStyle()}>Enable Telemetry</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -213,6 +222,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                                         name="device-name"
                                         placeholder="Device name"
                                         value={this.state.deviceName}
+                                        style={this.props.themeEngine.inputStyle()}
                                         // tslint:disable-next-line
                                         onChange={(ev: any) => this.setState({ deviceName: ev.target.value, hasChanges: true })}
                                     />
@@ -225,7 +235,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                 {/* Telemetry info label */}
                 <div className="row">
                     <div className="ui sixteen wide column">
-                        <TelemetryInfo />
+                        <TelemetryInfo style={this.props.themeEngine.infoMessageStyle()} />
                     </div>
                 </div>
 

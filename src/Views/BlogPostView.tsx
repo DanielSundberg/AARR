@@ -27,6 +27,7 @@ declare var YARRAndroid: YARRAndroidInterface;
 
 @inject('appState')
 @inject('routing')
+@inject('themeEngine')
 @observer
 class BlogPostView extends React.Component<RootStore, {}> {
     constructor(props: RootStore) {
@@ -40,6 +41,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
             const uid = StringUtils.afterSlash(location.pathname);
             this.props.appState.showBlog(uid);
         }
+        document.body.style.backgroundColor = this.props.themeEngine.listBackgroundColor();
     }
   
     markAsReadAndScroll(self: BlogPostView, uid: string, read: boolean, nextPostIndex: number) {
@@ -79,8 +81,8 @@ class BlogPostView extends React.Component<RootStore, {}> {
     }
 
     render() {
-        const activeStyle = { color: '#FFFFFF', background: '#3B83C0' };
-        const inactiveStyle = { color: '#FFFFFF', background: '#808080' };
+        const activeStyle = this.props.themeEngine.blogHeaderActiveStyle();
+        const inactiveStyle = this.props.themeEngine.blogHeaderInactiveStyle();
 
         const blogPosts = 
             this.props.appState.blogPostlist.length === 0 && 
@@ -94,17 +96,20 @@ class BlogPostView extends React.Component<RootStore, {}> {
                 if (!b.title) { return null; }
 
                 const markAsReadButtonText = b.read ? 'Mark as unread' : 'Mark as read';          
-                const headerTextStyle = b.read ? {} : {color: '#FFFFFF'};
-                const whiteTextStyle = { color: '#FFFFFF'};
+                const headerTextStyle = b.read ? {} : { color: this.props.themeEngine.theme.headerTextColor };
+                const whiteTextStyle = this.props.themeEngine.headerTextStyle();
                 const headerContentStyle = b.read ? inactiveStyle : activeStyle ;
                 const menuSegmentStyle = b.read ? 
-                    { background: '#808080', padding: '2px' } : 
-                    { background: '#3B83C0', padding: '2px' };
+                    { ...this.props.themeEngine.blogHeaderInactiveStyle(), ...{padding: '2px'} } : 
+                    { ...this.props.themeEngine.blogHeaderActiveStyle(), ...{padding: '2px'} };
+                const menuIconStyle = b.read ? 
+                    this.props.themeEngine.blogHeaderInactiveStyle() :
+                    this.props.themeEngine.blogHeaderActiveStyle();
 
                 const upperLoaderOrCheckItem = this.props.appState.postsBeingEdited.indexOf(b.uid, 0) > -1 ? (
                     <Loader />
                 ) : (
-                    <div className="item link right" onClick={() => this.markAsReadAndScroll(this, b.uid, !b.read, i)}>
+                    <div className="item link right" onClick={() => this.markAsReadAndScroll(this, b.uid, !b.read, i)} style={menuSegmentStyle}>
                         <i className="icon check" />
                         {markAsReadButtonText}
                     </div>
@@ -112,7 +117,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
                 const lowerLoaderOrCheckItem = this.props.appState.postsBeingEdited.indexOf(b.uid, 0) > -1 ? (
                     <Loader />
                 ) : (
-                    <div className="item link right" onClick={() => this.props.appState.markPostAsRead(b.uid, !b.read)}>
+                    <div className="item link right" onClick={() => this.props.appState.markPostAsRead(b.uid, !b.read)} style={menuSegmentStyle}>
                         <i className="icon check" />
                         {markAsReadButtonText}
                     </div>
@@ -120,7 +125,8 @@ class BlogPostView extends React.Component<RootStore, {}> {
 
                 const contentSegmentClasses = b.read ? "ui segment" : "ui segment";
                 const fontScale = `${this.props.appState.contentFontScale}rem`;
-                const contentStyle = b.read ? { color: '#808080', fontSize: fontScale } : { fontSize: fontScale };
+                let contentStyle = b.read ? { color: '#808080', fontSize: fontScale } : { fontSize: fontScale };
+                contentStyle = {...contentStyle, ...this.props.themeEngine.listBackgroundStyle()};
                 const readingTimeInfo = readingTime(b.content);
 
                 return (
@@ -139,10 +145,10 @@ class BlogPostView extends React.Component<RootStore, {}> {
                                 </div>
                                 <div className="ui segment" style={menuSegmentStyle} >
                                     <div className="ui top attached inverted menu borderless" style={menuSegmentStyle}>
-                                        <div className="item link icon" onClick={() => this.goToPrevPost(i - 1)}>
+                                        <div className="item link icon" onClick={() => this.goToPrevPost(i - 1)} style={menuIconStyle}>
                                             <i className="arrow up icon"></i>
                                         </div>
-                                        <div className="item link icon" onClick={() => this.goToNextPost(i)}>
+                                        <div className="item link icon" onClick={() => this.goToNextPost(i)} style={menuIconStyle}>
                                             <i className="arrow down icon"></i>
                                         </div>
                                         {upperLoaderOrCheckItem}
@@ -150,7 +156,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
                                 </div>
                                 <div className={contentSegmentClasses} style={contentStyle} >
                                     <div className="content">     
-                                        <div className="description">
+                                        <div className="description" style={this.props.themeEngine.headerTextStyle()}>
                                             {renderHTML(b.content)}
                                         </div>
                                     </div>
@@ -161,13 +167,13 @@ class BlogPostView extends React.Component<RootStore, {}> {
                                         style={menuSegmentStyle}
                                     >
                                         
-                                        <div className="item link icon" onClick={() => this.goToPrevPost(i)}>
+                                        <div className="item link icon" onClick={() => this.goToPrevPost(i)}  style={menuIconStyle}>
                                             <i className="arrow up icon"></i>
                                         </div>
-                                        <a className="item icon" href={b.url} target="_new">
+                                        <a className="item icon" href={b.url} target="_new" style={menuIconStyle}>
                                             <i className="external icon"></i>
                                         </a>
-                                        <div className="item link icon" onClick={() => this.shareUrl(b.title, b.url)}>
+                                        <div className="item link icon" onClick={() => this.shareUrl(b.title, b.url)} style={menuIconStyle}>
                                             <i className="share icon"></i>
                                         </div>
                                         {lowerLoaderOrCheckItem}                                
@@ -187,19 +193,19 @@ class BlogPostView extends React.Component<RootStore, {}> {
             </div>);
 
         return (
-            <div className="container">
+            <div className="container" style={this.props.themeEngine.listBackgroundStyle()}>
                 <ScrollToTopOnMount />
                 <Headroom>
                     <div className="ui attached inverted icon menu" >
-                        <a className="item" onClick={() => this.props.routing.goBack()}>
+                        <a className="item" onClick={() => this.props.routing.goBack()} style={this.props.themeEngine.headerTextStyle()}>
                             <i className="icon angle left" />
                         </a>
                         <div className="header borderless item left">{this.props.appState.currentBlogTitle}</div>
                         <div className="right menu">
-                            <a className="item" onClick={() => this.props.appState.decreseFontSize()}>
+                            <a className="item" onClick={() => this.props.appState.decreseFontSize()} style={this.props.themeEngine.headerTextStyle()}>
                                 <i className="icon minus" />
                             </a>
-                            <a className="item right" onClick={() => this.props.appState.increaseFontSize()}>
+                            <a className="item right" onClick={() => this.props.appState.increaseFontSize()} style={this.props.themeEngine.headerTextStyle()}>
                                 <i className="icon plus" />
                             </a>
                         </div>
