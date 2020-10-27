@@ -19,7 +19,7 @@ class BlogListView extends React.Component<RootStore, {}> {
 
     componentWillMount() {
         this.props.appState.getListOfBlogs();
-        document.body.style.backgroundColor = this.props.theme.listBackgroundColor();
+        document.body.style.backgroundColor = this.props.theme.colors.listBackground;
     }
 
     render() {
@@ -41,60 +41,60 @@ class BlogListView extends React.Component<RootStore, {}> {
             return (
               <div className="item" key={i}>
                 <div className="content left floated">
-                  <Link to={`/blogs/${b.uid}`} style={this.props.theme.blogListLinkStyle()}>
+                  <Link to={`/blogs/${b.uid}`} style={this.props.theme.blogListLink()}>
                     {/* <i className="large bookmark middle aligned icon" /> */}
                     <img src={b.iconUrl} style={imgStyle} />
                     <b>{b.title.substr(0, titleMaxChars - 2) + dots}</b>
                     {newBlog}
                   </Link>
                 </div>
-                <div className="right floated content" style={this.props.theme.blogListCountStyle()}>
+                <div className="right floated content" style={this.props.theme.blogListCount()}>
                   {b.unread > 0 ? <b>{b.unread}</b> : null}
                 </div>
               </div>);
         });
 
         const loaderOrRefreshButton = this.props.appState.isUpdatingList ? (
-            <div className="item" style={this.props.theme.softMenuStyle()}>
+            <div className="item" style={this.props.theme.softMenu()}>
                 <div className="ui mini active inline loader"/>
             </div>
         ) : (
             <a 
                 className="item" 
                 onClick={() => this.props.appState.getListOfBlogs()} 
-                style={this.props.theme.softMenuStyle()}
+                style={this.props.theme.softMenu()}
             >
                 <i className="icon small refresh" />
             </a>
         );
 
-        const menuItemStyle = this.props.theme.softMenuStyle();
+        // const menuItemStyle = this.props.theme.softMenu();
         const hamburger = (
             <Dropdown 
                 item={true} 
                 icon='bars' 
                 onClick={() => this.props.appState.toggleShowMenu()} 
-                style={this.props.theme.softMenuStyle()}
+                style={this.props.theme.softMenu()}
             >
                 <Dropdown.Menu style={this.props.theme.dropDownMenuBackground()}>
                     <Dropdown.Item onClick={() => this.props.routing.push("/add")} >
-                        <div style={menuItemStyle}>
+                        <div style={this.props.theme.dropdownMenu()}>
                             <Icon name="plus" />
                             <span className='text' >Add feed...</span>
                         </div>
                     </Dropdown.Item>
                     <Dropdown.Divider />
                     <Dropdown.Item onClick={() => this.props.routing.push("/settings")}>
-                        <div style={menuItemStyle}>
-                            <Icon name="cogs" style={this.props.theme.softMenuStyle()}/>
-                            <span className='text' style={this.props.theme.softMenuStyle()}>Settings...</span>
+                        <div style={this.props.theme.dropdownMenu()}>
+                            <Icon name="cogs" style={this.props.theme.dropdownMenu()}/>
+                            <span className='text' style={this.props.theme.dropdownMenu()}>Settings...</span>
                         </div>
                     </Dropdown.Item>
                     <Dropdown.Divider />
                     <Dropdown.Item onClick={() => this.props.appState.logout()}>                    
-                        <div style={menuItemStyle}>
-                            <Icon name="sign out" style={this.props.theme.softMenuStyle()}/>
-                            <span className='text' style={this.props.theme.softMenuStyle()}>Sign out...</span>
+                        <div style={this.props.theme.dropdownMenu()}>
+                            <Icon name="sign out" style={this.props.theme.dropdownMenu()}/>
+                            <span className='text' style={this.props.theme.dropdownMenu()}>Sign out...</span>
                         </div>
                     </Dropdown.Item>
                 </Dropdown.Menu>
@@ -106,7 +106,7 @@ class BlogListView extends React.Component<RootStore, {}> {
             <div className="ui container">
                 <header className="ui inverted icon fixed top menu">
                     {hamburger}
-                    <div className="header borderless item" style={this.props.theme.softMenuStyle()}>
+                    <div className="header borderless item" style={this.props.theme.softMenu()}>
                         Subscriptions
                     </div>
                     <div className="right menu" >

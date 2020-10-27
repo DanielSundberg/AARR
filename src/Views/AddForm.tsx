@@ -35,7 +35,7 @@ class AddForm extends React.Component<RootStore, AddFormState> {
         this.props.appState.addFeedSuccess = false;
         this.props.appState.addFeedMessage = '';
         this.props.appState.addedFeedId = '';
-        document.body.style.backgroundColor = this.props.theme.listBackgroundColor();
+        document.body.style.backgroundColor = this.props.theme.theme.listBackground;
     }
 
     render() {
@@ -78,7 +78,7 @@ class AddForm extends React.Component<RootStore, AddFormState> {
                 <div className="row">
 
                     <div className="sixteen wide column">
-                        <h1 className="ui header center" style={this.props.theme.headerTextStyle()}>
+                        <h1 className="ui header center" style={this.props.theme.settingsHeader()}>
                             Add RSS Feed:
                         </h1>
                     </div>
@@ -92,7 +92,7 @@ class AddForm extends React.Component<RootStore, AddFormState> {
                                         type="text"
                                         name="feed-url"
                                         placeholder="RSS Feed Url"
-                                        style={this.props.theme.inputStyle()}
+                                        style={this.props.theme.input()}
                                         // tslint:disable-next-line
                                         onChange={(ev: any) => this.setState({ feedUrl: ev.target.value })}
                                     />

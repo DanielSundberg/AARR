@@ -14,9 +14,10 @@ const Loader: React.SFC = () => {
     );
 };
 
-const TelemetryInfo: React.FunctionComponent<{style:any}> = ({style}) => {
+// tslint:disable-next-line
+const TelemetryInfo: React.FunctionComponent<{style: any}> = ({style}) => {
     return (
-        <div className="ui info message" style={    style}>
+        <div className="ui info message" style={style}>
             Only usage statistics such as the number of times the app has been
             opened and how much time that has been spent reading articles will
             be collected.
@@ -66,7 +67,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
     }
 
     componentWillMount() {
-        document.body.style.backgroundColor = this.props.theme.listBackgroundColor();
+        document.body.style.backgroundColor = this.props.theme.theme.listBackground;
     }
 
     async saveTelemetrySettings(self: any) { // tslint:disable-line
@@ -153,17 +154,17 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
         });
     }
 
-    setLightTheme(self: any) {
-        self.props.theme.setLightTheme();
-    }
+    // setLightTheme(self: any) {
+    //     self.props.theme.setLightTheme();
+    // }
 
-    setDarkTheme(self: any) {
-        self.props.theme.setDarkTheme();
-    }
+    // setDarkTheme(self: any) {
+    //     self.props.theme.setDarkTheme();
+    // }
 
     render() {
         // console.log("Url: ", this.props.containerAppCallbacks.url); // tslint:disable-line
-        document.body.style.backgroundColor = this.props.theme.listBackgroundColor();
+        document.body.style.backgroundColor = this.props.theme.colors.listBackground;
 
         let deviceNameInputClasses = this.state.enableTelemetry ?
             "ui action input" :
@@ -174,11 +175,11 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
         let loaderOrEmpty = this.state.isSaving && <Loader />;
 
         const lightThemeButtonStyle = this.props.theme.isLight() ? 
-            this.props.theme.blogHeaderActiveStyle() : 
-            this.props.theme.blogHeaderInactiveStyle();
+            this.props.theme.blogHeaderActive() : 
+            this.props.theme.blogHeaderInactive();
         const darkThemeButtonStyle = this.props.theme.isDark() ? 
-            this.props.theme.blogHeaderActiveStyle() : 
-            this.props.theme.blogHeaderInactiveStyle();
+            this.props.theme.blogHeaderActive() : 
+            this.props.theme.blogHeaderInactive();
         const lightThemeButtonIcon = this.props.theme.isLight() ? 
             <i className="check circle outline icon"/> : 
             <i className="circle outline icon"/>;
@@ -193,7 +194,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                 {/* Header */}
                 <div className="row">
                     <div className="sixteen wide column">
-                        <h1 className="ui header center" style={this.props.theme.headerTextStyle()}>
+                        <h1 className="ui header center" style={this.props.theme.settingsHeader()}>
                             Settings
                       </h1>
                     </div>
@@ -205,19 +206,19 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                 {/* Select theme */}
                 <div className="row">
                     <div className="sixteen wide column">
-                        <h2 className="ui header" style={this.props.theme.headerTextStyle()}>Theme</h2>
+                        <h2 className="ui header" style={this.props.theme.settingsHeader()}>Theme</h2>
                         <div className="row">
                             <button 
                                 className="ui toggle large button" 
                                 style={lightThemeButtonStyle}
-                                onClick={(ev: any) => this.setLightTheme(this)}
+                                onClick={(ev: any) => this.props.theme.setLightTheme()} // tslint:disable-line
                             >
                                 {lightThemeButtonIcon} Light
                             </button>
                             <button 
                                 className="ui toggle large button" 
                                 style={darkThemeButtonStyle}
-                                onClick={(ev: any) => this.setDarkTheme(this)}
+                                onClick={(ev: any) => this.props.theme.setDarkTheme()} // tslint:disable-line
                             >
                                 {darkThemeButtonIcon} Dark
                             </button>
@@ -228,21 +229,24 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                 {/* Enable Usage statistics */}
                 <div className="row">
                     <div className="sixteen wide column">
-                        <h2 className="ui header" style={this.props.theme.headerTextStyle()}>Usage statistics</h2>
+                        <h2 className="ui header" style={this.props.theme.settingsHeader()}>Usage statistics</h2>
                         <div className="row">
                             <div className="four wide column">
-                                <div className="ui checkbox" style={this.props.theme.checkbox()}>
+                                <div className="ui checkbox">
                                     <input
                                         type="checkbox"
                                         name="enable-telemetry"
                                         checked={this.state.enableTelemetry}
                                         // tslint:disable-next-line
                                         onChange={(ev: any) => { 
-                                            this.setState({ enableTelemetry: !this.state.enableTelemetry, hasChanges: true }); 
+                                            this.setState({ 
+                                                enableTelemetry: !this.state.enableTelemetry, 
+                                                hasChanges: true 
+                                            }); 
                                             this.saveTelemetrySettings(this);
                                         }}
                                     />
-                                    <label style={this.props.theme.headerTextStyle()}>Yes I'm in!</label>
+                                    <label style={this.props.theme.settingsHeader()}>Yes I'm in!</label>
                                 </div>
                             </div>
                         </div>
@@ -254,21 +258,21 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                     <div className="ui sixteen wide column">
                         <form className="ui large form">
                             <div className="field">
-                                <label style={this.props.theme.headerTextStyle()}>Device name:</label>
+                                <label style={this.props.theme.settingsHeader()}>Device name:</label>
                                 <div className={deviceNameInputClasses}>
                                     <input
                                         type="text"
                                         name="device-name"
                                         placeholder="Device name"
                                         value={this.state.deviceName}
-                                        style={this.props.theme.inputStyle()}
+                                        style={this.props.theme.input()}
                                         // tslint:disable-next-line
                                         onChange={(ev: any) => this.setState({ deviceName: ev.target.value, hasChanges: true })}
                                     />
                                     <button 
                                         className="ui button" 
                                         style={this.props.theme.activeButton()}
-                                        onClick={(ev: any) => this.saveTelemetrySettings(this)}
+                                        onClick={(ev: any) => this.saveTelemetrySettings(this)} // tslint:disable-line
                                     >
                                         <i className="check icon"/>
                                     </button>
@@ -281,12 +285,9 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                 {/* Telemetry info label */}
                 <div className="row">
                     <div className="ui sixteen wide column">
-                        <TelemetryInfo style={this.props.theme.infoMessageStyle()} />
+                        <TelemetryInfo style={this.props.theme.infoMessage()} />
                     </div>
                 </div>
-
-                
-
             </div>);
     }
 }
