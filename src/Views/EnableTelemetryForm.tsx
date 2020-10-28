@@ -64,13 +64,14 @@ class EnableTelemetryForm extends React.Component<RootStore, EnableTelemetryForm
             return (<Redirect to="/blogs" />);
         } 
 
-        const thumbsUpButtonOrLoader = this.state.isLoading ?
+        const thumbsUpButtonOrLoader = this.state.isLoading ? (
             <button 
                 className="ui large primary loading fluid button"
                 style={this.props.theme.activeButton()}
             >
                 Loading
-            </button> : 
+            </button>
+        ) : (
             <div 
                 className="ui fluid large primary submit button" 
                 style={this.props.theme.activeButton()}
@@ -78,7 +79,8 @@ class EnableTelemetryForm extends React.Component<RootStore, EnableTelemetryForm
                 onClick={(ev: any) => this.clickedYes(this)}
             >
                 <i className="thumbs up icon" /> YES, I'm in!
-            </div>;
+            </div>
+        );
 
         return (
             <div className="ui grid middle center container">

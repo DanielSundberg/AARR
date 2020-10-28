@@ -101,43 +101,47 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
             <i className="check circle outline icon"/> : 
             <i className="circle outline icon"/>;
 
-        let saveDeviceButtonOrLoader = this.state.isSavingDeviceName ? 
+        let saveDeviceButtonOrLoader = this.state.isSavingDeviceName ? (
             <button 
                 className="ui large primary loading button"
                 style={this.props.theme.activeButton()}
             >
                 Loading
-            </button> : 
+            </button>
+        ) : (
             <button 
                 className="ui large primary button" 
                 onClick={(ev: any) => this.saveDeviceName(this)} // tslint:disable-line
                 style={this.props.theme.activeButton()}
             >
                 <i className="icon check" /> Save
-            </button>;
+            </button>
+        );
 
-        let toggleUsageStatisticsButton = this.state.enableTelemetry ? 
+        let toggleUsageStatisticsButton = this.state.enableTelemetry ? (
             <button 
                 className="ui large primary fluid button" 
-                onClick={(ev: any) => this.saveTelemetrySettings(this) }
+                onClick={(ev: any) => this.saveTelemetrySettings(this)} // tslint:disable-line
                 style={this.props.theme.activeButton()}
             >
                 <i className="check circle outline icon"/>On
-            </button> : 
+            </button> 
+        ) : (
             <button 
                 className="ui large fluid button" 
-                onClick={(ev: any) => this.saveTelemetrySettings(this) }
+                onClick={(ev: any) => this.saveTelemetrySettings(this)} // tslint:disable-line
                 style={this.props.theme.inactiveButton()}
             >
-                <i className="circle outline icon"/>Off   
-            </button>;
-        let toggleUsageStatisticsButtonOrLoader = this.state.isSavingEnableUsageStatistics ? 
+                <i className="circle outline icon"/>Off
+            </button>
+        );
+        let toggleUsageStatisticsButtonOrLoader = this.state.isSavingEnableUsageStatistics ? (
             <button 
                 className="ui large primary loading fluid button"
                 style={this.props.theme.activeButton()}
             >
                 Loading
-            </button> : 
+            </button>) : 
             toggleUsageStatisticsButton;
 
         return (
