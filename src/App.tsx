@@ -14,6 +14,7 @@ import AddForm from './Views/AddForm';
 import SettingsForm from './Views/SettingsForm';
 import ContainerAppCallbacks from './Model/ContainerAppCallbacks';
 import EnableTelemetryForm from './Views/EnableTelemetryForm';
+import AboutForm from './Views/AboutForm';
 
 declare global {
   // tslint:disable-next-line
@@ -45,6 +46,7 @@ class App extends React.Component {
                   <Route path="/add" component={AddForm} />
                   <Route path="/settings" component={SettingsForm} />
                   <Route path="/telemetrymessage" component={EnableTelemetryForm} />
+                  <Route path="/about" component={AboutForm} />
                   <Route component={CheckAuthView} />
                 </Switch>
               </Router>

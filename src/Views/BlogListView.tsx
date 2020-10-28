@@ -91,6 +91,13 @@ class BlogListView extends React.Component<RootStore, {}> {
                         </div>
                     </Dropdown.Item>
                     <Dropdown.Divider />
+                    <Dropdown.Item onClick={() => this.props.routing.push("/about")}>
+                        <div style={this.props.theme.dropdownMenu()}>
+                            <Icon name="info circle" style={this.props.theme.dropdownMenu()}/>
+                            <span className='text' style={this.props.theme.dropdownMenu()}>About...</span>
+                        </div>
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
                     <Dropdown.Item onClick={() => this.props.appState.logout()}>                    
                         <div style={this.props.theme.dropdownMenu()}>
                             <Icon name="sign out" style={this.props.theme.dropdownMenu()}/>
