@@ -1,7 +1,7 @@
 import * as React from 'react';
 import RootStore from '../Model/RootStore';
 import { inject, observer } from 'mobx-react';
-import { TelemetryInfo } from './SettingsForm';
+import { TelemetryInfo } from './TelemetryInfo';
 import { Redirect } from 'react-router';
 import { register as registerDevice } from '../Model/DeviceUtils';
 

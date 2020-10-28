@@ -2,47 +2,12 @@ import * as React from 'react';
 import RootStore from '../Model/RootStore';
 import { inject, observer } from 'mobx-react';
 import { register as registerDevice, newDeviceName } from '../Model/DeviceUtils';
-
-const Loader: React.SFC = () => {
-    return (
-        <div className="item">
-            <div className="ui tiny active inline loader" />
-        </div>
-    );
-};
-
-// tslint:disable-next-line
-export const TelemetryInfo: React.FunctionComponent<{style: any}> = ({style}) => {
-    return (
-        <div className="ui info message" style={style}>
-            <h4>Usage statistics</h4>
-            
-            <div className="ui bulleted list">
-                <div className="item">
-                    Only usage statistics such as the number of times the app has been
-                    opened and how much time that has been spent reading articles will
-                    be collected.
-                </div>
-                <div className="item">
-                    Personal information such as email, ip address, age, nationality
-                    and so on will not be collected.
-                </div>
-                <div className="item">
-                    The collected information will be used to improve the user experience
-                    in the AARR reader app.
-                </div>
-                <div className="item">
-                    The source code of the statistics analysis app is available on github:<br/>
-                    <a href="https://github.com/DanielSundberg/AARR-stat">AARR-stat on Github</a>.
-                </div>
-            </div>
-        </div>
-    );
-};
+import { TelemetryInfo } from './TelemetryInfo';
 
 interface SettingsFormState {
     enableTelemetry: boolean;
-    isSaving: boolean;
+    isSavingEnableUsageStatistics: boolean;
+    isSavingDeviceName: boolean;
     deviceName: string;
     errorMessage: string;
 }
@@ -56,7 +21,8 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
         super(props);
 
         this.state = {
-            isSaving: false,
+            isSavingEnableUsageStatistics: false,
+            isSavingDeviceName: false,
             enableTelemetry: localStorage.getItem('enableTelemetry') === "true",
             deviceName: newDeviceName(),
             errorMessage: '',
@@ -70,7 +36,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
     async saveTelemetrySettings(self: any) { // tslint:disable-line
         const newEnableTelemetryValue = !self.state.enableTelemetry;
         self.setState({ 
-            isSaving: true
+            isSavingEnableUsageStatistics: true
         }); 
 
         // tslint:disable-next-line
@@ -84,7 +50,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
 
         // Set state so that we properly update ui
         self.setState({
-            isSaving: false,
+            isSavingEnableUsageStatistics: false,
             errorMessage: rsp.errorMessage, 
             enableTelemetry: rsp.errorMessage ? self.state.enableTelemetry : newEnableTelemetryValue
         });
@@ -92,7 +58,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
 
     async saveDeviceName(self: any) { // tslint:disable-line
         self.setState({ 
-            isSaving: true
+            isSavingDeviceName: true
         }); 
 
         // tslint:disable-next-line
@@ -106,7 +72,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
 
         // Set state so that we properly update ui
         self.setState({
-            isSaving: false,
+            isSavingDeviceName: false,
             errorMessage: rsp.errorMessage
         });
     }
@@ -121,7 +87,6 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
 
         let errorMessageOrEmpty = this.state.errorMessage &&
             <div className="ui error message">{this.state.errorMessage}</div>;
-        let loaderOrEmpty = this.state.isSaving && <Loader />;
 
         const lightThemeButtonStyle = this.props.theme.isLight() ? 
             this.props.theme.blogHeaderActive() : 
@@ -136,6 +101,45 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
             <i className="check circle outline icon"/> : 
             <i className="circle outline icon"/>;
 
+        let saveDeviceButtonOrLoader = this.state.isSavingDeviceName ? 
+            <button 
+                className="ui large primary loading button"
+                style={this.props.theme.activeButton()}
+            >
+                Loading
+            </button> : 
+            <button 
+                className="ui large primary button" 
+                onClick={(ev: any) => this.saveDeviceName(this)} // tslint:disable-line
+                style={this.props.theme.activeButton()}
+            >
+                <i className="icon check" /> Save
+            </button>;
+
+        let toggleUsageStatisticsButton = this.state.enableTelemetry ? 
+            <button 
+                className="ui large primary fluid button" 
+                onClick={(ev: any) => this.saveTelemetrySettings(this) }
+                style={this.props.theme.activeButton()}
+            >
+                <i className="check circle outline icon"/>On
+            </button> : 
+            <button 
+                className="ui large fluid button" 
+                onClick={(ev: any) => this.saveTelemetrySettings(this) }
+                style={this.props.theme.inactiveButton()}
+            >
+                <i className="circle outline icon"/>Off   
+            </button>;
+        let toggleUsageStatisticsButtonOrLoader = this.state.isSavingEnableUsageStatistics ? 
+            <button 
+                className="ui large primary loading fluid button"
+                style={this.props.theme.activeButton()}
+            >
+                Loading
+            </button> : 
+            toggleUsageStatisticsButton;
+
         return (
             <div className="ui grid container">
                 <div className="row"></div>
@@ -149,13 +153,12 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                     </div>
                 </div>
 
-                {loaderOrEmpty}
                 {errorMessageOrEmpty}
 
                 {/* Select theme */}
                 <div className="row">
                     <div className="sixteen wide column">
-                        <h2 className="ui header" style={this.props.theme.settingsHeader()}>Theme</h2>
+                        <h3 className="ui header" style={this.props.theme.settingsHeader()}>Theme</h3>
                         <div className="row">
                             <button 
                                 className="ui toggle large button" 
@@ -178,22 +181,12 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                 {/* Enable Usage statistics */}
                 <div className="row">
                     <div className="sixteen wide column">
-                        <h2 className="ui header" style={this.props.theme.settingsHeader()}>Usage statistics</h2>
+                        <h3 className="ui header" style={this.props.theme.settingsHeader()}>Usage statistics</h3>
                         <div className="row">
-                            <div className="four wide column">
-                                <div className="ui checkbox">
-                                    <input
-                                        type="checkbox"
-                                        name="enable-telemetry"
-                                        checked={this.state.enableTelemetry}
-                                        // tslint:disable-next-line
-                                        onChange={(ev: any) => { 
-                                            this.saveTelemetrySettings(this);
-                                        }}
-                                    />
-                                    <label style={this.props.theme.settingsHeader()}>Yes I'm in!</label>
-                                </div>
+                            <div className="eight wide column">
+                                {toggleUsageStatisticsButtonOrLoader}
                             </div>
+                            <div className="eight wide column"> </div>
                         </div>
                     </div>
                 </div>
@@ -202,7 +195,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                 <div className="row">
                     <div className="ui sixteen wide column">
                         <div className="field">
-                            <h4 style={this.props.theme.settingsHeader()}>Device name:</h4>
+                            <h3 style={this.props.theme.settingsHeader()}>Usage Statistics device name:</h3>
                             <div className={deviceNameInputClasses}>
                                 <input
                                     type="text"
@@ -213,13 +206,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                                     // tslint:disable-next-line
                                     onChange={(ev: any) => this.setState({ deviceName: ev.target.value })}
                                 />
-                                <button 
-                                    className="ui button" 
-                                    style={this.props.theme.activeButton()}
-                                    onClick={(ev: any) => this.saveDeviceName(this)} // tslint:disable-line
-                                >
-                                    <i className="check icon"/>
-                                </button>
+                                {saveDeviceButtonOrLoader}
                             </div>
                         </div>
                     </div>

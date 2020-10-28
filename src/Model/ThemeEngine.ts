@@ -70,7 +70,7 @@ const darkTheme: Theme = {
     dropdownMenuColor: "#B7B7B7",
     dropDownMenuBackground: "#1B1C1D", 
     inputBackground: "#35363A", 
-    inputColor: "#FFFFFF", 
+    inputColor: "#B7B7B7", 
     infoMessageBackground: "#35363A", 
     infoMessageColor: "#B7B7B7", 
     errorMessageBackground: "#FF9E9E",
