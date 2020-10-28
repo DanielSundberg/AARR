@@ -49,13 +49,19 @@ class AddForm extends React.Component<RootStore, AddFormState> {
 
         let button = this.props.appState.addFeedSuccess ? (
             <Link to="/blogs">
-                <button className={buttonClasses}>Close</button>
+                <button 
+                    className={buttonClasses}
+                    style={this.props.theme.activeButton()}
+                >
+                    Close
+                </button>
             </Link>
         ) : (
                 <button
                     className={buttonClasses}
                     // tslint:disable-next-line
                     onClick={(ev: any) => this.addFeedClicked(this)}
+                    style={this.props.theme.activeButton()}
                 >
                     {buttonContentOrLoader}
                 </button>

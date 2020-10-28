@@ -206,9 +206,10 @@ class AppState {
     }
 
     async add(feedUrl: string) {
-        // console.log(`Adding feed ${feedUrl}`); 
+        // console.log(`Adding feed ${feedUrl}, auth=${this.auth}`); 
         try {
-            this.isAddingFeed = true;       
+            this.isAddingFeed = true;  
+            this.checkAuth();
             let response = await OldReaderResource.add(this.auth, feedUrl);
             if (response.status === -1) {
                 this.addFeedMessage = 'Could not add feed, request failed. Please try again.';
