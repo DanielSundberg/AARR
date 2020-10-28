@@ -15,25 +15,27 @@ const Loader: React.SFC = () => {
 export const TelemetryInfo: React.FunctionComponent<{style: any}> = ({style}) => {
     return (
         <div className="ui info message" style={style}>
-            Only usage statistics such as the number of times the app has been
-            opened and how much time that has been spent reading articles will
-            be collected.
-            Personal information such as email, ip address, age, nationality
-            and so on will not be collected.
-            The collected information will be used to improve the user experience
-            in the AARR reader app.
-            <br /><br />
-            The following information is sent to AARR:s servers:
+            <h4>Usage statistics</h4>
+            
             <div className="ui bulleted list">
-                <div className="item">Hashed the Old Reader user id (impossible for the AARR server to decode)</div>
-                <div className="item">Hashed device id (impossible for the AARR server to decode)</div>
-                <div className="item">Session id (random unique id)</div>
-                <div className="item">Device name (as entered above)</div>
+                <div className="item">
+                    Only usage statistics such as the number of times the app has been
+                    opened and how much time that has been spent reading articles will
+                    be collected.
+                </div>
+                <div className="item">
+                    Personal information such as email, ip address, age, nationality
+                    and so on will not be collected.
+                </div>
+                <div className="item">
+                    The collected information will be used to improve the user experience
+                    in the AARR reader app.
+                </div>
+                <div className="item">
+                    The source code of the statistics analysis app is available on github:<br/>
+                    <a href="https://github.com/DanielSundberg/AARR-stat">AARR-stat on Github</a>.
+                </div>
             </div>
-
-            The collection of usage statistics is strictly done only when the
-            user opts in. The statistics analysis app is available on github:<br />
-            <a href="https://github.com/DanielSundberg/AARR-stat">https://github.com/DanielSundberg/AARR-stat</a>
         </div>
     );
 };
@@ -56,7 +58,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
         this.state = {
             isSaving: false,
             enableTelemetry: localStorage.getItem('enableTelemetry') === "true",
-            deviceName: localStorage.getItem('deviceName') || newDeviceName(),
+            deviceName: newDeviceName(),
             errorMessage: '',
         };
     }

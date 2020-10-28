@@ -51,49 +51,45 @@ class EnableTelemetryForm extends React.Component<RootStore, EnableTelemetryForm
     }
 
     render() {
-      const telemetryEnabled: boolean = localStorage.getItem('enableTelemetry') === "true";
-      const hasSeenTelemetryMessage = localStorage.getItem(hasSeentelemetrySettingStr) || "";
-      if (hasSeenTelemetryMessage === "true" || telemetryEnabled) {
-          return (<Redirect to="/blogs" />);
-      } 
-      return (
-        <div className="ui grid middle center container">
-          <div className="row" />
-          <div className="row">
-            <div className="two wide column" />
-            <div className="twelve wide column">
-                <h2 className="ui image header">
-                    <div className="content" style={this.props.theme.settingsHeader()}>
-                        AARR Usage Statistics
-                    </div>
-                </h2>
-                <TelemetryInfo style={this.props.theme.infoMessage()}/>
-                <form className="ui large form">
-                    <div className="row">
-                        <div 
-                            className="ui fluid large primary submit button" 
-                            style={this.props.theme.activeButton()}
-                            // tslint:disable-next-line
-                            onClick={(ev: any) => this.clickedYes(this)}
-                        >
-                            <i className="thumbs up icon" /> YES, I'm in!
+        const telemetryEnabled: boolean = localStorage.getItem('enableTelemetry') === "true";
+        const hasSeenTelemetryMessage = localStorage.getItem(hasSeentelemetrySettingStr) || "";
+        if (hasSeenTelemetryMessage === "true" || telemetryEnabled) {
+            return (<Redirect to="/blogs" />);
+        } 
+        return (
+            <div className="ui grid middle center container">
+                <div className="row" />
+                <div className="row">
+                    <h2 className="ui image header">
+                        <div className="content" style={this.props.theme.settingsHeader()}>
+                            AARR Usage Statistics
                         </div>
+                    </h2>
+                    <TelemetryInfo style={this.props.theme.infoMessage()}/>
+
+                    {/* Yes I'm in button */}
+                    <div 
+                        className="ui fluid large primary submit button" 
+                        style={this.props.theme.activeButton()}
+                        // tslint:disable-next-line
+                        onClick={(ev: any) => this.clickedYes(this)}
+                    >
+                        <i className="thumbs up icon" /> YES, I'm in!
                     </div>
                     <br/>
-                    <div className="row">
-                        <div 
-                            className="ui fluid large primary submit button" 
-                            style={this.props.theme.inactiveButton()}
-                            // tslint:disable-next-line
-                            onClick={(ev: any) => this.clickedNo(this)}
-                        >
-                            No, not right now
-                        </div>
+
+                    {/* No, not right now button */}
+                    <div 
+                        className="ui fluid large primary submit button" 
+                        style={this.props.theme.inactiveButton()}
+                        // tslint:disable-next-line
+                        onClick={(ev: any) => this.clickedNo(this)}
+                    >
+                        No, not right now
                     </div>
-                </form>
+                </div>
             </div>
-          </div>
-        </div>);
+        );
     }
   }
   

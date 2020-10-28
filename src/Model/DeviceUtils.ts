@@ -4,7 +4,7 @@ import * as sha256 from 'crypto-js/sha256';
 import { v4 as uuidv4 } from 'uuid';
 
 export const newDeviceName = (() => {
-    return `My device ${Math.floor(Math.random() * 1000000)}`;
+    return localStorage.getItem('deviceName') || `My device ${Math.floor(Math.random() * 1000000)}`;
 });
 
 export const register = (async(url: string, apiKey: string, enableTelemetry: boolean, deviceName?: string) => {
