@@ -53,7 +53,7 @@ const lightTheme: Theme = {
     blogHeaderInactiveColor: "#FFFFFF", 
     activeButtonBackground: "#3B83C0",
     activeButtonColor: "#FFFFFF", 
-    inactiveButtonBackground: "#3B83C0",
+    inactiveButtonBackground: "#808080",
     inactiveButtonColor: "#FFFFFF"
 };
 

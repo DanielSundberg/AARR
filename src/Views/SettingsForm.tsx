@@ -183,10 +183,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                     <div className="sixteen wide column">
                         <h3 className="ui header" style={this.props.theme.settingsHeader()}>Usage statistics</h3>
                         <div className="row">
-                            <div className="eight wide column">
-                                {toggleUsageStatisticsButtonOrLoader}
-                            </div>
-                            <div className="eight wide column"> </div>
+                            {toggleUsageStatisticsButtonOrLoader}
                         </div>
                     </div>
                 </div>
