@@ -17,7 +17,7 @@ class CheckAuthView extends React.Component<RootStore, {}> {
         if (this.props.appState.loggedIn === LoggedInState.NotLoggedIn) {
             return (<Redirect to="/login" />);
         } else if (this.props.appState.loggedIn === LoggedInState.LoggedIn) {
-            return (<Redirect to="/blogs" />);
+            return (<Redirect to="/telemetrymessage" />);
         } else {
             return (
                 <div className="ui grid container">

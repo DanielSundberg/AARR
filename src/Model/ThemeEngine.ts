@@ -25,6 +25,8 @@ interface Theme {
     blogHeaderInactiveColor: string;
     activeButtonBackground: string;
     activeButtonColor: string;
+    inactiveButtonBackground: string;
+    inactiveButtonColor: string;
 }
 
 const lightTheme: Theme = {
@@ -50,7 +52,9 @@ const lightTheme: Theme = {
     blogHeaderInactiveBackground: "#808080",
     blogHeaderInactiveColor: "#FFFFFF", 
     activeButtonBackground: "#3B83C0",
-    activeButtonColor: "#FFFFFF"
+    activeButtonColor: "#FFFFFF", 
+    inactiveButtonBackground: "#3B83C0",
+    inactiveButtonColor: "#FFFFFF"
 };
 
 const darkTheme: Theme = {
@@ -76,7 +80,9 @@ const darkTheme: Theme = {
     blogHeaderInactiveBackground: "#808080",
     blogHeaderInactiveColor: "#B7B7B7", 
     activeButtonBackground: "#204E71", 
-    activeButtonColor: "#B7B7B7"
+    activeButtonColor: "#B7B7B7",
+    inactiveButtonBackground: "#808080",
+    inactiveButtonColor: "#B7B7B7"
 };
 
 class ThemeEngine {
@@ -210,6 +216,13 @@ class ThemeEngine {
         return {
             background: this.theme.activeButtonBackground, 
             color: this.theme.activeButtonColor
+        };
+    }
+
+    inactiveButton() {
+        return {
+            background: this.theme.inactiveButtonBackground, 
+            color: this.theme.inactiveButtonColor
         };
     }
 }

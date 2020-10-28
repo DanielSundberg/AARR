@@ -73,6 +73,7 @@ class LoginForm extends React.Component<RootStore, {}> {
                 </div>
               </form>
               {this.props.appState.loginError !== '' ? 
+                // tslint:disable-next-line
                 <div className="ui negative message" style={this.props.theme.errorMessage()}>{this.props.appState.loginError}</div> : 
                 null}
               <div className="ui message" style={this.props.theme.infoMessage()}>

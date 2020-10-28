@@ -144,8 +144,9 @@ class BlogPostView extends React.Component<RootStore, {}> {
                                 <div className="ui segment" style={headerContentStyle}>
                                     <h1>
                                         <a 
-                                            style={this.props.theme.headerText()} 
-                                            href={b.url} target="_new"
+                                            style={this.props.theme.headerText()}
+                                            href={b.url}
+                                            target="_new"
                                         >
                                             {b.title}
                                         </a>
