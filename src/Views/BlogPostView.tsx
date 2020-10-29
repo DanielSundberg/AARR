@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { inject, observer } from 'mobx-react';
 import RootStore from '../Model/RootStore';
-import renderHTML from 'react-render-html';
+import parse from 'html-react-parser';
 import Headroom from 'react-headroom';
 import { belowMainMenuStyle } from '../Model/CustomStyles';
 import ScrollToTopOnMount from './ScrollToTop';
@@ -78,6 +78,24 @@ class BlogPostView extends React.Component<RootStore, {}> {
             return !b.fetched;
         });
         return moreToFetch;
+    }
+
+    addHostnameToUrl(node: any, urlAttr: string, blogUrl: string) {
+        const hrefUrl: string = node.attribs[urlAttr];
+        if (hrefUrl.startsWith("/") && blogUrl && blogUrl.length > 0) {
+            // console.log('Blog url: ', b.url);
+            const urlObj = new URL(blogUrl);
+            node.attribs[urlAttr] = `${urlObj.protocol}//${urlObj.hostname}${hrefUrl}`;
+            console.log("Url: ", node.attribs[urlAttr]);
+        }
+        return node;
+    }
+
+    getRedirect = async (uri: any)=>{
+        let rsp : any = await (
+            await fetch(uri)
+        );
+        return (rsp.status === 200 ? rsp.url : '')
     }
 
     render() {
@@ -178,7 +196,23 @@ class BlogPostView extends React.Component<RootStore, {}> {
                                 <div className={contentSegmentClasses} style={contentStyle} >
                                     <div className="content">     
                                         <div className="description" style={this.props.theme.blogText()}>
-                                            {renderHTML(b.content)}
+                                            {parse(b.content, {
+                                                replace: (node: any) => {
+                                                    
+                                                    // If links starts with / we add the hostname
+                                                    if (node.type === 'tag' && node.name === 'a' && node.attribs && 'href' in node.attribs) {
+                                                        return this.addHostnameToUrl(node, "href", b.url);
+                                                    } 
+
+                                                    // Also add url to images starting with /
+                                                    if (node.type === 'tag' && node.name === 'img' && node.attribs && 'src' in node.attribs) {
+                                                        console.log(b);
+                                                        return this.addHostnameToUrl(node, "src", b.url);
+                                                    } 
+
+                                                    return;
+                                                }
+                                            })}
                                         </div>
                                     </div>
                                 </div>
