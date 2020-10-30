@@ -2,6 +2,8 @@ import * as React from 'react';
 import RootStore from '../Model/RootStore';
 import { inject, observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
+import Headroom from 'react-headroom';
+import { fullscreenBelowMenuStyle } from '../Model/CustomStyles';
 
 interface AddFormState {
     feedUrl: string;
@@ -16,6 +18,7 @@ const Loader: React.SFC = () => {
 };
 
 @inject("appState")
+@inject("routing")
 @inject("theme")
 @observer
 class AddForm extends React.Component<RootStore, AddFormState> {
@@ -79,41 +82,53 @@ class AddForm extends React.Component<RootStore, AddFormState> {
         );
 
         return (
-            <div className="ui grid container">
-                <div className="row"></div>
-                <div className="row">
-
-                    <div className="sixteen wide column">
-                        <h1 className="ui header center" style={this.props.theme.settingsHeader()}>
-                            Add RSS Feed:
-                        </h1>
+            <div className="container">
+                 <Headroom>
+                    <div className="ui attached inverted icon menu" >
+                        <a 
+                            className="item" 
+                            onClick={() => this.props.routing.goBack()} 
+                            style={this.props.theme.headerText()}
+                        >
+                            <i className="icon angle left" />
+                        </a>
+                        <div className="header borderless item left">Add feed</div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="ui sixteen wide column">
-                        <form className="ui large form">
-                            <div className="field">
-                                <div className="ui left input">
-                                    <input
-                                        type="text"
-                                        name="feed-url"
-                                        placeholder="RSS Feed Url"
-                                        style={this.props.theme.input()}
-                                        // tslint:disable-next-line
-                                        onChange={(ev: any) => this.setState({ feedUrl: ev.target.value })}
-                                    />
+                </Headroom>
+                <div className="ui grid" style={fullscreenBelowMenuStyle}>
+                    <div className="row">
+
+                        <div className="sixteen wide column">
+                            <h3 className="ui header center" style={this.props.theme.settingsHeader()}>
+                                Url of RSS feed to add:
+                            </h3>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="ui sixteen wide column">
+                            <form className="ui large form">
+                                <div className="field">
+                                    <div className="ui left input">
+                                        <input
+                                            type="text"
+                                            name="feed-url"
+                                            placeholder="RSS Feed Url"
+                                            style={this.props.theme.input()}
+                                            // tslint:disable-next-line
+                                            onChange={(ev: any) => this.setState({ feedUrl: ev.target.value })}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
-                        {infoMessage}
+                            </form>
+                            {infoMessage}
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="ui sixteen wide column">
+                            {button}
+                        </div>
                     </div>
                 </div>
-                <div className="row">
-                    <div className="ui sixteen wide column">
-                        {button}
-                    </div>
-                </div>
-
             </div>);
     }
 }

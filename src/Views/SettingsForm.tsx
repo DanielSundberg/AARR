@@ -3,6 +3,8 @@ import RootStore from '../Model/RootStore';
 import { inject, observer } from 'mobx-react';
 import { register as registerDevice, newDeviceName } from '../Model/DeviceUtils';
 import { TelemetryInfo } from './TelemetryInfo';
+import Headroom from 'react-headroom';
+import { fullscreenBelowMenuStyle } from '../Model/CustomStyles';
 
 interface SettingsFormState {
     enableTelemetry: boolean;
@@ -13,6 +15,7 @@ interface SettingsFormState {
 }
 
 @inject("containerAppCallbacks")
+@inject("routing")
 @inject("theme")
 @observer
 class SettingsForm extends React.Component<RootStore, SettingsFormState> {
@@ -145,79 +148,85 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
             toggleUsageStatisticsButton;
 
         return (
-            <div className="ui grid container">
-                <div className="row"></div>
-
-                {/* Header */}
-                <div className="row">
-                    <div className="sixteen wide column">
-                        <h1 className="ui header center" style={this.props.theme.settingsHeader()}>
-                            Settings
-                      </h1>
+            <div className="container">
+                <Headroom>
+                    <div className="ui attached inverted icon menu" >
+                        <a 
+                            className="item" 
+                            onClick={() => this.props.routing.goBack()} 
+                            style={this.props.theme.headerText()}
+                        >
+                            <i className="icon angle left" />
+                        </a>
+                        <div className="header borderless item left">Settings</div>
                     </div>
-                </div>
+                </Headroom>
 
                 {errorMessageOrEmpty}
 
-                {/* Select theme */}
-                <div className="row">
-                    <div className="sixteen wide column">
-                        <h3 className="ui header" style={this.props.theme.settingsHeader()}>Theme</h3>
-                        <div className="row">
-                            <button 
-                                className="ui toggle large button" 
-                                style={lightThemeButtonStyle}
-                                onClick={(ev: any) => this.props.theme.setLightTheme()} // tslint:disable-line
-                            >
-                                {lightThemeButtonIcon} Light
-                            </button>
-                            <button 
-                                className="ui toggle large button" 
-                                style={darkThemeButtonStyle}
-                                onClick={(ev: any) => this.props.theme.setDarkTheme()} // tslint:disable-line
-                            >
-                                {darkThemeButtonIcon} Dark
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <div className="ui grid" style={fullscreenBelowMenuStyle}>
 
-                {/* Enable Usage statistics */}
-                <div className="row">
-                    <div className="sixteen wide column">
-                        <h3 className="ui header" style={this.props.theme.settingsHeader()}>Usage statistics</h3>
-                        <div className="row">
-                            {toggleUsageStatisticsButtonOrLoader}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Device name */}
-                <div className="row">
-                    <div className="ui sixteen wide column">
-                        <div className="field">
-                            <h3 style={this.props.theme.settingsHeader()}>Usage Statistics device name:</h3>
-                            <div className={deviceNameInputClasses}>
-                                <input
-                                    type="text"
-                                    name="device-name"
-                                    placeholder="Device name"
-                                    value={this.state.deviceName}
-                                    style={this.props.theme.input()}
-                                    // tslint:disable-next-line
-                                    onChange={(ev: any) => this.setState({ deviceName: ev.target.value })}
-                                />
-                                {saveDeviceButtonOrLoader}
+                    {/* Select theme */}
+                    <div className="row">
+                        <div className="sixteen wide column">
+                            <h3 className="ui header" style={this.props.theme.settingsHeader()}>Theme</h3>
+                            <div className="row">
+                                <button 
+                                    className="ui toggle large button" 
+                                    style={lightThemeButtonStyle}
+                                    onClick={(ev: any) => this.props.theme.setLightTheme()} // tslint:disable-line
+                                >
+                                    {lightThemeButtonIcon} Light
+                                </button>
+                                <button 
+                                    className="ui toggle large button" 
+                                    style={darkThemeButtonStyle}
+                                    onClick={(ev: any) => this.props.theme.setDarkTheme()} // tslint:disable-line
+                                >
+                                    {darkThemeButtonIcon} Dark
+                                </button>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                {/* Telemetry info label */}
-                <div className="row">
-                    <div className="ui sixteen wide column">
-                        <TelemetryInfo style={this.props.theme.infoMessage()} />
+                    {/* Enable Usage statistics */}
+                    <div className="row">
+                        <div className="sixteen wide column">
+                            <h3 className="ui header" style={this.props.theme.settingsHeader()}>Usage statistics</h3>
+                            <div className="row">
+                                {toggleUsageStatisticsButtonOrLoader}
+                            </div>
+                        </div>
                     </div>
+
+                    {/* Device name */}
+                    <div className="row">
+                        <div className="ui sixteen wide column">
+                            <div className="field">
+                                <h3 style={this.props.theme.settingsHeader()}>Usage Statistics device name:</h3>
+                                <div className={deviceNameInputClasses}>
+                                    <input
+                                        type="text"
+                                        name="device-name"
+                                        placeholder="Device name"
+                                        value={this.state.deviceName}
+                                        style={this.props.theme.input()}
+                                        // tslint:disable-next-line
+                                        onChange={(ev: any) => this.setState({ deviceName: ev.target.value })}
+                                    />
+                                    {saveDeviceButtonOrLoader}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Telemetry info label */}
+                    <div className="row">
+                        <div className="ui sixteen wide column">
+                            <TelemetryInfo style={this.props.theme.infoMessage()} />
+                        </div>
+                    </div>
+
                 </div>
             </div>);
     }
