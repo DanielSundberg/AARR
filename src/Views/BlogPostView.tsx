@@ -12,12 +12,41 @@ import * as readingTime from 'reading-time';
 import { HeaderErrorMessage } from './HeaderErrorMessage';
 import * as InfiniteScroll from 'react-infinite-scroller';
 
-const Loader: React.SFC = () => {
+const Loader: React.FunctionComponent = () => {
     return (
         <div className="item right">
             <div className="ui tiny active inline loader"/>
         </div>
     );
+};
+
+const nodeType = (node: { type: string, name: string, attribs: [] }, name: string, attrib: string) => {
+    return node.type === 'tag' && node.name === name && node.attribs && attrib in node.attribs;
+};
+
+const addHostnameToUrl = (node: { attribs: [] }, urlAttr: string, blogUrl: string) => {
+    const hrefUrl: string = node.attribs[urlAttr];
+    if (hrefUrl.startsWith("/") && blogUrl && blogUrl.length > 0) {
+        // console.log('Blog url: ', b.url);
+        const urlObj = new URL(blogUrl);
+        node.attribs[urlAttr] = `${urlObj.protocol}//${urlObj.hostname}${hrefUrl}`;
+        // console.log("Replaced url: ", node.attribs[urlAttr]);
+    }
+    return node;
+};
+
+// tslint:disable-next-line
+const addHostnameToUrls = (node: any, hostname: string) => {
+    // If links (a) starts with / we add the hostname
+    if (nodeType(node, 'a', 'href')) {
+        return addHostnameToUrl(node, "href", hostname);
+    } 
+
+    // If images (img) starts with / we add the hostname
+    if (nodeType(node, 'img', 'src')) {
+        return addHostnameToUrl(node, "src", hostname);
+    } 
+    return;
 };
 
 interface YARRAndroidInterface {
@@ -78,24 +107,6 @@ class BlogPostView extends React.Component<RootStore, {}> {
             return !b.fetched;
         });
         return moreToFetch;
-    }
-
-    addHostnameToUrl(node: any, urlAttr: string, blogUrl: string) {
-        const hrefUrl: string = node.attribs[urlAttr];
-        if (hrefUrl.startsWith("/") && blogUrl && blogUrl.length > 0) {
-            // console.log('Blog url: ', b.url);
-            const urlObj = new URL(blogUrl);
-            node.attribs[urlAttr] = `${urlObj.protocol}//${urlObj.hostname}${hrefUrl}`;
-            console.log("Url: ", node.attribs[urlAttr]);
-        }
-        return node;
-    }
-
-    getRedirect = async (uri: any)=>{
-        let rsp : any = await (
-            await fetch(uri)
-        );
-        return (rsp.status === 200 ? rsp.url : '')
     }
 
     render() {
@@ -197,21 +208,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
                                     <div className="content">     
                                         <div className="description" style={this.props.theme.blogText()}>
                                             {parse(b.content, {
-                                                replace: (node: any) => {
-                                                    
-                                                    // If links starts with / we add the hostname
-                                                    if (node.type === 'tag' && node.name === 'a' && node.attribs && 'href' in node.attribs) {
-                                                        return this.addHostnameToUrl(node, "href", b.url);
-                                                    } 
-
-                                                    // Also add url to images starting with /
-                                                    if (node.type === 'tag' && node.name === 'img' && node.attribs && 'src' in node.attribs) {
-                                                        console.log(b);
-                                                        return this.addHostnameToUrl(node, "src", b.url);
-                                                    } 
-
-                                                    return;
-                                                }
+                                                replace: (node) => addHostnameToUrls(node, b.url)
                                             })}
                                         </div>
                                     </div>
