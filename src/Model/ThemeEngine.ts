@@ -1,5 +1,6 @@
 import { observable } from 'mobx';
 import * as _ from 'lodash';
+import { getTheme, storeTheme } from './Storage';
 
 interface Theme {
     key: string;
@@ -123,7 +124,7 @@ class ThemeEngine {
     @observable theme: Theme;
 
     constructor() {
-        const storedTheme = localStorage.getItem("theme") || "light";
+        const storedTheme = getTheme("light");
         this.setTheme(storedTheme);
     }
 
@@ -134,7 +135,7 @@ class ThemeEngine {
     setTheme(key: string) {
         let newTheme = _.find(themes, t => t.key === key);
         if (newTheme) {
-            localStorage.setItem("theme", key);
+            storeTheme(key);
             this.theme = newTheme;
         } else {
             throw new Error(`Invalid theme key: ${key}.`);

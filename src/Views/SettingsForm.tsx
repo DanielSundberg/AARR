@@ -1,10 +1,11 @@
 import * as React from 'react';
 import RootStore from '../Model/RootStore';
 import { inject, observer } from 'mobx-react';
-import { register as registerDevice, newDeviceName } from '../Model/DeviceUtils';
+import { AppUsageResource, newDeviceName } from '../Model/AppUsageResource';
 import { TelemetryInfo } from './TelemetryInfo';
 import Headroom from 'react-headroom';
 import { fullscreenBelowMenuStyle } from '../Model/CustomStyles';
+import { telemetryEnabled } from '../Model/Storage';
 import * as _ from 'lodash';
 
 interface SettingsFormState {
@@ -27,7 +28,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
         this.state = {
             isSavingEnableUsageStatistics: false,
             isSavingDeviceName: false,
-            enableTelemetry: localStorage.getItem('enableTelemetry') === "true",
+            enableTelemetry: telemetryEnabled(),
             deviceName: newDeviceName(),
             errorMessage: '',
         };
@@ -45,12 +46,11 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
 
         // tslint:disable-next-line
         console.log(`Save settings, enable telemetry: ${newEnableTelemetryValue}, device name: ${self.state.deviceName}`);
-        const rsp = await registerDevice(
-            self.props.containerAppCallbacks.url, 
-            self.props.containerAppCallbacks.apiKey, 
-            newEnableTelemetryValue,
-            self.state.deviceName 
+        let appUsageResource = new AppUsageResource(
+            self.props.containerAppCallbacks.url,
+            self.props.containerAppCallbacks.apiKey
         );
+        const rsp = await appUsageResource.register(newEnableTelemetryValue, self.state.deviceName);
 
         // Set state so that we properly update ui
         self.setState({
@@ -67,9 +67,11 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
 
         // tslint:disable-next-line
         console.log(`Save settings, enable telemetry: ${self.state.enableTelemetry}, device name: ${self.state.deviceName}`);
-        const rsp = await registerDevice(
-            self.props.containerAppCallbacks.url, 
-            self.props.containerAppCallbacks.apiKey, 
+        let appUsageResource = new AppUsageResource(
+            self.props.containerAppCallbacks.url,
+            self.props.containerAppCallbacks.apiKey
+        );
+        const rsp = await appUsageResource.register(
             self.state.enableTelemetry,
             self.state.deviceName 
         );

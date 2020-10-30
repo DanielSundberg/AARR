@@ -5,6 +5,7 @@ import { BlogPost } from './BlogPost';
 import OldReaderResource from './OldReaderResource';
 import { RouterStore } from 'mobx-react-router';
 import StringUtils from './StringUtils';
+import { getContentFontScaleFloat, getAuthToken, setAuthToken, clearAuthToken, setContentFontScale } from './Storage';
 
 export enum LoggedInState {
     Unknown = 0, 
@@ -40,12 +41,12 @@ class AppState {
         this.loggedIn = LoggedInState.Unknown;
         this.routing = routing;
         this.loginError = '';
-        this.contentFontScale = parseFloat(localStorage.getItem('contentFontScale') || "1.0");
+        this.contentFontScale = getContentFontScaleFloat();
     }
 
     async checkAuth() {
-        const authToken = localStorage.getItem('authToken');
-        if (authToken) {
+        const authToken = getAuthToken();
+        if (authToken.length > 0) {
             this.auth = authToken;
             this.loggedIn = LoggedInState.LoggedIn;
         } else {
@@ -198,7 +199,7 @@ class AppState {
             this.auth = data.Auth;
 
             // Save auth token to local storage
-            localStorage.setItem('authToken', this.auth);
+            setAuthToken(this.auth);
             this.routing.push('/blogs');
         } else {
             this.loginError = 'Could not get auth token, please try to login again!';  
@@ -253,7 +254,7 @@ class AppState {
 
     logout() {
         // Clear auth token from storage
-        localStorage.removeItem("authToken");
+        clearAuthToken();
 
         // Cleanup data
         this.bloglist = observable([]);
@@ -321,14 +322,14 @@ class AppState {
     increaseFontSize() {
         if (this.contentFontScale < 1.5) {
             this.contentFontScale += 0.1;
-            localStorage.setItem('contentFontScale', this.contentFontScale.toString());
+            setContentFontScale(this.contentFontScale);
         }
     }
 
     decreseFontSize() {
         if (this.contentFontScale > 0.7) {
             this.contentFontScale -= 0.1;
-            localStorage.setItem('contentFontScale', this.contentFontScale.toString());
+            setContentFontScale(this.contentFontScale);
         }
     }
 }

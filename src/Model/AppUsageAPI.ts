@@ -1,6 +1,6 @@
 import { ApiBase } from './ApiBase';
 
-export default class AARRStatAPI extends ApiBase {
+export default class AppUsageAPI extends ApiBase {
     async ping() {
         // tslint:disable-next-line
         return await super.getRequest(

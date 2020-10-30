@@ -3,7 +3,8 @@ import RootStore from '../Model/RootStore';
 import { inject, observer } from 'mobx-react';
 import { TelemetryInfo } from './TelemetryInfo';
 import { Redirect } from 'react-router';
-import { register as registerDevice } from '../Model/DeviceUtils';
+import { AppUsageResource } from '../Model/AppUsageResource';
+import { getItem, setItem, telemetryEnabled } from '../Model/Storage';
 
 interface EnableTelemetryFormState {
     hasSelected: boolean;
@@ -31,23 +32,23 @@ class EnableTelemetryForm extends React.Component<RootStore, EnableTelemetryForm
         self.setState({
             isLoading: true
         });
-        
+
         console.log(`Save settings, enable telemetry: ${true}, will auto generate device name.`); // tslint:disable-line
-        const rsp = await registerDevice(
-            this.props.containerAppCallbacks.url, 
-            this.props.containerAppCallbacks.apiKey, 
-            true
+        let appUsageResource = new AppUsageResource(
+            self.props.containerAppCallbacks.url, 
+            self.props.containerAppCallbacks.apiKey
         );
-        
+        const rsp = await appUsageResource.register(true);
+
         console.log("Response from registerTelemetry: ", rsp.errorMessage || "ok"); // tslint:disable-line
-        localStorage.setItem(hasSeentelemetrySettingStr, "true");
+        setItem(hasSeentelemetrySettingStr, "true");
         self.setState({
             hasSelected: true
         });
     }
 
     clickedNo(self: any) { // tslint:disable-line
-        localStorage.setItem(hasSeentelemetrySettingStr, "true");
+        setItem(hasSeentelemetrySettingStr, "true");
         self.setState({
             hasSelected: true
         });
@@ -58,9 +59,7 @@ class EnableTelemetryForm extends React.Component<RootStore, EnableTelemetryForm
     }
 
     render() {
-        const telemetryEnabled: boolean = localStorage.getItem('enableTelemetry') === "true";
-        const hasSeenTelemetryMessage = localStorage.getItem(hasSeentelemetrySettingStr) || "";
-        if (hasSeenTelemetryMessage === "true" || telemetryEnabled) {
+        if (getItem(hasSeentelemetrySettingStr) || telemetryEnabled()) {
             return (<Redirect to="/blogs" />);
         } 
 
