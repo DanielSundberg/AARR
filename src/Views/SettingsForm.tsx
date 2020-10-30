@@ -5,6 +5,7 @@ import { register as registerDevice, newDeviceName } from '../Model/DeviceUtils'
 import { TelemetryInfo } from './TelemetryInfo';
 import Headroom from 'react-headroom';
 import { fullscreenBelowMenuStyle } from '../Model/CustomStyles';
+import * as _ from 'lodash';
 
 interface SettingsFormState {
     enableTelemetry: boolean;
@@ -82,7 +83,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
 
     render() {
         // console.log("Url: ", this.props.containerAppCallbacks.url); // tslint:disable-line
-        document.body.style.backgroundColor = this.props.theme.colors.listBackground;
+        document.body.style.backgroundColor = this.props.theme.colors().listBackground;
 
         let deviceNameInputClasses = this.state.enableTelemetry ?
             "ui fluid action input " :
@@ -91,18 +92,24 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
         let errorMessageOrEmpty = this.state.errorMessage &&
             <div className="ui error message">{this.state.errorMessage}</div>;
 
-        const lightThemeButtonStyle = this.props.theme.isLight() ? 
-            this.props.theme.blogHeaderActive() : 
-            this.props.theme.blogHeaderInactive();
-        const darkThemeButtonStyle = this.props.theme.isDark() ? 
-            this.props.theme.blogHeaderActive() : 
-            this.props.theme.blogHeaderInactive();
-        const lightThemeButtonIcon = this.props.theme.isLight() ? 
-            <i className="check circle outline icon"/> : 
-            <i className="circle outline icon"/>;
-        const darkThemeButtonIcon = this.props.theme.isDark() ? 
-            <i className="check circle outline icon"/> : 
-            <i className="circle outline icon"/>;
+        let themeButtons = _.map(this.props.theme.themes(), theme => {
+            const buttonStyle = theme.key === this.props.theme.currentTheme() ? 
+                this.props.theme.blogHeaderActive() : 
+                this.props.theme.blogHeaderInactive();
+            const buttonIcon = theme.key === this.props.theme.currentTheme() ? 
+                <i className="check circle outline icon"/> : 
+                <i className="circle outline icon"/>;
+            return (
+                <button
+                    key={theme.key}
+                    className="ui toggle large button" 
+                    style={buttonStyle}
+                    onClick={(ev: any) => this.props.theme.setTheme(theme.key)} // tslint:disable-line
+                >
+                    {buttonIcon} {theme.name}
+                </button>
+            );
+        });
 
         let saveDeviceButtonOrLoader = this.state.isSavingDeviceName ? (
             <button 
@@ -158,36 +165,24 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                         >
                             <i className="icon angle left" />
                         </a>
-                        <div className="header borderless item left">Settings</div>
+                        <div className="header borderless item left" style={this.props.theme.softMenu()}>Settings</div>
                     </div>
                 </Headroom>
 
                 {errorMessageOrEmpty}
 
-                <div className="ui grid" style={fullscreenBelowMenuStyle}>
+                <div className="grid" style={fullscreenBelowMenuStyle}>
 
                     {/* Select theme */}
                     <div className="row">
                         <div className="sixteen wide column">
                             <h3 className="ui header" style={this.props.theme.settingsHeader()}>Theme</h3>
                             <div className="row">
-                                <button 
-                                    className="ui toggle large button" 
-                                    style={lightThemeButtonStyle}
-                                    onClick={(ev: any) => this.props.theme.setLightTheme()} // tslint:disable-line
-                                >
-                                    {lightThemeButtonIcon} Light
-                                </button>
-                                <button 
-                                    className="ui toggle large button" 
-                                    style={darkThemeButtonStyle}
-                                    onClick={(ev: any) => this.props.theme.setDarkTheme()} // tslint:disable-line
-                                >
-                                    {darkThemeButtonIcon} Dark
-                                </button>
+                                {themeButtons}
                             </div>
                         </div>
                     </div>
+                    <br/><br/>
 
                     {/* Enable Usage statistics */}
                     <div className="row">
@@ -198,6 +193,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                             </div>
                         </div>
                     </div>
+                    <br/><br/>
 
                     {/* Device name */}
                     <div className="row">
@@ -219,6 +215,7 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                             </div>
                         </div>
                     </div>
+                    <br/>
 
                     {/* Telemetry info label */}
                     <div className="row">

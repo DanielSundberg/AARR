@@ -85,42 +85,68 @@ const darkTheme: Theme = {
     inactiveButtonColor: "#B7B7B7"
 };
 
+const blackTheme: Theme = {
+    key: "black",
+    name: "Black",
+    listBackground: "#000000",
+    blogListCountColor: "#BFBFBF",
+    blogListLinkColor: "#BFBFBF",
+    headerTextColor: "#BFBFBF",
+    settingsHeaderColor: "#BFBFBF",
+    blogTextColor: "#BFBFBF",
+    softMenuColor: "#BFBFBF",
+    dropdownMenuColor: "#BFBFBF",
+    dropDownMenuBackground: "#1B1C1D", 
+    inputBackground: "#35363A", 
+    inputColor: "#BFBFBF", 
+    infoMessageBackground: "#35363A", 
+    infoMessageColor: "#BFBFBF", 
+    errorMessageBackground: "#FF9E9E",
+    errorMessageColor: "#FF3131",
+    blogHeaderActiveBackground: "#204E71", 
+    blogHeaderActiveColor: "#BFBFBF",
+    blogHeaderInactiveBackground: "#808080",
+    blogHeaderInactiveColor: "#BFBFBF", 
+    activeButtonBackground: "#204E71", 
+    activeButtonColor: "#BFBFBF",
+    inactiveButtonBackground: "#808080",
+    inactiveButtonColor: "#BFBFBF"
+};
+
+const themes = [ 
+    lightTheme, 
+    darkTheme, 
+    blackTheme
+];
+
 class ThemeEngine {
     @observable theme: Theme;
-    colors: Theme;
 
     constructor() {
-        const storedTheme = localStorage.getItem("theme");
-        if (storedTheme && storedTheme === "dark") {
-            this.theme = darkTheme;
-        } else {
-            this.theme = lightTheme;
-        }
-        this.colors = this.theme;
+        const storedTheme = localStorage.getItem("theme") || "light";
+        this.setTheme(storedTheme);
     }
 
     themes(): Theme[] {
-        return [lightTheme, darkTheme];
+        return themes;
     }
 
-    setLightTheme() {
-        localStorage.setItem("theme", "light");
-        this.theme = lightTheme;
-        this.colors = this.theme;
+    setTheme(key: string) {
+        let newTheme = _.find(themes, t => t.key === key);
+        if (newTheme) {
+            localStorage.setItem("theme", key);
+            this.theme = newTheme;
+        } else {
+            throw new Error(`Invalid theme key: ${key}.`);
+        }
     }
 
-    setDarkTheme() {
-        localStorage.setItem("theme", "dark");
-        this.theme = darkTheme;
-        this.colors = this.theme;
+    currentTheme(): string {
+        return this.theme.key;
     }
 
-    isLight(): boolean {
-        return this.theme.key === "light";
-    }
-
-    isDark(): boolean {
-        return this.theme.key === "dark";
+    colors() {
+        return this.theme;
     }
 
     listBackground() {

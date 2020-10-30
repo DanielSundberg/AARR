@@ -19,7 +19,7 @@ class BlogListView extends React.Component<RootStore, {}> {
 
     componentWillMount() {
         this.props.appState.getListOfBlogs();
-        document.body.style.backgroundColor = this.props.theme.colors.listBackground;
+        document.body.style.backgroundColor = this.props.theme.colors().listBackground;
     }
 
     render() {

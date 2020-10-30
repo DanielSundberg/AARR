@@ -92,7 +92,7 @@ class AddForm extends React.Component<RootStore, AddFormState> {
                         >
                             <i className="icon angle left" />
                         </a>
-                        <div className="header borderless item left">Add feed</div>
+                        <div className="header borderless item left" style={this.props.theme.softMenu()}>Add feed</div>
                     </div>
                 </Headroom>
                 <div className="ui grid" style={fullscreenBelowMenuStyle}>

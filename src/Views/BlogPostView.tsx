@@ -70,7 +70,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
             const uid = StringUtils.afterSlash(location.pathname);
             this.props.appState.showBlog(uid);
         }
-        document.body.style.backgroundColor = this.props.theme.colors.listBackground;
+        document.body.style.backgroundColor = this.props.theme.colors().listBackground;
     }
   
     markAsReadAndScroll(self: BlogPostView, uid: string, read: boolean, nextPostIndex: number) {
@@ -269,7 +269,12 @@ class BlogPostView extends React.Component<RootStore, {}> {
                         >
                             <i className="icon angle left" />
                         </a>
-                        <div className="header borderless item left">{this.props.appState.currentBlogTitle}</div>
+                        <div 
+                            className="header borderless item left" 
+                            style={this.props.theme.softMenu()}
+                        >
+                            {this.props.appState.currentBlogTitle}
+                        </div>
                         <div className="right menu">
                             <a 
                                 className="item" 

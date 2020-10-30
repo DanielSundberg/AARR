@@ -20,7 +20,7 @@ class AboutForm extends React.Component<RootStore, {}> {
 
     render() {
         // console.log("Url: ", this.props.containerAppCallbacks.url); // tslint:disable-line
-        document.body.style.backgroundColor = this.props.theme.colors.listBackground;
+        document.body.style.backgroundColor = this.props.theme.colors().listBackground;
 
         return (
             <div className="container">
@@ -33,7 +33,12 @@ class AboutForm extends React.Component<RootStore, {}> {
                         >
                             <i className="icon angle left" />
                         </a>
-                        <div className="header borderless item left">About AARR</div>
+                        <div 
+                            className="header borderless item left" 
+                            style={this.props.theme.softMenu()}
+                        >
+                            About AARR
+                        </div>
                     </div>
                 </Headroom>
                 <div className="ui grid" style={fullscreenBelowMenuStyle}>
