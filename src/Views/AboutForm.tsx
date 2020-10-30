@@ -121,7 +121,6 @@ class AboutForm extends React.Component<RootStore, {}> {
                                 <tr><td>react-dom</td><td>MIT</td></tr>
                                 <tr><td>react-headroom</td><td>MIT</td></tr>
                                 <tr><td>react-infinite-scroller</td><td>MIT</td></tr>
-                                <tr><td>react-render-html</td><td>MIT</td></tr>
                                 <tr><td>react-router</td><td>MIT</td></tr>
                                 <tr><td>react-router-dom</td><td>MIT</td></tr>
                                 <tr><td>react-scripts-ts</td><td>BSD-3-Clause</td></tr>
@@ -130,6 +129,7 @@ class AboutForm extends React.Component<RootStore, {}> {
                                 <tr><td>semantic-ui-react</td><td>MIT</td></tr>
                                 <tr><td>typescript</td><td>Apache-2.0</td></tr>
                                 <tr><td>uuid</td><td>MIT</td></tr>
+                                <tr><td>html-react-parser</td><td>MIT</td></tr>
                             </tbody>
                         </table>
                     </div>
