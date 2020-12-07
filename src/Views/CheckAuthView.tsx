@@ -16,9 +16,17 @@ class CheckAuthView extends React.Component<RootStore, {}> {
     render() {
         if (this.props.appState.loggedIn === LoggedInState.NotLoggedIn) {
             return (<Redirect to="/login" />);
-        } else if (this.props.appState.loggedIn === LoggedInState.LoggedIn) {
-            return (<Redirect to="/telemetrymessage" />);
-        } else {
+        } 
+        // Telemetry disabled for now
+        // else if (this.props.appState.loggedIn === LoggedInState.LoggedIn) {
+        //     return (<Redirect to="/telemetrymessage" />);
+        // } 
+        // tslint:disable-next-line
+        else if (this.props.appState.loggedIn === LoggedInState.LoggedIn) {
+            return (<Redirect to="/blogs" />);
+        } 
+        // tslint:disable-next-line
+        else {
             return (
                 <div className="ui grid container">
                     <div className="ui active dimmer">

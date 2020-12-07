@@ -2,7 +2,7 @@ import * as React from 'react';
 import RootStore from '../Model/RootStore';
 import { inject, observer } from 'mobx-react';
 import { AppUsageResource, newDeviceName } from '../Model/AppUsageResource';
-import { TelemetryInfo } from './TelemetryInfo';
+// import { TelemetryInfo } from './TelemetryInfo';
 import Headroom from 'react-headroom';
 import { fullscreenBelowMenuStyle } from '../Model/CustomStyles';
 import { telemetryEnabled } from '../Model/Storage';
@@ -87,10 +87,6 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
         // console.log("Url: ", this.props.containerAppCallbacks.url); // tslint:disable-line
         document.body.style.backgroundColor = this.props.theme.colors().listBackground;
 
-        let deviceNameInputClasses = this.state.enableTelemetry ?
-            "ui fluid action input " :
-            "ui fluid action input disabled";
-
         let errorMessageOrEmpty = this.state.errorMessage &&
             <div className="ui error message">{this.state.errorMessage}</div>;
 
@@ -113,48 +109,52 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
             );
         });
 
-        let saveDeviceButtonOrLoader = this.state.isSavingDeviceName ? (
-            <button 
-                className="ui large primary loading button"
-                style={this.props.theme.activeButton()}
-            >
-                Loading
-            </button>
-        ) : (
-            <button 
-                className="ui large primary button" 
-                onClick={(ev: any) => this.saveDeviceName(this)} // tslint:disable-line
-                style={this.props.theme.activeButton()}
-            >
-                <i className="icon check" /> Save
-            </button>
-        );
+        // Telementry disabled for now
+        // let deviceNameInputClasses = this.state.enableTelemetry ?
+        //     "ui fluid action input " :
+        //     "ui fluid action input disabled";
+        // let saveDeviceButtonOrLoader = this.state.isSavingDeviceName ? (
+        //     <button 
+        //         className="ui large primary loading button"
+        //         style={this.props.theme.activeButton()}
+        //     >
+        //         Loading
+        //     </button>
+        // ) : (
+        //     <button 
+        //         className="ui large primary button" 
+        //         onClick={(ev: any) => this.saveDeviceName(this)} // tslint:disable-line
+        //         style={this.props.theme.activeButton()}
+        //     >
+        //         <i className="icon check" /> Save
+        //     </button>
+        // );
 
-        let toggleUsageStatisticsButton = this.state.enableTelemetry ? (
-            <button 
-                className="ui large primary fluid button" 
-                onClick={(ev: any) => this.saveTelemetrySettings(this)} // tslint:disable-line
-                style={this.props.theme.activeButton()}
-            >
-                <i className="check circle outline icon"/>On
-            </button> 
-        ) : (
-            <button 
-                className="ui large fluid button" 
-                onClick={(ev: any) => this.saveTelemetrySettings(this)} // tslint:disable-line
-                style={this.props.theme.inactiveButton()}
-            >
-                <i className="circle outline icon"/>Off
-            </button>
-        );
-        let toggleUsageStatisticsButtonOrLoader = this.state.isSavingEnableUsageStatistics ? (
-            <button 
-                className="ui large primary loading fluid button"
-                style={this.props.theme.activeButton()}
-            >
-                Loading
-            </button>) : 
-            toggleUsageStatisticsButton;
+        // let toggleUsageStatisticsButton = this.state.enableTelemetry ? (
+        //     <button 
+        //         className="ui large primary fluid button" 
+        //         onClick={(ev: any) => this.saveTelemetrySettings(this)} // tslint:disable-line
+        //         style={this.props.theme.activeButton()}
+        //     >
+        //         <i className="check circle outline icon"/>On
+        //     </button> 
+        // ) : (
+        //     <button 
+        //         className="ui large fluid button" 
+        //         onClick={(ev: any) => this.saveTelemetrySettings(this)} // tslint:disable-line
+        //         style={this.props.theme.inactiveButton()}
+        //     >
+        //         <i className="circle outline icon"/>Off
+        //     </button>
+        // );
+        // let toggleUsageStatisticsButtonOrLoader = this.state.isSavingEnableUsageStatistics ? (
+        //     <button 
+        //         className="ui large primary loading fluid button"
+        //         style={this.props.theme.activeButton()}
+        //     >
+        //         Loading
+        //     </button>) : 
+        //     toggleUsageStatisticsButton;
 
         return (
             <div className="container">
@@ -186,8 +186,10 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                     </div>
                     <br/><br/>
 
+                    {/* Commented out below, usage statistics disabled for now */}
+
                     {/* Enable Usage statistics */}
-                    <div className="row">
+                    {/* <div className="row">
                         <div className="sixteen wide column">
                             <h3 className="ui header" style={this.props.theme.settingsHeader()}>Usage statistics</h3>
                             <div className="row">
@@ -195,10 +197,10 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                             </div>
                         </div>
                     </div>
-                    <br/><br/>
+                    <br/><br/> */}
 
                     {/* Device name */}
-                    <div className="row">
+                    {/* <div className="row">
                         <div className="ui sixteen wide column">
                             <div className="field">
                                 <h3 style={this.props.theme.settingsHeader()}>Usage Statistics device name:</h3>
@@ -217,14 +219,14 @@ class SettingsForm extends React.Component<RootStore, SettingsFormState> {
                             </div>
                         </div>
                     </div>
-                    <br/>
+                    <br/> */}
 
                     {/* Telemetry info label */}
-                    <div className="row">
+                    {/* <div className="row">
                         <div className="ui sixteen wide column">
                             <TelemetryInfo style={this.props.theme.infoMessage()} />
                         </div>
-                    </div>
+                    </div> */}
 
                 </div>
             </div>);

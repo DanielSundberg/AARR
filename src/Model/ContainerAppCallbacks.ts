@@ -8,14 +8,16 @@ export default class ContainerAppCallbacks {
     }
 
     async onResume() {
-        if (this.appUsageResource) {
-            this.appUsageResource.startSession();
-        }
+        // Telemetry disabled for now
+        // if (this.appUsageResource) {
+        //     this.appUsageResource.startSession();
+        // }
     }
 
     async onPause() {
-        if (this.appUsageResource) {
-            this.appUsageResource.endSession();
-        }
+        // Telemetry disabled for now
+        // if (this.appUsageResource) {
+        //     this.appUsageResource.endSession();
+        // }
     }
 }
