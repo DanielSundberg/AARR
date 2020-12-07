@@ -36,7 +36,7 @@ const addHostnameToUrl = (node: { attribs: [] }, urlAttr: string, blogUrl: strin
 };
 
 // tslint:disable-next-line
-const addHostnameToUrls = (node: any, hostname: string) => {
+const adjustTags = (node: any, hostname: string) => {
     // If links (a) starts with / we add the hostname
     if (nodeType(node, 'a', 'href')) {
         return addHostnameToUrl(node, "href", hostname);
@@ -208,7 +208,7 @@ class BlogPostView extends React.Component<RootStore, {}> {
                                     <div className="content">     
                                         <div className="description" style={this.props.theme.blogText()}>
                                             {parse(b.content, {
-                                                replace: (node) => addHostnameToUrls(node, b.url)
+                                                replace: (node) => adjustTags(node, b.url)
                                             })}
                                         </div>
                                     </div>
