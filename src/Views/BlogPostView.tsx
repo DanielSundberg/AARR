@@ -297,34 +297,30 @@ class BlogPostView extends React.Component<RootStore, {}> {
                     errorMessage={this.props.appState.errorMessage}
                     dismissError={() => this.props.appState.dismissError()} 
                 />
-                <div className="ui grid blog-post-view-grid" style={belowMainMenuStyle}>
-                    <div className="sixteen wide column blog-post-column">
+                <div className="ui contianer" style={belowMainMenuStyle}>
+                    {/* There's a bug in the hasMore property, the loadMore() callback will be called 
+                        even if hasMore is set to false: 
+                        https://github.com/CassetteRocks/react-infinite-scroller/issues/44
 
-                        {/* There's a bug in the hasMore property, the loadMore() callback will be called 
-                            even if hasMore is set to false: 
-                            https://github.com/CassetteRocks/react-infinite-scroller/issues/44
-
-                            I work around this by checking moreToFetch in loadMore() method.
-                        <InfiniteScroll
-                            pageStart={0}
-                            loadMore={() => this.loadMore()}
-                            hasMore={moreToFetch}
-                            loader={moreToFetchloader}
-                        >
-                            {blogPosts}
-                        </InfiniteScroll> */}
-                        <InfiniteScroll
-                            pageStart={0}
-                            initialLoad={false}
-                            loadMore={() => this.loadMore()}
-                            hasMore={this.moreToFetch()}
-                            loader={moreToFetchloader}
-                            threshold={1000}
-                        >
-                            {blogPosts}
-                        </InfiniteScroll>
-
-                    </div>
+                        I work around this by checking moreToFetch in loadMore() method.
+                    <InfiniteScroll
+                        pageStart={0}
+                        loadMore={() => this.loadMore()}
+                        hasMore={moreToFetch}
+                        loader={moreToFetchloader}
+                    >
+                        {blogPosts}
+                    </InfiniteScroll> */}
+                    <InfiniteScroll
+                        pageStart={0}
+                        initialLoad={false}
+                        loadMore={() => this.loadMore()}
+                        hasMore={this.moreToFetch()}
+                        loader={moreToFetchloader}
+                        threshold={1000}
+                    >
+                        {blogPosts}
+                    </InfiniteScroll>
                 </div>
             </div>);
     }

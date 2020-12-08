@@ -13,15 +13,6 @@ img {
   height: auto;
 }
 
-.blog-post-view-grid {
-    max-width: 101%;
-}
-
-.blog-post-column {
-    padding-right: 0em !important;
-}
-
-
 /* @media only screen and (min-width: 350) and (max-width: 1100px) {
   .ui.container {
     width: 723px;
