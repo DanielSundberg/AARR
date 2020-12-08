@@ -297,8 +297,8 @@ class BlogPostView extends React.Component<RootStore, {}> {
                     errorMessage={this.props.appState.errorMessage}
                     dismissError={() => this.props.appState.dismissError()} 
                 />
-                <div className="ui grid" style={belowMainMenuStyle}>
-                    <div className="sixteen wide column">
+                <div className="ui grid blog-post-view-grid" style={belowMainMenuStyle}>
+                    <div className="sixteen wide column blog-post-column">
 
                         {/* There's a bug in the hasMore property, the loadMore() callback will be called 
                             even if hasMore is set to false: 
