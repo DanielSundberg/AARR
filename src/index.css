@@ -18,6 +18,11 @@ iframe {
     height: auto;
 }
 
+video {
+    max-width: 100%;
+    height: auto;
+}
+
 code {
     white-space: break-spaces;
     word-break: break-all;
@@ -26,10 +31,6 @@ code {
 pre {
     white-space: break-spaces;
     word-break: break-all;
-}
-
-video {
-    max-width: 100%;
 }
 
 p {
