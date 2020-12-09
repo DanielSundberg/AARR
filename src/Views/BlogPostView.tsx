@@ -20,8 +20,14 @@ const Loader: React.FunctionComponent = () => {
     );
 };
 
-const nodeType = (node: { type: string, name: string, attribs: [] }, name: string, attrib: string) => {
-    return node.type === 'tag' && node.name === name && node.attribs && attrib in node.attribs;
+const nodeType = (node: { type: string, name: string, attribs: [] }, name: string, attrib: string = "") => {
+    const tagAndNameMatch = node.type === 'tag' && node.name === name;
+
+    if (tagAndNameMatch && attrib.length > 0) {
+        return node.type === 'tag' && node.name === name && node.attribs && attrib in node.attribs;
+    } else {
+        return tagAndNameMatch;
+    }
 };
 
 const addHostnameToUrl = (node: { attribs: [] }, urlAttr: string, blogUrl: string) => {
@@ -35,6 +41,11 @@ const addHostnameToUrl = (node: { attribs: [] }, urlAttr: string, blogUrl: strin
     return node;
 };
 
+const addStyles = (node: { attribs: [] }, styles: string) => {
+    node.attribs["style"] = styles;
+    return node;
+};
+
 // tslint:disable-next-line
 const adjustTags = (node: any, hostname: string) => {
     // If links (a) starts with / we add the hostname
@@ -45,7 +56,18 @@ const adjustTags = (node: any, hostname: string) => {
     // If images (img) starts with / we add the hostname
     if (nodeType(node, 'img', 'src')) {
         return addHostnameToUrl(node, "src", hostname);
-    } 
+    }
+
+    // Prevent table from overflowing
+    if (nodeType(node, 'table')) {
+        return addStyles(node, "width:100%;");
+    }
+
+    // Remove 40px margins on figures
+    if (nodeType(node, 'figure')) {
+        return addStyles(node, "margin-left: 0.5em; margin-right: 0.5em;");
+    }
+
     return;
 };
 

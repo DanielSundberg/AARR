@@ -13,6 +13,29 @@ img {
   height: auto;
 }
 
+iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+code {
+    white-space: break-spaces;
+    word-break: break-all;
+}
+
+pre {
+    white-space: break-spaces;
+    word-break: break-all;
+}
+
+video {
+    max-width: 100%;
+}
+
+p {
+    word-break: break-all;
+}
+
 /* @media only screen and (min-width: 350) and (max-width: 1100px) {
   .ui.container {
     width: 723px;
