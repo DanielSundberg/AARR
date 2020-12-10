@@ -1,3 +1,38 @@
+# TODO:
+
+* Add new blog form => ok!
+* Settingsform => ok
+* Blog list view => ok
+* Infinite scroll => ok
+
+
+* Clean up bootstrap stuff
+
+
+
+* Blog post view, check that everything is working...
+
+
+
+* Check into new branch
+
+
+
+* Fix warnings in Chrome console
+
+* Fix mark as read loader so it appears in the right place
+
+
+
+
+* Once again update all dependencies to latest
+
+* Test everything in browser
+* Test everything in Android container app
+
+
+
+
 Release test:
 -Truncate blog titles
 

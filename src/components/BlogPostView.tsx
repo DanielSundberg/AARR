@@ -3,7 +3,6 @@ import { observer } from 'mobx-react';
 import { useStores } from '../stores/RootStore';
 import _ from 'lodash';
 import parse from 'html-react-parser';
-import './blogpost.css';
 import { SimpleLoader } from './SimpleLoader';
 import { scroller as scroll } from 'react-scroll';
 import readingTime from 'reading-time';
