@@ -18,13 +18,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react", 
+    "jsx": "react-jsx",
     "useDefineForClassFields": true
   },
   "include": [
     "src"
   ],
   "exclude": [
-      "src/UsageStatistics/*"
+    "src/UsageStatistics/*"
   ]
 }
