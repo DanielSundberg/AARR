@@ -33,9 +33,10 @@ pre {
     word-break: break-all;
 }
 
-p {
+/* Check in what cases we might need break-all for <p> */
+/* p {
     word-break: break-all;
-}
+} */
 
 /* @media only screen and (min-width: 350) and (max-width: 1100px) {
   .ui.container {
