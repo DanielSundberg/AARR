@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import { useStores } from '../stores/RootStore';
 import { Dropdown, Icon } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
+import { dropdownMenuFullWidth } from './CustomStyles';
 
 export const BlogListNavBar = observer(() => {
     const { theme, blog, auth } = useStores();
@@ -30,7 +31,7 @@ export const BlogListNavBar = observer(() => {
             icon='bars' 
             style={theme.softMenu()}
         >
-            <Dropdown.Menu style={theme.dropDownMenuBackground()}>
+            <Dropdown.Menu style={ { ...theme.dropDownMenuBackground(), ...dropdownMenuFullWidth } }>
                 <Dropdown.Item onClick={() => history.push("/add")} >
                     <div style={theme.dropdownMenu()}>
                         <Icon name="plus" />

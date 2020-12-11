@@ -1,10 +1,5 @@
 # TODO:
 
-* Add new blog form => ok!
-* Settingsform => ok
-* Blog list view => ok
-* Infinite scroll => ok
-
 
 * Update npm packages
 
@@ -24,33 +19,51 @@
 * Check into new branch
 
 
-
-
-
 * Fix mark as read loader so it appears in the right place
 
 
-
+* Change blog post list menu to semantic-ui-react
 
 * Once again update all dependencies to latest
 
 * Test everything in browser
 * Test everything in Android container app
 
+* Move "Add new" and "mark as read" to it's own stores (since the functionality is used separate from the blog list)
+
+
+-Error message in console, looks like it comes from semantic-ui-react
+index.js:1 Warning: findDOMNode is deprecated in StrictMode. findDOMNode was passed an instance of RefFindNode which is inside StrictMode. Instead, add a ref directly to the element you want to reference. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-find-node
+    at div
+    at RefFindNode (http://localhost:3000/static/js/0.chunk.js:351:35)
+    at Ref (http://localhost:3000/static/js/0.chunk.js:284:24)
+    at Dropdown (http://localhost:3000/static/js/0.chunk.js:104842:29)
+    at header
+    at http://localhost:3000/static/js/0.chunk.js:41377:76
+    at div
+    at BlogListForm (http://localhost:3000/static/js/main.chunk.js:1924:74)
+    at Route (http://localhost:3000/static/js/0.chunk.js:82739:29)
+    at Switch (http://localhost:3000/static/js/0.chunk.js:82941:29)
+    at http://localhost:3000/static/js/0.chunk.js:41377:76
+    at div
+    at http://localhost:3000/static/js/0.chunk.js:41377:76
+    at Router (http://localhost:3000/static/js/0.chunk.js:82374:30)
+    at BrowserRouter (http://localhost:3000/static/js/0.chunk.js:81994:35)
+    at App
 
 
 
-Release test:
--Truncate blog titles
 
 Todo:
--How many chars should be visible on one line in blog list view
-  -Perhaps we need a setting for this
+-Refactor AddForm to use its own store
+  -Must handle auth inside OldReaderResource in some way...otherwise we must pass auth to state
 -Error handling
   -Handle errors on more requests
   -Test all error scenarios
+-Handle content width, eg. youtube movies or code examples
+  -Fixed quite a few cases
 -Investigate post formatting problems
--App-titel could be "RSS Awsome" or something like that
+  -Fixed quite a few cases
 -Tidy up both android and html project folders
   -Move screen shots to sub folder
 -Hamburger menu could be a little bit larger
@@ -63,10 +76,6 @@ Todo:
 -Handle network errors (and other errors, some kind of error message?)
 -Refactor AddForm to use its own store
   -Must handle auth inside OldReaderResource in some way...otherwise we must pass auth to state
--Update to latest version of create-react-app
-  -Perhaps easier to add completely new create-react-app
-  -Quite difficult to fix this, too many dependency problems to sort out
-    -Might be easier to update in smaller steps..
 -Investigate API key storage
 -Sorting on newest/oldest
 -Send feedback button
@@ -78,12 +87,15 @@ Other
 -Error messages in console from renderHTML?
 
 
-Desktop
--'m' mark as read, 'n' and 'p' for navigation in blog post view om desktop
--App width on desktop
+
 
 
 Done:
+-Update to latest version of create-react-app
+  -Perhaps easier to add completely new create-react-app
+  -Quite difficult to fix this, too many dependency problems to sort out
+    -Might be easier to update in smaller steps..
+  -Implemented in feature/V3 branch
 -Make square icon a little bit smaller (like standard android icons) 
 -Release on google play
   -License info
@@ -129,3 +141,6 @@ Done:
 -Rework card layout, use menu and segments instead for blog posts => ok
 
 
+Won't fix
+-'m' mark as read, 'n' and 'p' for navigation in blog post view om desktop
+-App width on desktop

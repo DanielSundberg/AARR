@@ -13,3 +13,7 @@ export const footerErrorStyle = {
     bottom: '0',
     width: '100%'
 };
+
+export const dropdownMenuFullWidth = {
+    minWidth: '100vw'
+};
