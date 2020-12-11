@@ -26,11 +26,17 @@ video {
 code {
     white-space: break-spaces;
     word-break: break-all;
+    font-size: x-small;
 }
 
 pre {
     white-space: break-spaces;
     word-break: break-all;
+    font-size: x-small;
+}
+
+p {
+    overflow: hidden;
 }
 
 /* Check in what cases we might need break-all for <p> */

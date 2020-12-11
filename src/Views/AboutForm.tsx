@@ -37,7 +37,7 @@ class AboutForm extends React.Component<RootStore, {}> {
                             className="header borderless item left" 
                             style={this.props.theme.softMenu()}
                         >
-                            About AARR
+                            About AARR v2.0
                         </div>
                     </div>
                 </Headroom>

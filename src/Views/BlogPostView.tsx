@@ -60,7 +60,7 @@ const adjustTags = (node: any, hostname: string) => {
 
     // Prevent table from overflowing
     if (nodeType(node, 'table')) {
-        return addStyles(node, "width:100%;");
+        return addStyles(node, "width:100%;table-layout: fixed;");
     }
 
     // Remove 40px margins on figures
