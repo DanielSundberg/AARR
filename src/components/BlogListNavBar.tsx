@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { useStores } from '../stores/RootStore';
-import { Dropdown, Icon } from 'semantic-ui-react';
+import { Dropdown, Icon, Menu } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import { dropdownMenuFullWidth } from './CustomStyles';
 
@@ -16,13 +16,12 @@ export const BlogListNavBar = observer(() => {
             <div className="ui mini active inline loader"/>
         </div>
     ) : (
-        <a 
-            className="item" 
+        <Menu.Item
             onClick={() => blog.getBlogList()} 
             style={theme.softMenu()}
         >
-            <i className="icon small refresh" />
-        </a>
+            <Icon name="refresh" size="small" />
+        </Menu.Item>
     );
 
     const hamburger = (
@@ -64,17 +63,23 @@ export const BlogListNavBar = observer(() => {
     );
 
     return (
-        <header className="ui inverted icon fixed top menu">
+        <Menu inverted top className="fixed">
             {hamburger}
-            <div className="header borderless item" style={theme.softMenu()}>
+            <Menu.Item header className="borderless item left" style={theme.softMenu()}>
                 Subscriptions
-            </div>
+            </Menu.Item>
             <div className="right menu" >
                 {loaderOrRefreshButton}
-                <a className={filterItemClasses} onClick={() => blog.toggleShowAll()} >
-                    <i className="icon filter" />
-                </a>
+                <Menu.Item
+                    name='showAll'
+                    active={false}
+                    onClick={() => blog.toggleShowAll()}
+                    className={filterItemClasses}
+                    style={theme.headerText()}
+                >
+                    <Icon name="filter" />
+                </Menu.Item>
             </div>
-        </header>
+        </Menu>
     );
 });

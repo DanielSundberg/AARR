@@ -1,42 +1,44 @@
 import React from 'react';
 import { useStores } from '../stores/RootStore';
 import { useHistory } from 'react-router-dom';
+import { Icon, Menu } from 'semantic-ui-react';
 
 export const BlogPostNavBar = (props: { title: string }) => {
     const { theme, settings } = useStores();
     const history = useHistory();
 
     return (
-        <div className="ui attached inverted icon menu" >
-            <a 
-                className="item" 
-                onClick={() => history.goBack()} 
+        <Menu inverted attached>
+            <Menu.Item
+                name='back'
+                active={false}
+                onClick={() => history.goBack()}
                 style={theme.headerText()}
             >
-                <i className="icon angle left" />
-            </a>
-            <div 
-                className="header borderless item left" 
-                style={theme.softMenu()}
-            >
+                <Icon name="angle left" />
+            </Menu.Item>
+            <Menu.Item header className="borderless item left" style={theme.softMenu()}>
                 {props.title}
-            </div>
+            </Menu.Item>
+            {/* Using div here since i don't get a border on the first item when using menu */}
             <div className="right menu">
-                <a 
-                    className="item" 
-                    onClick={() => settings.decreseFontSize()} 
+                <Menu.Item
+                    name='decreaseFontSize'
+                    active={false}
+                    onClick={() => settings.decreseFontSize()}
                     style={theme.headerText()}
                 >
-                    <i className="icon minus" />
-                </a>
-                <a 
-                    className="item right" 
-                    onClick={() => settings.increaseFontSize()} 
+                    <Icon name="minus" />
+                </Menu.Item>
+                <Menu.Item
+                    name='increaseFontSize'
+                    active={false}
+                    onClick={() => settings.increaseFontSize()}
                     style={theme.headerText()}
                 >
-                    <i className="icon plus" />
-                </a>
+                    <Icon name="plus" />
+                </Menu.Item>
             </div>
-        </div>
+        </Menu>
     );
 };
