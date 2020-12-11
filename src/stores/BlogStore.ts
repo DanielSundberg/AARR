@@ -238,21 +238,21 @@ export class BlogStore {
 
     async markPostAsRead(uid: string, read: boolean) {
         // Tell UI we're waiting for API
-        this.postsBeingEdited.push(uid);
+        runInAction(() => this.postsBeingEdited.push(uid));
 
         // Mark post as read
-        let blogPost = _.find(this.blogPostlist, { uid: uid });
+        const blogPost = _.find(this.blogPostlist, { uid: uid });
         if (blogPost) {
             let response = await OldReaderResource.markAsRead(this.auth.auth, uid, read);
             if (response.status === 200) {
-                blogPost.read = read;
+                runInAction(() => blogPost.read = read);
             }
         }
 
         // Tell view we're not waiting for API any more
         const index = this.postsBeingEdited.indexOf(uid, 0);
         if (index > -1) {
-           this.postsBeingEdited.splice(index, 1);
+           runInAction(() => this.postsBeingEdited.splice(index, 1));
         }
     }
 }

@@ -80,7 +80,9 @@ export const BlogPostView = observer((props: BlogPostViewProps) => {
 
     const markAsReadAndScroll = (uid: string, read: boolean, nextPostIndex: number) => {
         blog.markPostAsRead(uid, read);
-        goToNextPost(nextPostIndex);
+        if (read) {
+            goToNextPost(nextPostIndex);
+        }
     };
 
     const goToNextPost = (nextPostIndex: number) => {
@@ -114,7 +116,7 @@ export const BlogPostView = observer((props: BlogPostViewProps) => {
         theme.blogHeaderActive();
 
     const upperLoaderOrCheckItem = blog.postsBeingEdited.indexOf(props.uid, 0) > -1 ? (
-        <SimpleLoader />
+        <SimpleLoader right={true} />
     ) : (
         <div 
             className="item link right" 
@@ -126,7 +128,7 @@ export const BlogPostView = observer((props: BlogPostViewProps) => {
         </div>
     );
     const lowerLoaderOrCheckItem = blog.postsBeingEdited.indexOf(props.uid, 0) > -1 ? (
-        <SimpleLoader />
+        <SimpleLoader right={true}/>
     ) : (
         <div 
             className="item link right" 

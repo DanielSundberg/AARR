@@ -1,32 +1,14 @@
 # TODO:
 
-* Fix text in about form
 
+* Move "Add new" and "mark as read" to it's own stores (since the functionality is used separate from the blog list)
 
-
-* Fix warnings in Chrome console
-
-* Fix lint warnings
-
-
-
-
-
-* Blog post view, check that everything is working...
-
-
-
-* Fix mark as read loader so it appears in the right place
-
-
-* Change blog post list menu to semantic-ui-react
 
 * Once again update all dependencies to latest
 
 * Test everything in browser
 * Test everything in Android container app
 
-* Move "Add new" and "mark as read" to it's own stores (since the functionality is used separate from the blog list)
 
 
 -Error message in console, looks like it comes from semantic-ui-react

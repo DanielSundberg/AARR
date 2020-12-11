@@ -63,7 +63,7 @@ export const BlogListNavBar = observer(() => {
     );
 
     return (
-        <Menu inverted top className="fixed">
+        <Menu inverted className="fixed">
             {hamburger}
             <Menu.Item header className="borderless item left" style={theme.softMenu()}>
                 Subscriptions

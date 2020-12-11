@@ -1,5 +1,5 @@
 import { Storage as storage } from '../utils/Storage';
-import { makeObservable, observable, action } from 'mobx';
+import { makeObservable, observable, action, runInAction } from 'mobx';
 
 export class SettingsStore {
     enableUsageStatistics: boolean = storage.telemetryEnabled();;
@@ -28,14 +28,14 @@ export class SettingsStore {
 
     increaseFontSize() {
         if (this.contentFontScale < 1.5) {
-            this.contentFontScale += 0.1;
+            runInAction(() => this.contentFontScale += 0.1);
             storage.setContentFontScale(this.contentFontScale);
         }
     }
 
     decreseFontSize() {
         if (this.contentFontScale > 0.7) {
-            this.contentFontScale -= 0.1;
+            runInAction(() => this.contentFontScale -= 0.1);
             storage.setContentFontScale(this.contentFontScale);
         }
     }
