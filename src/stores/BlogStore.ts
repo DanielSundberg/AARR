@@ -94,7 +94,7 @@ export class BlogStore {
          const selectedBlog = _.find(this.bloglist, { uid: uid });
          let onlyUnread =  true;
          if (selectedBlog) {
-             this.currentBlogTitle = selectedBlog.title;
+             this.currentBlogTitle = selectedBlog.displayTitle();
              onlyUnread = selectedBlog.unread > 0;
          }
 

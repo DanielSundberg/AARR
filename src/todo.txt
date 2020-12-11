@@ -1,11 +1,5 @@
 # TODO:
 
-* logout doesn't work
-
-* auth token not saved
-
-* Once again update all dependencies to latest
-
 * Test everything in browser
 
 * Test everything in Android container app
@@ -36,7 +30,6 @@ index.js:1 Warning: findDOMNode is deprecated in StrictMode. findDOMNode was pas
 
 
 Todo:
--It's usually difficult to see all code in code/pre tags, i think we can use a smaller font size in those tags
 -Error handling
   -Handle errors on more requests
   -Test all error scenarios
@@ -63,6 +56,7 @@ Other
 
 
 Done:
+-It's usually difficult to see all code in code/pre tags, i think we can use a smaller font size in those tags
 -Help button with old reader info and open source/license info
   -About dialog added
 -Investigate The Old Reader API key storage
