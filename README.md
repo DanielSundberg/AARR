@@ -45,6 +45,25 @@ Google play but unfortunately I did not have time to do a proper release. So to 
 I changed the Y for an A. And had to come up with a new name that matched the new short name... 
 And here we are.
 
+## Design philosophy
+
+### Focus on the reading experience
+Blogs these days contains a lot of text and information. There not time enough to read everything. 
+It should be easy to scan the content on the mobile device. If I have time I 
+save the post as unread and continue later. If I'm not interested in the topic 
+I just keep scrolling.
+
+### User in control
+Don't try to be too smart when 
+marking content as read or not. It should also be possible to undo an 
+unintentional action.
+
+### The app should be fun to use
+How do you make an 
+app fun to use? I don't know but I think it's a combination of an appealing 
+user interface and having the proper controls and actions in the right place.
+
+
 ## Technical implementation
 
 Wanted to try out some "new" technologies and  create something useful. Among others I'm using the following libraries/technologies:
@@ -56,7 +75,7 @@ Wanted to try out some "new" technologies and  create something useful. Among ot
 * Semantic-UI
 * Create React App
 
-Focus has been on creating a great mobile user experience.
+Lately I've been updating the app with the latest versions of the above libraries.
 
 ## To get started
 

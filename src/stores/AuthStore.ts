@@ -19,7 +19,7 @@ export class AuthStore {
 
     async login(username: string, password: string) {
         runInAction(() => this.isLoading = true);
-        console.log(`Logged in with ${username}`);
+        console.log(`Logging in with ${username}`);
         // tslint:disable-next-line
         let response: any = await OldReaderResource.login(username, password);
         if (response.status === 403) {
@@ -49,7 +49,7 @@ export class AuthStore {
         if (data.Auth) {
 
             // Save auth token to local storage
-            storage.setAuthToken(data.auth);
+            storage.setAuthToken(data.Auth);
 
             runInAction(() => {
                 this.errorMessage = '';
@@ -66,6 +66,10 @@ export class AuthStore {
     }
 
     async logout() {
+        storage.clearAuthToken();
+        runInAction(() => {
+            this.auth = "";
+        });
     }
 
     isAuthenticated() : boolean {

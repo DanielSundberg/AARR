@@ -19,7 +19,7 @@ const getAuthToken = (): string => {
 };
 
 const setAuthToken = (token: string) => {
-    return localStorage.setItem('authToken', token);
+    localStorage.setItem('authToken', token);
 };
 
 const clearAuthToken = () => {

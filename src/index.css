@@ -27,9 +27,15 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
     white-space: break-spaces;
     word-break: break-all;
+    font-size: x-small;
 }
 
 pre {
     white-space: break-spaces;
     word-break: break-all;
+    font-size: x-small;
+}
+
+p {
+    overflow: hidden;
 }

@@ -9,7 +9,7 @@ export const AboutForm = observer(() => {
 
     return (
         <div className="container">
-            <SimpleNavBar title="About AARR" />
+            <SimpleNavBar title="About AARR v2.1" />
             <div className="ui grid" style={fullscreenBelowMenuStyle}>
                 <div className="row" style={theme.blogText()}>
                     <div className="sixteen wide column">
@@ -21,8 +21,25 @@ export const AboutForm = observer(() => {
                         reader experience. </p>
 
                         <p>However, what was lacking was a nice mobile user experience. So after a while I 
-                        decided to implement my own. And here we are... Please try it out and tell me what 
-                        you think!</p>
+                        decided to implement my own. And here we are...</p>
+
+                        <p>The design philosophy behind this app is pretty simple:</p>
+                        <div className="ui bulleted list">
+                            <div className="item"><b>Focus on the reading experience</b>, blogs these days 
+                            contains a lot of text and information. There not time enough to read everything. 
+                            It should be easy to scan the content on the mobile device. If I have time I 
+                            save the post as unread and continue later. If I'm not interested in the topic 
+                            I just keep scrolling.</div>
+                            <div className="item"><b>User in control</b>, don't try to be too smart when 
+                            marking content as read or not. It should also be possible to undo an 
+                            unintentional action.</div>
+                            <div className="item"><b>The app should be fun to use</b>, how do you make an 
+                            app fun to use? I don't know but I think it's a combination of an appealing 
+                            user interface and having the proper controls and actions in the right place.
+                            </div>
+                        </div>
+
+                        <p>Please try it out and tell me what you think!</p>
 
                         <p>Github 
                         repository: <a href="https://github.com/DanielSundberg/AARR">
