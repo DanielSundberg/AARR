@@ -91,10 +91,10 @@ export class BlogStore {
 
     async getBlogPosts(uid: string) {
         this.currentBlogTitle = '';
-        this.isLoadingPosts = true;
+        runInAction(() => this.isLoadingPosts = true);
         console.log('Blog uid: ', uid);
         this.blogUid = uid;
-        this.blogPostlist = observable([]);
+        runInAction(() => this.blogPostlist = observable([]));
 
         // We will now fetch posts for the currently selected blog
 
@@ -116,27 +116,30 @@ export class BlogStore {
                 };
             });
         if (rsp.status !== 200) {
-            this.errorMessage = "Could not fetch posts, please try again.";
-            this.isLoadingPosts = false;
+            runInAction(() => {
+                this.errorMessage = "Could not fetch posts, please try again.";
+                this.isLoadingPosts = false;
+            });
             return;
         }
 
         let data: any = await rsp.json(); // tslint:disable-line
 
         // Now create list of blog posts
-        this.blogPostlist = _.map(data.itemRefs, (r: any) => { return new BlogPost(r.id, !onlyUnread); }); // tslint:disable-line
+        // tslint:disable-next-line
+        runInAction(() => this.blogPostlist = _.map(data.itemRefs, (r: any) => { return new BlogPost(r.id, !onlyUnread); })); 
         // console.log(itemRefs)
 
         // Fetch first N unread posts
         if (this.blogPostlist.length > 0) {
             this.fetchFiveUnreadPosts();
         } else {
-            this.isLoadingPosts = false;
+            runInAction(() => this.isLoadingPosts = false);
         }
     }
 
     async fetchFiveUnreadPosts() {
-        this.isLoadingPosts = true;
+        runInAction(() => this.isLoadingPosts = true);
         
         // Get posts not previously fetched
         const notFetchedPosts = _.filter(this.blogPostlist, { fetched: false });
@@ -172,17 +175,19 @@ export class BlogStore {
             const blogPost = _.find(this.blogPostlist, { uid: uidToMatch as string });
             if (blogPost) {
                 // console.log('Setting post content: ', blogPost.uid);
-                blogPost.title = post.title;
-                blogPost.content = post.summary.content;
-                blogPost.fetched = true;
-                blogPost.date = new Date(post.timestampUsec / 1000);
-                blogPost.author = post.author;
-                blogPost.url = url;
+                runInAction(() => {
+                    blogPost.title = post.title;
+                    blogPost.content = post.summary.content;
+                    blogPost.fetched = true;
+                    blogPost.date = new Date(post.timestampUsec / 1000);
+                    blogPost.author = post.author;
+                    blogPost.url = url;
+                });
                 // console.log(blogPost.date);
             }
         }
 
-        this.isLoadingPosts = false;
+        runInAction(() => this.isLoadingPosts = false);
     }
 
     checkHttpError(response: any, httpErrorMessage: string) {
