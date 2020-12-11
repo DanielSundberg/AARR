@@ -1,13 +1,9 @@
 # TODO:
 
-* Move "Add new" and "mark as read" to it's own stores (since the functionality is used separate from the blog list)
-
-http://blog.npmjs.org/rss
-
-
 * Once again update all dependencies to latest
 
 * Test everything in browser
+
 * Test everything in Android container app
 
 
@@ -35,31 +31,19 @@ index.js:1 Warning: findDOMNode is deprecated in StrictMode. findDOMNode was pas
     at App
 
 
-
-
 Todo:
--Refactor AddForm to use its own store
-  -Must handle auth inside OldReaderResource in some way...otherwise we must pass auth to state
 -Error handling
   -Handle errors on more requests
   -Test all error scenarios
 -Handle content width, eg. youtube movies or code examples
-  -Fixed quite a few cases
+  -Fixed quite a few cases in 2.0
 -Investigate post formatting problems
-  -Fixed quite a few cases
+  -Fixed quite a few cases in 2.0
 -Tidy up both android and html project folders
   -Move screen shots to sub folder
--Hamburger menu could be a little bit larger
--Handle content width, eg. youtube movies or code examples
--Font size, line spacing & more
-  -https://www.npmjs.com/package/react-font-size-changer
--Help button with old reader info and open source/license info
 -Crashes and errors via Google play error reporting?
 -Privacy/data saving mode, only load images on click
 -Handle network errors (and other errors, some kind of error message?)
--Refactor AddForm to use its own store
-  -Must handle auth inside OldReaderResource in some way...otherwise we must pass auth to state
--Investigate API key storage
 -Sorting on newest/oldest
 -Send feedback button
 -Support for more RSS aggreagators
@@ -74,6 +58,17 @@ Other
 
 
 Done:
+-Help button with old reader info and open source/license info
+  -About dialog added
+-Investigate The Old Reader API key storage
+  -Stored in storage, seems quite sufficient unless we want to move to using Android accounts
+-Font size, line spacing & more
+  -https://www.npmjs.com/package/react-font-size-changer
+-Hamburger menu could be a little bit larger
+-Refactor AddForm to use its own store
+  -Must handle auth inside OldReaderResource in some way...otherwise we must pass auth to state
+-Move "Add new" and "mark as read" to it's own stores (since the functionality is used separate from the blog list)
+  -Mark as read operates on the blog list, keeping it in BlogStore for now
 -Update to latest version of create-react-app
   -Perhaps easier to add completely new create-react-app
   -Quite difficult to fix this, too many dependency problems to sort out
