@@ -2,7 +2,7 @@ import React from 'react';
 import './semantic/semantic.min.css';
 import './App.css';
 import {
-    BrowserRouter as Router,
+    MemoryRouter as Router,
     Switch,
     Route
   } from "react-router-dom";
