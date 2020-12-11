@@ -1,7 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { useStores } from '../stores/RootStore';
-import _ from 'lodash';
 import parse from 'html-react-parser';
 import { SimpleLoader } from './SimpleLoader';
 import { scroller as scroll } from 'react-scroll';

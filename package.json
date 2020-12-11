@@ -38,7 +38,15 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ], 
+    "overrides": [
+        {
+            "files": ["**/*.ts?(x)"],
+            "rules": {
+                "jsx-a11y/alt-text": 0
+            }
+        }
+      ]
   },
   "browserslist": {
     "production": [

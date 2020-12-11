@@ -160,34 +160,33 @@ export class BlogStore {
         // console.log(data);
 
         // Go through each post and add content and info to our post collection
-        for (var post of data.items) {
-            // console.log('Fetched post id: ', post.id);
-            // console.log(post.title);
-            // console.log(post.summary.content)
-            const altnernate = _.head(post.alternate) as any; // tslint:disable-line
-            let url = '';
-            if (altnernate) {
-                url = altnernate.href;
-            }
-            // console.log(altnernate.href);
-            var n = post.id.lastIndexOf('/');
-            var uidToMatch = post.id.substring(n + 1);
-            const blogPost = _.find(this.blogPostlist, { uid: uidToMatch as string });
-            if (blogPost) {
-                // console.log('Setting post content: ', blogPost.uid);
-                runInAction(() => {
+        runInAction(() => {
+            for (var post of data.items) {
+                // console.log('Fetched post id: ', post.id);
+                // console.log(post.title);
+                // console.log(post.summary.content)
+                const altnernate = _.head(post.alternate) as any; // tslint:disable-line
+                let url = '';
+                if (altnernate) {
+                    url = altnernate.href;
+                }
+                // console.log(altnernate.href);
+                var n = post.id.lastIndexOf('/');
+                var uidToMatch = post.id.substring(n + 1);
+                const blogPost = _.find(this.blogPostlist, { uid: uidToMatch as string });
+                if (blogPost) {
+                    // console.log('Setting post content: ', blogPost.uid);
                     blogPost.title = post.title;
                     blogPost.content = post.summary.content;
                     blogPost.fetched = true;
                     blogPost.date = new Date(post.timestampUsec / 1000);
                     blogPost.author = post.author;
                     blogPost.url = url;
-                });
-                // console.log(blogPost.date);
+                    // console.log(blogPost.date);
+                }
             }
-        }
-
-        runInAction(() => this.isLoadingPosts = false);
+            this.isLoadingPosts = false;
+        });
     }
 
     checkHttpError(response: any, httpErrorMessage: string) {

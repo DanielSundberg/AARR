@@ -16,7 +16,7 @@ export const BlogListView = observer(() => {
     const { theme, blog } = useStores();
 
     // Fetch blog list
-    useEffect(() => { blog.getBlogList(); }, [blog.getBlogList]);
+    useEffect(() => { blog.getBlogList(); }, [blog.getBlogList, blog]);
 
     const blogListItems = _.map(blog.bloglist, (b: BlogInfo, key: number) => {
         if (!blog.showAllFeeds && b.unread === 0) {

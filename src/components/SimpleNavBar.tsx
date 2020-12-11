@@ -2,6 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { useStores } from '../stores/RootStore';
 import { useHistory } from 'react-router-dom';
+import { Icon, Menu } from 'semantic-ui-react';
 
 export const SimpleNavBar = observer((props: {title: string}) => {
     const { theme } = useStores();
@@ -9,15 +10,18 @@ export const SimpleNavBar = observer((props: {title: string}) => {
 
     // tsline:disable-next-line
     return (
-        <div className="ui attached inverted icon menu" >
-            <a
-                className="item" 
-                onClick={() => history.goBack()} 
+        <Menu inverted attached>
+            <Menu.Item
+                name='back'
+                active={false}
+                onClick={() => history.goBack()}
                 style={theme.headerText()}
             >
-                <i className="icon angle left" />
-            </a>
-            <div className="header borderless item left" style={theme.softMenu()}>{props.title}</div>
-        </div>
+                <Icon name="angle left" />
+            </Menu.Item>
+            <Menu.Item header className="borderless item left" style={theme.softMenu()}>
+                {props.title}
+            </Menu.Item>
+        </Menu>
     );
 });

@@ -7,7 +7,6 @@ import { useParams } from 'react-router';
 import { BlogPostView } from './BlogPostView';
 import Headroom from 'react-headroom';
 import { BlogPostNavBar } from './BlogPostNavBar';
-import { ScrollToTop } from './ScrollToTop';
 import { ErrorMessage, ErrorMessageType } from './ErrorMessage';
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -16,7 +15,7 @@ export const BlogPostsForm = observer(() => {
     const { blogId } = useParams<{blogId: string}>();
 
     // Fetch blog list
-    useEffect(() => { blog.getBlogPosts(blogId); }, [blog.getBlogPosts]);
+    useEffect(() => { blog.getBlogPosts(blogId); }, [blog.getBlogPosts, blog, blogId]);
 
     const moreToFetch = () =>  {
         const moreToFetch = _.some(blog.blogPostlist, (b) => {

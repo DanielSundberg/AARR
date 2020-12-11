@@ -8,7 +8,7 @@ export enum ErrorMessageType {
 
 export const ErrorMessage = (props: {message: string, type?: ErrorMessageType}) => {
 
-    const style = props.type && props.type == ErrorMessageType.Footer ? footerErrorStyle : fullscreenBelowMenuStyle;
+    const style = props.type && props.type === ErrorMessageType.Footer ? footerErrorStyle : fullscreenBelowMenuStyle;
 
     if (props.message.length > 0) {
         return ( 
