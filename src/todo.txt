@@ -1,7 +1,8 @@
 # TODO:
 
-
 * Move "Add new" and "mark as read" to it's own stores (since the functionality is used separate from the blog list)
+
+http://blog.npmjs.org/rss
 
 
 * Once again update all dependencies to latest

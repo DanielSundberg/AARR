@@ -7,18 +7,18 @@ import { SimpleNavBar } from './SimpleNavBar';
 import { fullscreenBelowMenuStyle } from './CustomStyles';
 
 export const AddForm = observer(() => {
-    const { theme, blog } = useStores();
+    const { theme, addBlog } = useStores();
     const [feedUrl, setFeedUrl] = useState('');
 
     let buttonClasses = feedUrl.length > 0 ?
         "ui large primary floated fluid submit button" :
         "ui large primary floated fluid submit disabled button";
-    let buttonContentOrLoader = blog.isAddingFeed ?
+    let buttonContentOrLoader = addBlog.isAddingFeed ?
         <SimpleLoader /> : (
             <div>Add</div>
         );
 
-    let button = blog.addFeedSuccess ? (
+    let button = addBlog.addFeedSuccess ? (
         <Link to="/">
             <button 
                 className={buttonClasses}
@@ -31,20 +31,20 @@ export const AddForm = observer(() => {
             <button
                 className={buttonClasses}
                 // tslint:disable-next-line
-                onClick={(ev: any) => blog.add(feedUrl)}
+                onClick={(ev: any) => addBlog.add(feedUrl)}
                 style={theme.activeButton()}
             >
                 {buttonContentOrLoader}
             </button>
         );
 
-    let infoMessageIcon = blog.addFeedSuccess ? "info icon" : "error icon";
+    let infoMessageIcon = addBlog.addFeedSuccess ? "info icon" : "error icon";
 
-    let infoMessageClasses = blog.addFeedSuccess ? "ui info message" : "ui error message";
-    let infoMessage = blog.addFeedMessage.length > 0 && (
+    let infoMessageClasses = addBlog.addFeedSuccess ? "ui info message" : "ui error message";
+    let infoMessage = addBlog.addFeedMessage.length > 0 && (
         <div className={infoMessageClasses}>
             <i className={infoMessageIcon}></i>
-            {blog.addFeedMessage}
+            {addBlog.addFeedMessage}
         </div>
     );
 

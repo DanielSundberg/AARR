@@ -18,11 +18,6 @@ export class BlogStore {
     blogPostlist: BlogPost[] = [];
     postsBeingEdited: string[] = [];
 
-    // Add
-    isAddingFeed: boolean = false;
-    addFeedSuccess: boolean = false;
-    addFeedMessage: string = '';
-
     constructor(auth: AuthStore) {
         this.auth = auth;
 
@@ -33,9 +28,6 @@ export class BlogStore {
             showAllFeeds: observable, 
             blogPostlist: observable,
             isLoadingPosts: observable, 
-            isAddingFeed: observable, 
-            addFeedSuccess: observable, 
-            addFeedMessage: observable, 
             postsBeingEdited: observable
         });
     }
@@ -202,38 +194,6 @@ export class BlogStore {
 
     toggleShowAll() {
         runInAction(() => this.showAllFeeds = !this.showAllFeeds);
-    }
-
-    async add(feedUrl: string) {
-        // console.log(`Adding feed ${feedUrl}, auth=${this.auth}`); 
-        try {
-            this.isAddingFeed = true;  
-            let response = await OldReaderResource.add(this.auth.auth, feedUrl);
-            if (response.status === -1) {
-                this.addFeedMessage = 'Could not add feed, request failed. Please try again.';
-                return;
-            }
-            if (response.status !== 200) {
-                this.addFeedMessage = 'Could not add feed!';
-                return;
-            }
-            
-            let data : any = await response.data; // tslint:disable-line
-            // "numResults":1,"streamId":"feed/00157a17b192950b65be3791"
-            let numResults = data.numResults;
-            if (numResults > 0) {
-                this.addFeedMessage = `Successfully added ${numResults} feed!`;
-                this.addFeedSuccess = true;
-                // TODO: would have been nice to display feed title here 
-                //       but then we would have to fetch complete blog 
-                //       list here. We'll do that when we go back instead... 
-            } else {
-                this.addFeedMessage = 'Could not add feed! Invalid url?';
-                this.addFeedSuccess = false;
-            }
-        } finally {
-            this.isAddingFeed = false;
-        }
     }
 
     async markPostAsRead(uid: string, read: boolean) {
