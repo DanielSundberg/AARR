@@ -1,22 +1,19 @@
 # TODO:
 
+* Fix text in about form
 
-* Update npm packages
+
 
 * Fix warnings in Chrome console
 
 * Fix lint warnings
 
 
-* Clean up bootstrap stuff
 
 
 
 * Blog post view, check that everything is working...
 
-
-
-* Check into new branch
 
 
 * Fix mark as read loader so it appears in the right place
@@ -33,6 +30,9 @@
 
 
 -Error message in console, looks like it comes from semantic-ui-react
+-Have subsribed on this github issue
+https://github.com/Semantic-Org/Semantic-UI-React/issues/3819
+
 index.js:1 Warning: findDOMNode is deprecated in StrictMode. findDOMNode was passed an instance of RefFindNode which is inside StrictMode. Instead, add a ref directly to the element you want to reference. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-find-node
     at div
     at RefFindNode (http://localhost:3000/static/js/0.chunk.js:351:35)

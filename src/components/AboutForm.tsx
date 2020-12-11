@@ -83,31 +83,23 @@ export const AboutForm = observer(() => {
                                 <tr><th>Package</th><th>License Type</th></tr>
                             </thead>
                             <tbody>
-                                <tr><td>@types/crypto-js</td><td>MIT</td></tr>
-                                <tr><td>@types/history</td><td>MIT</td></tr>
                                 <tr><td>@types/lodash</td><td>MIT</td></tr>
-                                <tr><td>@types/react-infinite-scroller</td><td>MIT</td></tr>
-                                <tr><td>@types/react-router</td><td>MIT</td></tr>
+                                <tr><td>@types/react-dom</td><td>MIT</td></tr>
                                 <tr><td>@types/react-router-dom</td><td>MIT</td></tr>
                                 <tr><td>@types/react-scroll</td><td>MIT</td></tr>
-                                <tr><td>@types/uuid</td><td>MIT</td></tr>
-                                <tr><td>crypto-js</td><td>MIT</td></tr>
                                 <tr><td>lodash</td><td>MIT</td></tr>
                                 <tr><td>mobx</td><td>MIT</td></tr>
                                 <tr><td>mobx-react</td><td>MIT</td></tr>
-                                <tr><td>mobx-react-router</td><td>MIT</td></tr>
                                 <tr><td>react</td><td>MIT</td></tr>
                                 <tr><td>react-dom</td><td>MIT</td></tr>
                                 <tr><td>react-headroom</td><td>MIT</td></tr>
                                 <tr><td>react-infinite-scroller</td><td>MIT</td></tr>
                                 <tr><td>react-router</td><td>MIT</td></tr>
                                 <tr><td>react-router-dom</td><td>MIT</td></tr>
-                                <tr><td>react-scripts-ts</td><td>BSD-3-Clause</td></tr>
                                 <tr><td>react-scroll</td><td>MIT</td></tr>
                                 <tr><td>reading-time</td><td>MIT</td></tr>
                                 <tr><td>semantic-ui-react</td><td>MIT</td></tr>
                                 <tr><td>typescript</td><td>Apache-2.0</td></tr>
-                                <tr><td>uuid</td><td>MIT</td></tr>
                                 <tr><td>html-react-parser</td><td>MIT</td></tr>
                             </tbody>
                         </table>
