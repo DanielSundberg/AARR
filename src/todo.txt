@@ -1,5 +1,7 @@
 # TODO:
 
+* auth token not saved
+
 * Once again update all dependencies to latest
 
 * Test everything in browser
