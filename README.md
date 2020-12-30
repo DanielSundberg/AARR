@@ -58,6 +58,6 @@ npm run start
 
 Now point your browser to http://localhost:3000
 
-![Screenshot](screenshot.png)
+![Screenshot](screenshot.png|width=700)
 
-![Screenshot](blogtext.png)
+![Screenshot](blogtext.png|width=700)
